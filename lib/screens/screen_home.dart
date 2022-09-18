@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:music_player/palettes/color_palette.dart';
+import 'package:music_player/widgets/search_widget.dart';
 
 class ScreenHome extends StatelessWidget {
   const ScreenHome({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
     return ListView(
       children: [
         const Text(
@@ -15,39 +18,11 @@ class ScreenHome extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10.0),
-          child: TextField(
-            keyboardType: TextInputType.emailAddress,
-            textInputAction: TextInputAction.done,
-            decoration: InputDecoration(
-              prefixIcon: const Icon(
-                Icons.search,
-                color: kLightBlue,
-                size: 25,
-              ),
-              hintText: 'Songs or Playlist..',
-              hintStyle: const TextStyle(color: kLightBlue),
-              filled: true,
-              fillColor: const Color(0xFF153950),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-                borderSide:
-                    const BorderSide(width: 0, color: Color(0xFF153950)),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-                borderSide: const BorderSide(
-                  width: 1,
-                  color: kBlue,
-                ),
-              ),
-            ),
-          ),
-        ),
+        const SearchField(),
         Container(
-          margin: EdgeInsets.only(top: 10),
-          height: 185,
+          margin: const EdgeInsets.symmetric(vertical: 10.0),
+          //  height: 185,
+          height: screenHeight * 0.22,
           width: double.infinity,
           child: ListView(
             scrollDirection: Axis.horizontal,
@@ -72,8 +47,88 @@ class ScreenHome extends StatelessWidget {
               ),
             ],
           ),
-        )
+        ),
+        const Text(
+          'All Songs',
+          style: TextStyle(
+            fontSize: 23,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        const Song(
+          songName: 'Harry Styles - As It Was',
+          songArtist: 'Harry Styles',
+          isFav: false,
+        ),
+        const Song(
+          songName: "Wavin Flag",
+          songArtist: "K'NAAN",
+          isFav: true,
+        ),
       ],
+    );
+  }
+}
+
+class Song extends StatelessWidget {
+  const Song({
+    Key? key,
+    required this.songName,
+    required this.songArtist,
+    this.isFav = false,
+  }) : super(key: key);
+  final String songName;
+  final String songArtist;
+  final bool isFav;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      contentPadding: const EdgeInsets.all(0),
+      leading: Container(
+        height: 65,
+        width: 60,
+        decoration: BoxDecoration(
+          color: kLightBlue,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Icon(
+          Icons.music_note,
+          color: kDarkBlue,
+        ),
+      ),
+      title: Text(
+        songName,
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
+        style: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      subtitle: Text(songArtist),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          IconButton(
+            padding: const EdgeInsets.only(left: 0),
+            onPressed: () {},
+            icon: const Icon(
+              Icons.playlist_add,
+              color: kLightBlue,
+              size: 27,
+            ),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: Icon(
+              (isFav == false) ? Icons.favorite_outline : Icons.favorite,
+              color: kLightBlue,
+              size: 25,
+            ),
+          )
+        ],
+      ),
     );
   }
 }
@@ -91,9 +146,12 @@ class CustomPlaylist extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
     return Container(
-      margin: EdgeInsets.only(right: 14),
-      width: 120,
+      margin: const EdgeInsets.only(right: 14),
+      // width: 120,
+      width: screenWidth * 0.30,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -102,7 +160,8 @@ class CustomPlaylist extends StatelessWidget {
             child: Image.network(
               playlistImage,
               fit: BoxFit.cover,
-              height: 137,
+              // height: 137,
+              height: screenHeight * 0.16,
             ),
           ),
           Text(

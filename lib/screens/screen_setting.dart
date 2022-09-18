@@ -85,7 +85,7 @@ class SettingListTile extends StatelessWidget {
       title: Text(
         labeltext,
         style: const TextStyle(
-          fontSize: 21,
+          fontSize: 20,
           //fontWeight: FontWeight.w600,
         ),
       ),

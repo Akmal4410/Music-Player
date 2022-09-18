@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:music_player/palettes/color_palette.dart';
+import 'package:music_player/widgets/all_songs_list.dart';
 import 'package:music_player/widgets/search_widget.dart';
+import 'package:music_player/widgets/song.dart';
 
 class ScreenHome extends StatelessWidget {
   const ScreenHome({super.key});
@@ -55,80 +57,8 @@ class ScreenHome extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
-        const Song(
-          songName: 'Harry Styles - As It Was',
-          songArtist: 'Harry Styles',
-          isFav: false,
-        ),
-        const Song(
-          songName: "Wavin Flag",
-          songArtist: "K'NAAN",
-          isFav: true,
-        ),
+        const AllSongsList()
       ],
-    );
-  }
-}
-
-class Song extends StatelessWidget {
-  const Song({
-    Key? key,
-    required this.songName,
-    required this.songArtist,
-    this.isFav = false,
-  }) : super(key: key);
-  final String songName;
-  final String songArtist;
-  final bool isFav;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: const EdgeInsets.all(0),
-      leading: Container(
-        height: 65,
-        width: 60,
-        decoration: BoxDecoration(
-          color: kLightBlue,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Icon(
-          Icons.music_note,
-          color: kDarkBlue,
-        ),
-      ),
-      title: Text(
-        songName,
-        overflow: TextOverflow.ellipsis,
-        maxLines: 1,
-        style: TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-      subtitle: Text(songArtist),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          IconButton(
-            padding: const EdgeInsets.only(left: 0),
-            onPressed: () {},
-            icon: const Icon(
-              Icons.playlist_add,
-              color: kLightBlue,
-              size: 27,
-            ),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              (isFav == false) ? Icons.favorite_outline : Icons.favorite,
-              color: kLightBlue,
-              size: 25,
-            ),
-          )
-        ],
-      ),
     );
   }
 }

@@ -26,10 +26,9 @@ class ScreenNavigationState extends State<ScreenNavigation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          padding: const EdgeInsets.only(left: 20.0, right: 20, top: 10),
           child: _screens[_selectedIndex],
         ),
       ),

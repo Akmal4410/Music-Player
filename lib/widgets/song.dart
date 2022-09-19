@@ -2,23 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:music_player/palettes/color_palette.dart';
 import 'package:music_player/screens/screen_now_playing.dart';
 
+typedef void IsPlayingCallback(List nowPlayingreturnValues);
+
 class Song extends StatelessWidget {
-  const Song({
+  Song({
     Key? key,
     required this.songName,
     required this.songArtist,
     this.isFav = false,
+    required this.isPlayingCallback,
   }) : super(key: key);
   final String songName;
   final String songArtist;
   final bool isFav;
+  bool isPlaying = false;
+  List nowPlayingreturn = [];
+  final IsPlayingCallback isPlayingCallback;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => ScreenNowPlaying()));
+      onTap: () async {
+        // isPlaying = await Navigator.push(
+        nowPlayingreturn = await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ScreenNowPlaying(
+              songeName: songName,
+              songArtist: songArtist,
+            ),
+          ),
+        );
+        isPlayingCallback(nowPlayingreturn);
       },
       contentPadding: const EdgeInsets.all(0),
       leading: Container(
@@ -38,7 +53,7 @@ class Song extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
         style: const TextStyle(
-          fontSize: 16.5,
+          fontSize: 15,
           fontWeight: FontWeight.w600,
         ),
       ),

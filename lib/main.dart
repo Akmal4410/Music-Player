@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         scaffoldBackgroundColor: const Color(0xFF1B262C),
-        textTheme: TextTheme(
+        textTheme: const TextTheme(
           bodyText2: TextStyle(
             color: Colors.white,
             fontFamily: 'Poppins',

@@ -16,7 +16,8 @@ class ScreenNavigationState extends State<ScreenNavigation> {
     BottomNavigationBarItem(icon: Icon(Icons.queue_music), label: 'Playlist'),
     BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
   ];
-  final List<Widget> _screens = const <Widget>[
+
+  final List<Widget> _screens = <Widget>[
     ScreenHome(),
     ScreenPlaylist(),
     ScreenSetting(),

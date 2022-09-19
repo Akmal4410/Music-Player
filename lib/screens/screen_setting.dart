@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:music_player/palettes/color_palette.dart';
+import 'package:music_player/widgets/mini_player.dart';
+import 'package:music_player/widgets/setting_list_tile.dart';
 
 class ScreenSetting extends StatelessWidget {
   const ScreenSetting({super.key});
@@ -47,49 +49,22 @@ class ScreenSetting extends StatelessWidget {
             ),
           ],
         ),
-        const Padding(
-          padding: EdgeInsets.only(bottom: 8.0),
-          child: Text(
-            '1.0.0',
-            style: TextStyle(
-              color: kLightBlue,
-              fontSize: 16,
+        Column(
+          children: const [
+            Padding(
+              padding: EdgeInsets.only(bottom: 8.0),
+              child: Text(
+                '1.0.0',
+                style: TextStyle(
+                  color: kLightBlue,
+                  fontSize: 16,
+                ),
+              ),
             ),
-          ),
+            MiniPlayer(songName: 'Ezhutha Kadha', songArtist: 'Sushin Shyam'),
+          ],
         ),
       ],
-    );
-  }
-}
-
-class SettingListTile extends StatelessWidget {
-  const SettingListTile({
-    Key? key,
-    required this.labeltext,
-    required this.icon,
-    this.trailingWidget,
-  }) : super(key: key);
-
-  final String labeltext;
-  final IconData icon;
-  final Widget? trailingWidget;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(
-        icon,
-        color: kLightBlue,
-        size: 25,
-      ),
-      title: Text(
-        labeltext,
-        style: const TextStyle(
-          fontSize: 20,
-          //fontWeight: FontWeight.w600,
-        ),
-      ),
-      trailing: (trailingWidget == null) ? const SizedBox() : trailingWidget,
     );
   }
 }

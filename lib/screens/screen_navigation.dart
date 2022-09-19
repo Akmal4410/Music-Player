@@ -18,10 +18,11 @@ class ScreenNavigationState extends State<ScreenNavigation> {
   ];
 
   final List<Widget> _screens = <Widget>[
-    ScreenHome(),
-    ScreenPlaylist(),
-    ScreenSetting(),
+    const ScreenHome(),
+    const ScreenPlaylist(),
+    const ScreenSetting(),
   ];
+
   int _selectedIndex = 0;
 
   @override

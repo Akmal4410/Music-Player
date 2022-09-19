@@ -10,21 +10,21 @@ class Song extends StatelessWidget {
     required this.songName,
     required this.songArtist,
     this.isFav = false,
-    required this.isPlayingCallback,
+    // required this.isPlayingCallback,
   }) : super(key: key);
   final String songName;
   final String songArtist;
   final bool isFav;
   bool isPlaying = false;
-  List nowPlayingreturn = [];
-  final IsPlayingCallback isPlayingCallback;
+  // List nowPlayingreturn = [];
+  // final IsPlayingCallback isPlayingCallback;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () async {
-        // isPlaying = await Navigator.push(
-        nowPlayingreturn = await Navigator.push(
+        isPlaying = await Navigator.push(
+          // nowPlayingreturn = await Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => ScreenNowPlaying(
@@ -33,7 +33,7 @@ class Song extends StatelessWidget {
             ),
           ),
         );
-        isPlayingCallback(nowPlayingreturn);
+        // isPlayingCallback(nowPlayingreturn);
       },
       contentPadding: const EdgeInsets.all(0),
       leading: Container(

@@ -35,14 +35,18 @@ class CustomPlaylist extends StatelessWidget {
           ),
           Text(
             playlistName,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: const TextStyle(
-              fontSize: 18,
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
             ),
           ),
           Text(
             playlistSongNum,
             style: TextStyle(
               color: kLightBlue,
+              fontSize: 13,
             ),
           )
         ],

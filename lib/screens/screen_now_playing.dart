@@ -79,19 +79,19 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CustomiconButton(
+                  CustomIconButton(
                     icon: Icons.playlist_add,
                     onPressed: () {},
                   ),
-                  CustomiconButton(
+                  CustomIconButton(
                     icon: Icons.shuffle,
                     onPressed: () {},
                   ),
-                  CustomiconButton(
+                  CustomIconButton(
                     icon: Icons.repeat,
                     onPressed: () {},
                   ),
-                  CustomiconButton(
+                  CustomIconButton(
                     icon: Icons.favorite_outline,
                     onPressed: () {},
                   )
@@ -115,11 +115,11 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomiconButton(
+                CustomIconButton(
                   icon: Icons.skip_previous,
                   onPressed: () {},
                 ),
-                CustomiconButton(
+                CustomIconButton(
                   icon: Icons.replay_10,
                   onPressed: () {},
                 ),
@@ -139,11 +139,11 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
                     ),
                   ),
                 ),
-                CustomiconButton(
+                CustomIconButton(
                   icon: Icons.forward_10,
                   onPressed: () {},
                 ),
-                CustomiconButton(
+                CustomIconButton(
                   icon: Icons.skip_next,
                   onPressed: () {},
                 )
@@ -157,8 +157,8 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
   }
 }
 
-class CustomiconButton extends StatelessWidget {
-  const CustomiconButton({
+class CustomIconButton extends StatelessWidget {
+  const CustomIconButton({
     Key? key,
     required this.icon,
     required this.onPressed,

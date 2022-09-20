@@ -24,7 +24,7 @@ class _ScreenHomeState extends State<ScreenHome> {
         const Text(
           'Library',
           style: TextStyle(
-            fontSize: 30,
+            fontSize: 28,
             fontWeight: FontWeight.w600,
           ),
         ),

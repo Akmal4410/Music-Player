@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:music_player/palettes/color_palette.dart';
+import 'package:music_player/screens/screen_favourite.dart';
 import 'package:music_player/widgets/created_playlist.dart';
 import 'package:music_player/widgets/mini_player.dart';
 import 'package:music_player/widgets/stack_playlist.dart';
@@ -43,11 +44,19 @@ class ScreenPlaylist extends StatelessWidget {
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: [
-                    StackPlayList(
-                      playlistImage:
-                          'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
-                      playlistName: 'Favourites',
-                      playlistSongNum: '2 songs',
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (ctx) => ScreenFavourites()));
+                      },
+                      child: StackPlayList(
+                        playlistImage:
+                            'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
+                        playlistName: 'Favourites',
+                        playlistSongNum: '2 songs',
+                      ),
                     ),
                     StackPlayList(
                       playlistImage:
@@ -82,7 +91,7 @@ class ScreenPlaylist extends StatelessWidget {
                   CreatedPlaylist(
                     playlistImage:
                         'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
-                    playlistName: 'Favourites',
+                    playlistName: 'My Playlist',
                     playlistSongNum: '10 Songs',
                   ),
                   CreatedPlaylist(

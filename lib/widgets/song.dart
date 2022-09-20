@@ -2,29 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:music_player/palettes/color_palette.dart';
 import 'package:music_player/screens/screen_now_playing.dart';
 
-typedef void IsPlayingCallback(List nowPlayingreturnValues);
-
 class Song extends StatelessWidget {
-  Song({
+  const Song({
     Key? key,
     required this.songName,
     required this.songArtist,
     this.isFav = false,
-    // required this.isPlayingCallback,
+    this.icon = Icons.playlist_add,
   }) : super(key: key);
   final String songName;
   final String songArtist;
   final bool isFav;
-  bool isPlaying = false;
-  // List nowPlayingreturn = [];
-  // final IsPlayingCallback isPlayingCallback;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () async {
-        isPlaying = await Navigator.push(
-          // nowPlayingreturn = await Navigator.push(
+        Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => ScreenNowPlaying(
@@ -33,7 +28,6 @@ class Song extends StatelessWidget {
             ),
           ),
         );
-        // isPlayingCallback(nowPlayingreturn);
       },
       contentPadding: const EdgeInsets.all(0),
       leading: Container(
@@ -53,7 +47,7 @@ class Song extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
         style: const TextStyle(
-          fontSize: 15,
+          fontSize: 14.5,
           fontWeight: FontWeight.w600,
         ),
       ),
@@ -64,8 +58,8 @@ class Song extends StatelessWidget {
           IconButton(
             padding: const EdgeInsets.only(left: 0),
             onPressed: () {},
-            icon: const Icon(
-              Icons.playlist_add,
+            icon: Icon(
+              icon,
               color: kLightBlue,
               size: 27,
             ),

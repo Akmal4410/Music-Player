@@ -32,10 +32,7 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
-            Navigator.pop(
-              context,
-              [isPlaying, widget.songeName, widget.songArtist],
-            );
+            Navigator.pop(context);
           },
         ),
         centerTitle: true,

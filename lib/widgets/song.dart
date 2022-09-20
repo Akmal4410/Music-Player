@@ -9,11 +9,13 @@ class Song extends StatelessWidget {
     required this.songArtist,
     this.isFav = false,
     this.icon = Icons.playlist_add,
+    required this.onPressed,
   }) : super(key: key);
   final String songName;
   final String songArtist;
   final bool isFav;
   final IconData icon;
+  final void Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +59,7 @@ class Song extends StatelessWidget {
         children: [
           IconButton(
             padding: const EdgeInsets.only(left: 0),
-            onPressed: () {},
+            onPressed: onPressed,
             icon: Icon(
               icon,
               color: kLightBlue,

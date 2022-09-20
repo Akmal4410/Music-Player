@@ -47,72 +47,84 @@ class ScreenCreatedPlaylist extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.only(left: 20.0, right: 20, top: 10),
         child: ListView(
-          children: const [
+          children: [
             Song(
               songName: 'Harry Styles - As It Was',
               songArtist: 'Harry Styles',
               isFav: true,
               icon: Icons.delete_rounded,
+              onPressed: () {},
             ),
             Song(
               songName: "Wavin Flag",
               songArtist: "K'NAAN",
               isFav: true,
               icon: Icons.delete_rounded,
+              onPressed: () {},
             ),
             Song(
               songName: 'Me and My Broken Heart',
               songArtist: 'Rixton',
               icon: Icons.delete_rounded,
+              onPressed: () {},
             ),
             Song(
               songName: 'Ezhutha Kadha',
               songArtist: 'Sushin Shyam',
               icon: Icons.delete_rounded,
+              onPressed: () {},
             ),
             Song(
               songName: 'Alone part-2',
               songArtist: 'Alan Walker',
               isFav: true,
               icon: Icons.delete_rounded,
+              onPressed: () {},
             ),
             Song(
               songName: 'Always',
               songArtist: 'Isak Danielson',
               icon: Icons.delete_rounded,
+              onPressed: () {},
             ),
             Song(
               songName: 'Harry Styles - As It Was',
               songArtist: 'Harry Styles',
               isFav: true,
               icon: Icons.delete_rounded,
+              onPressed: () {},
             ),
             Song(
               songName: "Wavin Flag",
               songArtist: "K'NAAN",
               isFav: true,
               icon: Icons.delete_rounded,
+              onPressed: () {},
             ),
             Song(
               songName: 'Me and My Broken Heart',
               songArtist: 'Rixton',
               icon: Icons.delete_rounded,
+              onPressed: () {},
             ),
             Song(
               songName: 'Ezhutha Kadha',
               songArtist: 'Sushin Shyam',
               icon: Icons.delete_rounded,
+              onPressed: () {},
             ),
             Song(
               songName: 'Alone part-2',
               songArtist: 'Alan Walker',
               isFav: true,
               icon: Icons.delete_rounded,
+              onPressed: () {},
             ),
             Song(
               songName: 'Always',
               songArtist: 'Isak Danielson',
               icon: Icons.delete_rounded,
+              onPressed: () {},
             ),
           ],
         ),

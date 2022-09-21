@@ -4,7 +4,11 @@ import 'package:music_player/palettes/color_palette.dart';
 class SearchField extends StatelessWidget {
   const SearchField({
     Key? key,
+    required this.hintText,
+    required this.icon,
   }) : super(key: key);
+  final String hintText;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
@@ -14,12 +18,12 @@ class SearchField extends StatelessWidget {
         keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.done,
         decoration: InputDecoration(
-          prefixIcon: const Icon(
-            Icons.search,
+          prefixIcon: Icon(
+            icon,
             color: kLightBlue,
             size: 25,
           ),
-          hintText: 'Songs or Playlist..',
+          hintText: hintText,
           hintStyle: const TextStyle(color: kLightBlue),
           filled: true,
           fillColor: const Color(0xFF153950),
@@ -39,3 +43,5 @@ class SearchField extends StatelessWidget {
     );
   }
 }
+
+// 'Songs or Playlist..'

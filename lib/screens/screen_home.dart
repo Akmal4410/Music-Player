@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:music_player/function/alert_functions.dart';
 import 'package:music_player/palettes/color_palette.dart';
 import 'package:music_player/screens/screen_favourite.dart';
 import 'package:music_player/widgets/custom_playlist.dart';
@@ -16,39 +17,6 @@ class ScreenHome extends StatefulWidget {
 }
 
 class _ScreenHomeState extends State<ScreenHome> {
-  showPlaylistModalSheet(double screenHeight) {
-    return showModalBottomSheet(
-        context: context,
-        builder: (ctx) {
-          return Container(
-            color: kDarkBlue,
-            height: screenHeight * 0.55,
-            child: Column(
-              children: [
-                SizedBox(height: 10),
-                ElevatedButton.icon(
-                  onPressed: () {},
-                  icon: Icon(Icons.playlist_add),
-                  label: const Text(
-                    'Create Playlist',
-                    style: TextStyle(),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.all(10),
-                    backgroundColor: kBlue,
-                  ),
-                ),
-                Expanded(
-                  child: ListView(
-                    children: [],
-                  ),
-                )
-              ],
-            ),
-          );
-        });
-  }
-
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -66,7 +34,10 @@ class _ScreenHomeState extends State<ScreenHome> {
         Expanded(
           child: ListView(
             children: [
-              const SearchField(),
+              const SearchField(
+                hintText: 'Songs or Playlist',
+                icon: Icons.search,
+              ),
               Container(
                 margin: const EdgeInsets.only(top: 10.0),
                 height: screenHeight * 0.22,
@@ -115,7 +86,7 @@ class _ScreenHomeState extends State<ScreenHome> {
                 songArtist: 'Harry Styles',
                 isFav: true,
                 onPressed: () {
-                  showPlaylistModalSheet(screenHeight);
+                  showPlaylistModalSheet(context, screenHeight);
                 },
               ),
               Song(

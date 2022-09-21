@@ -112,3 +112,48 @@ showAddingPlaylistDialoge(BuildContext context) {
         );
       });
 }
+
+showPlaylistDeleteAlert(BuildContext context) {
+  return showDialog(
+      context: context,
+      builder: (ctx) {
+        return AlertDialog(
+          backgroundColor: kLightBlue,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          title: const Text(
+            'Confirm Deletion',
+            style: TextStyle(color: kDarkBlue),
+          ),
+          content: const Text(
+            'Do you want to delete this Playlist',
+            style: TextStyle(color: kDarkBlue),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(ctx);
+              },
+              child: const Text(
+                'Cancel',
+                style: TextStyle(
+                  color: kDarkBlue,
+                  fontSize: 15,
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () {},
+              child: const Text(
+                'OK',
+                style: TextStyle(
+                  color: kDarkBlue,
+                  fontSize: 15,
+                ),
+              ),
+            ),
+          ],
+        );
+      });
+}

@@ -1,6 +1,8 @@
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player/palettes/color_palette.dart';
+import 'package:music_player/widgets/custom_icon_button.dart';
 
 class ScreenNowPlaying extends StatefulWidget {
   ScreenNowPlaying({
@@ -16,11 +18,29 @@ class ScreenNowPlaying extends StatefulWidget {
 }
 
 class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
-  bool? isPlaying;
+  AssetsAudioPlayer audioPlayer = AssetsAudioPlayer();
   @override
   void initState() {
-    isPlaying = true;
+    audioPlayer.open(
+      Audio('assets/audios/harryStyle.mp3'),
+      autoStart: true,
+      showNotification: true,
+    );
     super.initState();
+  }
+
+  bool isPlaying = true;
+
+  void playButtonPressed() {
+    if (isPlaying == true) {
+      setState(() {
+        isPlaying = false;
+      });
+    } else if (isPlaying == false) {
+      setState(() {
+        isPlaying = true;
+      });
+    }
   }
 
   @override
@@ -33,6 +53,7 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
           icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
             Navigator.pop(context);
+            audioPlayer.stop();
           },
         ),
         centerTitle: true,
@@ -118,7 +139,9 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
                 ),
                 CustomIconButton(
                   icon: Icons.replay_10,
-                  onPressed: () {},
+                  onPressed: () {
+                    audioPlayer.seekBy(Duration(seconds: -10));
+                  },
                 ),
                 Container(
                   decoration: const BoxDecoration(
@@ -127,18 +150,23 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
                   ),
                   child: Center(
                     child: IconButton(
-                      icon: const Icon(
-                        Icons.play_arrow,
+                      icon: Icon(
+                        (isPlaying == true) ? Icons.pause : Icons.play_arrow,
                         color: kDarkBlue,
-                        size: 35,
+                        size: 32,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        playButtonPressed();
+                        audioPlayer.playOrPause();
+                      },
                     ),
                   ),
                 ),
                 CustomIconButton(
                   icon: Icons.forward_10,
-                  onPressed: () {},
+                  onPressed: () {
+                    audioPlayer.seekBy(Duration(seconds: 10));
+                  },
                 ),
                 CustomIconButton(
                   icon: Icons.skip_next,
@@ -149,30 +177,6 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
             SizedBox(height: screenHeight * 0.09),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class CustomIconButton extends StatelessWidget {
-  const CustomIconButton({
-    Key? key,
-    required this.icon,
-    required this.onPressed,
-  }) : super(key: key);
-  final IconData icon;
-  final void Function() onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      padding: EdgeInsets.zero,
-      constraints: const BoxConstraints(),
-      onPressed: onPressed,
-      icon: Icon(
-        icon,
-        color: kLightBlue,
-        size: 30,
       ),
     );
   }

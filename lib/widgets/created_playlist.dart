@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:music_player/function/alert_functions.dart';
 import 'package:music_player/palettes/color_palette.dart';
 import 'package:music_player/screens/screen_created_playlist.dart';
 
@@ -24,6 +25,9 @@ class CreatedPlaylist extends StatelessWidget {
                 builder: (ctx) => ScreenCreatedPlaylist(
                       playlistName: playlistName,
                     )));
+      },
+      onLongPress: () {
+        showPlaylistDeleteAlert(context);
       },
       child: Stack(
         children: [

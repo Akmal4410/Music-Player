@@ -10,12 +10,14 @@ class Song extends StatelessWidget {
     this.isFav = false,
     this.icon = Icons.playlist_add,
     required this.onPressed,
+    required this.songPath,
   }) : super(key: key);
   final String songName;
   final String songArtist;
   final bool isFav;
   final IconData icon;
   final void Function()? onPressed;
+  final String songPath;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +27,7 @@ class Song extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => ScreenNowPlaying(
+              songPath: songPath,
               songeName: songName,
               songArtist: songArtist,
             ),

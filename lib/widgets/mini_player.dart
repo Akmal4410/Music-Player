@@ -14,17 +14,19 @@ class MiniPlayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (ctx) => ScreenNowPlaying(
-                    songeName: 'Ezhutha Kadha', songArtist: 'Sushin Shyam')));
-      },
+      // onTap: () {
+      //   Navigator.push(
+      //       context,
+      //       MaterialPageRoute(
+      //           builder: (ctx) => ScreenNowPlaying(
+      //               songeName: 'Ezhutha Kadha', songArtist: 'Sushin Shyam')));
+      // },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10),
-        height: 75,
+        // height: 75,
+        height: screenHeight * 0.09,
         width: double.infinity,
         decoration: BoxDecoration(
           color: kBlue,

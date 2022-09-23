@@ -9,9 +9,11 @@ class ScreenNowPlaying extends StatefulWidget {
     super.key,
     required this.songeName,
     required this.songArtist,
+    required this.songPath,
   });
   final String songeName;
   final String songArtist;
+  final String songPath;
 
   @override
   State<ScreenNowPlaying> createState() => _ScreenNowPlayingState();
@@ -19,15 +21,39 @@ class ScreenNowPlaying extends StatefulWidget {
 
 class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
   AssetsAudioPlayer audioPlayer = AssetsAudioPlayer();
+
   @override
   void initState() {
     audioPlayer.open(
-      Audio('assets/audios/harryStyle.mp3'),
+      Audio.file(widget.songPath),
+      // Audio('assets/audios/harryStyle.mp3'),
       autoStart: true,
       showNotification: true,
     );
+
     super.initState();
   }
+
+  // bool nextDone = true;
+  // bool prevDone = true;
+
+  // void nextSong() async {
+  //   // if (nextDone) {
+  //   //   nextDone = false;
+  //   //   await audioPlayer.next();
+  //   //   nextDone = true;
+  //   // }
+  //   await audioPlayer.pause().then((value) => audioPlayer.next());
+  // }
+
+  // void prevSong() async {
+  //   // if (prevDone) {
+  //   //   prevDone = false;
+  //   //   await audioPlayer.previous();
+  //   //   prevDone = true;
+  //   // }
+  //   await audioPlayer.pause().then((value) => audioPlayer.previous());
+  // }
 
   bool isPlaying = true;
 
@@ -46,7 +72,6 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -86,11 +111,11 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
             SizedBox(height: screenHeight * 0.07),
             Text(
               widget.songeName,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
             ),
             Text(
               widget.songArtist,
-              style: const TextStyle(color: kLightBlue, fontSize: 15),
+              style: const TextStyle(color: kLightBlue, fontSize: 13),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 10.0, bottom: 20),
@@ -117,9 +142,9 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
               ),
             ),
             ProgressBar(
-              progress: const Duration(seconds: 345),
+              progress: const Duration(seconds: 145),
               buffered: const Duration(),
-              total: const Duration(seconds: 1760),
+              total: Duration(seconds: 1345),
               progressBarColor: kBlue,
               baseBarColor: kDarkBlue,
               thumbColor: kBlue,

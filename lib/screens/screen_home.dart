@@ -5,6 +5,8 @@ import 'package:music_player/widgets/custom_playlist.dart';
 import 'package:music_player/widgets/mini_player.dart';
 import 'package:music_player/widgets/search_widget.dart';
 import 'package:music_player/widgets/song.dart';
+import 'package:on_audio_query/on_audio_query.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ScreenHome extends StatefulWidget {
   const ScreenHome({
@@ -16,6 +18,17 @@ class ScreenHome extends StatefulWidget {
 }
 
 class _ScreenHomeState extends State<ScreenHome> {
+  @override
+  void initState() {
+    requestPermission();
+    super.initState();
+  }
+
+  Future<void> requestPermission() async {
+    await Permission.storage.request();
+  }
+
+  OnAudioQuery audioQuery = OnAudioQuery();
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -80,73 +93,41 @@ class _ScreenHomeState extends State<ScreenHome> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              Song(
-                songName: 'Harry Styles - As It Was',
-                songArtist: 'Harry Styles',
-                isFav: true,
-                onPressed: () {
-                  showPlaylistModalSheet(context, screenHeight);
+              FutureBuilder<List<SongModel>>(
+                future: audioQuery.querySongs(
+                  sortType: null,
+                  orderType: OrderType.ASC_OR_SMALLER,
+                  uriType: UriType.EXTERNAL,
+                  ignoreCase: true,
+                ),
+                builder: (context, item) {
+                  if (item.data == null) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (item.data!.isEmpty) {
+                    return Center(
+                      child: Text('No Songs Found...'),
+                    );
+                  }
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    physics: ScrollPhysics(),
+                    itemCount: item.data!.length,
+                    itemBuilder: (context, index) {
+                      return Song(
+                        songName: item.data![index].displayNameWOExt,
+                        songArtist: item.data![index].artist.toString(),
+                        onPressed: () {
+                          showPlaylistModalSheet(context, screenHeight);
+                        },
+                        isFav: (index % 3 == 0) ? true : false,
+                        songPath: item.data![index].uri!,
+                      );
+                    },
+                  );
                 },
-              ),
-              Song(
-                songName: "Wavin Flag",
-                songArtist: "K'NAAN",
-                isFav: true,
-                onPressed: () {},
-              ),
-              Song(
-                songName: 'Me and My Broken Heart',
-                songArtist: 'Rixton',
-                onPressed: () {},
-              ),
-              Song(
-                songName: 'Ezhutha Kadha',
-                songArtist: 'Sushin Shyam',
-                onPressed: () {},
-              ),
-              Song(
-                songName: 'Alone part-2',
-                songArtist: 'Alan Walker',
-                isFav: true,
-                onPressed: () {},
-              ),
-              Song(
-                songName: 'Always',
-                songArtist: 'Isak Danielson',
-                onPressed: () {},
-              ),
-              Song(
-                songName: 'Harry Styles - As It Was',
-                songArtist: 'Harry Styles',
-                isFav: true,
-                onPressed: () {},
-              ),
-              Song(
-                songName: "Wavin Flag",
-                songArtist: "K'NAAN",
-                isFav: true,
-                onPressed: () {},
-              ),
-              Song(
-                songName: 'Me and My Broken Heart',
-                songArtist: 'Rixton',
-                onPressed: () {},
-              ),
-              Song(
-                songName: 'Ezhutha Kadha',
-                songArtist: 'Sushin Shyam',
-                onPressed: () {},
-              ),
-              Song(
-                songName: 'Alone part-2',
-                songArtist: 'Alan Walker',
-                isFav: true,
-                onPressed: () {},
-              ),
-              Song(
-                songName: 'Always',
-                songArtist: 'Isak Danielson',
-                onPressed: () {},
               ),
             ],
           ),

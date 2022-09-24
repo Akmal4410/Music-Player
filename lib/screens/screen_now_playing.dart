@@ -3,17 +3,17 @@ import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player/palettes/color_palette.dart';
 import 'package:music_player/widgets/custom_icon_button.dart';
+import 'package:on_audio_query/on_audio_query.dart';
 
 class ScreenNowPlaying extends StatefulWidget {
   ScreenNowPlaying({
     super.key,
-    required this.songeName,
-    required this.songArtist,
-    required this.songPath,
+    required this.songList,
+    required this.index,
   });
-  final String songeName;
-  final String songArtist;
-  final String songPath;
+
+  final List<SongModel> songList;
+  final int index;
 
   @override
   State<ScreenNowPlaying> createState() => _ScreenNowPlayingState();
@@ -21,15 +21,36 @@ class ScreenNowPlaying extends StatefulWidget {
 
 class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
   AssetsAudioPlayer audioPlayer = AssetsAudioPlayer();
+  List<Audio> songAudio = [];
+
+  void convertSongModel() {
+    for (var song in widget.songList) {
+      songAudio.add(
+        Audio.file(
+          widget.songList[widget.index].uri!,
+          metas: Metas(
+            title: widget.songList[widget.index].displayNameWOExt,
+            artist: widget.songList[widget.index].artist,
+            //   image: MetasImage.file(widget.songList[widget.index].),
+          ),
+        ),
+      );
+    }
+  }
 
   @override
   void initState() {
+    convertSongModel();
     audioPlayer.open(
-      Audio.file(widget.songPath),
-      // Audio('assets/audios/harryStyle.mp3'),
-      autoStart: true,
-      showNotification: true,
-    );
+        Playlist(
+          audios: songAudio,
+          startIndex: widget.index,
+        ),
+        autoStart: true,
+        showNotification: true,
+        loopMode: LoopMode.playlist
+        //loopMode: songAudio.LoopMode.playlist,
+        );
 
     super.initState();
   }
@@ -88,11 +109,11 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
             ),
             SizedBox(height: screenHeight * 0.07),
             Text(
-              widget.songeName,
+              widget.songList[widget.index].displayNameWOExt,
               style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
             ),
             Text(
-              widget.songArtist,
+              widget.songList[widget.index].artist!,
               style: const TextStyle(color: kLightBlue, fontSize: 13),
             ),
             Padding(
@@ -135,7 +156,10 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
                   audioPlayer.seek(duration);
                 },
                 timeLabelPadding: 10,
-                timeLabelTextStyle: TextStyle(color: kLightBlue, fontSize: 15),
+                timeLabelTextStyle: TextStyle(
+                  color: kLightBlue,
+                  fontSize: 15,
+                ),
               );
             }),
             Row(
@@ -143,12 +167,18 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
               children: [
                 CustomIconButton(
                   icon: Icons.skip_previous,
-                  onPressed: () {},
+                  onPressed: () async {
+                    await audioPlayer.previous(
+                      keepLoopMode: false,
+                    );
+                  },
                 ),
                 CustomIconButton(
                   icon: Icons.replay_10,
                   onPressed: () {
-                    audioPlayer.seekBy(Duration(seconds: -10));
+                    audioPlayer.seekBy(
+                      Duration(seconds: -10),
+                    );
                   },
                 ),
                 Container(
@@ -173,12 +203,18 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
                 CustomIconButton(
                   icon: Icons.forward_10,
                   onPressed: () {
-                    audioPlayer.seekBy(Duration(seconds: 10));
+                    audioPlayer.seekBy(
+                      Duration(seconds: 10),
+                    );
                   },
                 ),
                 CustomIconButton(
                   icon: Icons.skip_next,
-                  onPressed: () {},
+                  onPressed: () async {
+                    await audioPlayer.next(
+                      keepLoopMode: false,
+                    );
+                  },
                 )
               ],
             ),
@@ -189,22 +225,3 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
     );
   }
 }
-
-
-//  ProgressBar(
-//               progress: const Duration(seconds: 145),
-//               //progress: audioPlayer.currentPosition.value,
-//               buffered: const Duration(),
-//               total: Duration(seconds: 1345),
-//               //  total: audioPlayer.current.value!.audio.duration,
-
-//               progressBarColor: kBlue,
-//               baseBarColor: kDarkBlue,
-//               thumbColor: kBlue,
-//               bufferedBarColor: Colors.white.withOpacity(0.24),
-//               barHeight: 7.0,
-//               thumbRadius: 9.0,
-//               onSeek: (duration) {},
-//               timeLabelPadding: 10,
-//               timeLabelTextStyle: TextStyle(color: kLightBlue, fontSize: 15),
-//             ),

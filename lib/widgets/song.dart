@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:music_player/palettes/color_palette.dart';
 import 'package:music_player/screens/screen_now_playing.dart';
+import 'package:on_audio_query/on_audio_query.dart';
 
 class Song extends StatelessWidget {
   const Song({
     Key? key,
-    required this.songName,
-    required this.songArtist,
     this.isFav = false,
     this.icon = Icons.playlist_add,
     required this.onPressed,
-    required this.songPath,
+    required this.songList,
+    required this.index,
   }) : super(key: key);
-  final String songName;
-  final String songArtist;
+
   final bool isFav;
   final IconData icon;
   final void Function()? onPressed;
-  final String songPath;
+  final int index;
+
+  final List<SongModel> songList;
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +28,8 @@ class Song extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => ScreenNowPlaying(
-              songPath: songPath,
-              songeName: songName,
-              songArtist: songArtist,
+              index: index,
+              songList: songList,
             ),
           ),
         );
@@ -48,7 +48,7 @@ class Song extends StatelessWidget {
         ),
       ),
       title: Text(
-        songName,
+        songList[index].displayNameWOExt,
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
         style: const TextStyle(
@@ -56,7 +56,7 @@ class Song extends StatelessWidget {
           fontWeight: FontWeight.w600,
         ),
       ),
-      subtitle: Text(songArtist),
+      subtitle: Text(songList[index].artist!),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

@@ -117,13 +117,12 @@ class _ScreenHomeState extends State<ScreenHome> {
                     itemCount: item.data!.length,
                     itemBuilder: (context, index) {
                       return Song(
-                        songName: item.data![index].displayNameWOExt,
-                        songArtist: item.data![index].artist.toString(),
+                        index: index,
+                        songList: item.data!,
                         onPressed: () {
                           showPlaylistModalSheet(context, screenHeight);
                         },
                         isFav: (index % 3 == 0) ? true : false,
-                        songPath: item.data![index].uri!,
                       );
                     },
                   );

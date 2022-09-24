@@ -29,45 +29,46 @@ class ScreenFavourites extends StatelessWidget {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 20.0, right: 20, top: 10),
-        child: FutureBuilder<List<SongModel>>(
-          future: audioQuery.querySongs(
-            sortType: null,
-            orderType: OrderType.ASC_OR_SMALLER,
-            uriType: UriType.EXTERNAL,
-            ignoreCase: true,
-          ),
-          builder: (context, item) {
-            if (item.data == null) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            if (item.data!.isEmpty) {
-              return Center(
-                child: Text('No Songs Found...'),
-              );
-            }
-            return ListView.builder(
-              shrinkWrap: true,
-              physics: ScrollPhysics(),
-              itemCount: 7,
-              itemBuilder: (context, index) {
-                return Song(
-                  songName: item.data![index].displayNameWOExt,
-                  songArtist: item.data![index].artist.toString(),
-                  onPressed: () {
-                    showPlaylistModalSheet(context, screenHeight);
-                  },
-                  isFav: true,
-                  songPath: item.data![index].uri!,
-                );
-              },
-            );
-          },
-        ),
-      ),
+      // body: Padding(
+      //   padding: const EdgeInsets.only(left: 20.0, right: 20, top: 10),
+      //   child: FutureBuilder<List<SongModel>>(
+      //     future: audioQuery.querySongs(
+      //       sortType: null,
+      //       orderType: OrderType.ASC_OR_SMALLER,
+      //       uriType: UriType.EXTERNAL,
+      //       ignoreCase: true,
+      //     ),
+      //     builder: (context, item) {
+      //       if (item.data == null) {
+      //         return Center(
+      //           child: CircularProgressIndicator(),
+      //         );
+      //       }
+      //       if (item.data!.isEmpty) {
+      //         return Center(
+      //           child: Text('No Songs Found...'),
+      //         );
+      //       }
+      //       return ListView.builder(
+      //         shrinkWrap: true,
+      //         physics: ScrollPhysics(),
+      //         itemCount: 7,
+      //         itemBuilder: (context, index) {
+      //           return Song(
+      //             songList: item.data!,
+      //             songName: item.data![index].displayNameWOExt,
+      //             songArtist: item.data![index].artist.toString(),
+      //             onPressed: () {
+      //               showPlaylistModalSheet(context, screenHeight);
+      //             },
+      //             isFav: true,
+      //             songPath: item.data![index].uri!,
+      //           );
+      //         },
+      //       );
+      //     },
+      //   ),
+      // ),
     );
   }
 }

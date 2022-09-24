@@ -34,27 +34,6 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
     super.initState();
   }
 
-  // bool nextDone = true;
-  // bool prevDone = true;
-
-  // void nextSong() async {
-  //   // if (nextDone) {
-  //   //   nextDone = false;
-  //   //   await audioPlayer.next();
-  //   //   nextDone = true;
-  //   // }
-  //   await audioPlayer.pause().then((value) => audioPlayer.next());
-  // }
-
-  // void prevSong() async {
-  //   // if (prevDone) {
-  //   //   prevDone = false;
-  //   //   await audioPlayer.previous();
-  //   //   prevDone = true;
-  //   // }
-  //   await audioPlayer.pause().then((value) => audioPlayer.previous());
-  // }
-
   bool isPlaying = true;
 
   void playButtonPressed() {
@@ -103,7 +82,6 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
               child: Image.network(
                 'https://images.unsplash.com/photo-1619961602105-16fa2a5465c2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NjZ8fG11c2ljfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60',
                 fit: BoxFit.cover,
-                //height: 320,
                 height: screenHeight * 0.4,
                 width: double.infinity,
               ),
@@ -141,20 +119,25 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
                 ],
               ),
             ),
-            ProgressBar(
-              progress: const Duration(seconds: 145),
-              buffered: const Duration(),
-              total: Duration(seconds: 1345),
-              progressBarColor: kBlue,
-              baseBarColor: kDarkBlue,
-              thumbColor: kBlue,
-              bufferedBarColor: Colors.white.withOpacity(0.24),
-              barHeight: 7.0,
-              thumbRadius: 9.0,
-              onSeek: (duration) {},
-              timeLabelPadding: 10,
-              timeLabelTextStyle: TextStyle(color: kLightBlue, fontSize: 15),
-            ),
+            audioPlayer.builderRealtimePlayingInfos(builder: (context, info) {
+              final _duration = info.current!.audio.duration;
+              final _position = info.currentPosition;
+              return ProgressBar(
+                progress: _position,
+                total: _duration,
+                progressBarColor: kBlue,
+                baseBarColor: kDarkBlue,
+                thumbColor: kBlue,
+                bufferedBarColor: Colors.white.withOpacity(0.24),
+                barHeight: 7.0,
+                thumbRadius: 9.0,
+                onSeek: (duration) {
+                  audioPlayer.seek(duration);
+                },
+                timeLabelPadding: 10,
+                timeLabelTextStyle: TextStyle(color: kLightBlue, fontSize: 15),
+              );
+            }),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -206,3 +189,22 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
     );
   }
 }
+
+
+//  ProgressBar(
+//               progress: const Duration(seconds: 145),
+//               //progress: audioPlayer.currentPosition.value,
+//               buffered: const Duration(),
+//               total: Duration(seconds: 1345),
+//               //  total: audioPlayer.current.value!.audio.duration,
+
+//               progressBarColor: kBlue,
+//               baseBarColor: kDarkBlue,
+//               thumbColor: kBlue,
+//               bufferedBarColor: Colors.white.withOpacity(0.24),
+//               barHeight: 7.0,
+//               thumbRadius: 9.0,
+//               onSeek: (duration) {},
+//               timeLabelPadding: 10,
+//               timeLabelTextStyle: TextStyle(color: kLightBlue, fontSize: 15),
+//             ),

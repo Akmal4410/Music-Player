@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+
 import 'package:music_player/palettes/color_palette.dart';
 import 'package:music_player/widgets/song.dart';
+import 'package:on_audio_query/on_audio_query.dart';
 
 class ScreenCreatedPlaylist extends StatelessWidget {
-  const ScreenCreatedPlaylist({super.key, required this.playlistName});
+  ScreenCreatedPlaylist({super.key, required this.playlistName});
   final String playlistName;
-
+  OnAudioQuery audioQuery = OnAudioQuery();
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -46,87 +50,40 @@ class ScreenCreatedPlaylist extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 20.0, right: 20, top: 10),
-        child: ListView(
-          children: [
-            // Song(
-            //   songName: 'Harry Styles - As It Was',
-            //   songArtist: 'Harry Styles',
-            //   isFav: true,
-            //   icon: Icons.delete_rounded,
-            //   onPressed: () {},
-            // ),
-            // Song(
-            //   songName: "Wavin Flag",
-            //   songArtist: "K'NAAN",
-            //   isFav: true,
-            //   icon: Icons.delete_rounded,
-            //   onPressed: () {},
-            // ),
-            // Song(
-            //   songName: 'Me and My Broken Heart',
-            //   songArtist: 'Rixton',
-            //   icon: Icons.delete_rounded,
-            //   onPressed: () {},
-            // ),
-            // Song(
-            //   songName: 'Ezhutha Kadha',
-            //   songArtist: 'Sushin Shyam',
-            //   icon: Icons.delete_rounded,
-            //   onPressed: () {},
-            // ),
-            // Song(
-            //   songName: 'Alone part-2',
-            //   songArtist: 'Alan Walker',
-            //   isFav: true,
-            //   icon: Icons.delete_rounded,
-            //   onPressed: () {},
-            // ),
-            // Song(
-            //   songName: 'Always',
-            //   songArtist: 'Isak Danielson',
-            //   icon: Icons.delete_rounded,
-            //   onPressed: () {},
-            // ),
-            // Song(
-            //   songName: 'Harry Styles - As It Was',
-            //   songArtist: 'Harry Styles',
-            //   isFav: true,
-            //   icon: Icons.delete_rounded,
-            //   onPressed: () {},
-            // ),
-            // Song(
-            //   songName: "Wavin Flag",
-            //   songArtist: "K'NAAN",
-            //   isFav: true,
-            //   icon: Icons.delete_rounded,
-            //   onPressed: () {},
-            // ),
-            // Song(
-            //   songName: 'Me and My Broken Heart',
-            //   songArtist: 'Rixton',
-            //   icon: Icons.delete_rounded,
-            //   onPressed: () {},
-            // ),
-            // Song(
-            //   songName: 'Ezhutha Kadha',
-            //   songArtist: 'Sushin Shyam',
-            //   icon: Icons.delete_rounded,
-            //   onPressed: () {},
-            // ),
-            // Song(
-            //   songName: 'Alone part-2',
-            //   songArtist: 'Alan Walker',
-            //   isFav: true,
-            //   icon: Icons.delete_rounded,
-            //   onPressed: () {},
-            // ),
-            // Song(
-            //   songName: 'Always',
-            //   songArtist: 'Isak Danielson',
-            //   icon: Icons.delete_rounded,
-            //   onPressed: () {},
-            // ),
-          ],
+        child: FutureBuilder<List<SongModel>>(
+          future: audioQuery.querySongs(
+            sortType: null,
+            orderType: OrderType.ASC_OR_SMALLER,
+            uriType: UriType.EXTERNAL,
+            ignoreCase: true,
+          ),
+          builder: (context, item) {
+            if (item.data == null) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (item.data!.isEmpty) {
+              return Center(
+                child: Text('No Songs Found...'),
+              );
+            }
+            return ListView.builder(
+              shrinkWrap: true,
+              physics: ScrollPhysics(),
+              itemCount: 14,
+              itemBuilder: (context, index) {
+                return Song(
+                  songName: item.data![index].displayNameWOExt,
+                  songArtist: item.data![index].artist.toString(),
+                  onPressed: () {},
+                  isFav: (index % 2 == 0) ? true : false,
+                  icon: Icons.delete,
+                  songPath: item.data![index].uri!,
+                );
+              },
+            );
+          },
         ),
       ),
     );

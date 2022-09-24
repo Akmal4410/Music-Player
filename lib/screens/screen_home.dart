@@ -62,7 +62,7 @@ class _ScreenHomeState extends State<ScreenHome> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (ctx) => const ScreenFavourites()));
+                                builder: (ctx) => ScreenFavourites()));
                       },
                       child: const CustomPlayList(
                         playlistImage:

@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:music_player/function/alert_functions.dart';
 import 'package:music_player/widgets/song.dart';
+import 'package:on_audio_query/on_audio_query.dart';
 
 class ScreenFavourites extends StatelessWidget {
-  const ScreenFavourites({super.key});
-
+  ScreenFavourites({super.key});
+  OnAudioQuery audioQuery = OnAudioQuery();
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -27,46 +31,41 @@ class ScreenFavourites extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 20.0, right: 20, top: 10),
-        child: ListView(
-          children: [
-            // Song(
-            //   songName: 'Harry Styles - As It Was',
-            //   songArtist: 'Harry Styles',
-            //   isFav: true,
-            //   onPressed: () {},
-            // ),
-            // Song(
-            //   songName: "Wavin Flag",
-            //   songArtist: "K'NAAN",
-            //   isFav: true,
-            //   onPressed: () {},
-            // ),
-            // Song(
-            //   songPath: ,
-            //   songName: 'Alone part-2',
-            //   songArtist: 'Alan Walker',
-            //   isFav: true,
-            //   onPressed: () {},
-            // ),
-            // Song(
-            //   songName: 'Harry Styles - As It Was',
-            //   songArtist: 'Harry Styles',
-            //   isFav: true,
-            //   onPressed: () {},
-            // ),
-            // Song(
-            //   songName: "Wavin Flag",
-            //   songArtist: "K'NAAN",
-            //   isFav: true,
-            //   onPressed: () {},
-            // ),
-            // Song(
-            //   songName: 'Alone part-2',
-            //   songArtist: 'Alan Walker',
-            //   isFav: true,
-            //   onPressed: () {},
-            // ),
-          ],
+        child: FutureBuilder<List<SongModel>>(
+          future: audioQuery.querySongs(
+            sortType: null,
+            orderType: OrderType.ASC_OR_SMALLER,
+            uriType: UriType.EXTERNAL,
+            ignoreCase: true,
+          ),
+          builder: (context, item) {
+            if (item.data == null) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (item.data!.isEmpty) {
+              return Center(
+                child: Text('No Songs Found...'),
+              );
+            }
+            return ListView.builder(
+              shrinkWrap: true,
+              physics: ScrollPhysics(),
+              itemCount: 7,
+              itemBuilder: (context, index) {
+                return Song(
+                  songName: item.data![index].displayNameWOExt,
+                  songArtist: item.data![index].artist.toString(),
+                  onPressed: () {
+                    showPlaylistModalSheet(context, screenHeight);
+                  },
+                  isFav: true,
+                  songPath: item.data![index].uri!,
+                );
+              },
+            );
+          },
         ),
       ),
     );

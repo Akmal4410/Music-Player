@@ -112,12 +112,6 @@ class ScreenPlaylist extends StatelessWidget {
                     playlistName: 'Drive',
                     playlistSongNum: '20 Songs',
                   ),
-                  CreatedPlaylist(
-                    playlistImage:
-                        'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
-                    playlistName: 'Favourites',
-                    playlistSongNum: '10 Songs',
-                  ),
                 ],
               )
             ],

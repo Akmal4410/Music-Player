@@ -6,7 +6,6 @@ import 'package:music_player/widgets/mini_player.dart';
 import 'package:music_player/widgets/search_widget.dart';
 import 'package:music_player/widgets/song.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class ScreenHome extends StatefulWidget {
   const ScreenHome({
@@ -20,12 +19,7 @@ class ScreenHome extends StatefulWidget {
 class _ScreenHomeState extends State<ScreenHome> {
   @override
   void initState() {
-    requestPermission();
     super.initState();
-  }
-
-  Future<void> requestPermission() async {
-    await Permission.storage.request();
   }
 
   OnAudioQuery audioQuery = OnAudioQuery();

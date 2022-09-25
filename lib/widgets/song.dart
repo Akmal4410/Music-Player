@@ -52,11 +52,18 @@ class Song extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
         style: const TextStyle(
-          fontSize: 14.5,
-          fontWeight: FontWeight.w600,
+          fontSize: 15,
+          fontWeight: FontWeight.w500,
         ),
       ),
-      subtitle: Text(songList[index].artist!),
+      subtitle: Text(
+        songList[index].artist!,
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
+        style: const TextStyle(
+          fontSize: 13,
+        ),
+      ),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

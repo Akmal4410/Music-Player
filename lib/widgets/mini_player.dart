@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:music_player/palettes/color_palette.dart';
-import 'package:music_player/screens/screen_now_playing.dart';
 
 class MiniPlayer extends StatelessWidget {
   const MiniPlayer({
@@ -26,7 +25,7 @@ class MiniPlayer extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         // height: 75,
-        height: screenHeight * 0.09,
+        height: screenHeight * 0.075,
         width: double.infinity,
         decoration: BoxDecoration(
           color: kBlue,
@@ -56,7 +55,6 @@ class MiniPlayer extends StatelessWidget {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            subtitle: Text(songArtist!),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: const [

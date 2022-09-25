@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:music_player/screens/screen_navigation.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ScreenSplash extends StatefulWidget {
   const ScreenSplash({super.key});
@@ -13,6 +14,11 @@ class _ScreenSplashState extends State<ScreenSplash> {
   void initState() {
     gotoScreenHome(context);
     super.initState();
+    requestPermission();
+  }
+
+  Future<void> requestPermission() async {
+    await Permission.storage.request();
   }
 
   @override

@@ -1,10 +1,10 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:marquee/marquee.dart';
 import 'package:music_player/palettes/color_palette.dart';
 import 'package:music_player/widgets/custom_icon_button.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+import 'package:text_scroll/text_scroll.dart';
 
 class ScreenNowPlaying extends StatefulWidget {
   const ScreenNowPlaying({
@@ -134,25 +134,24 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
                 child: SizedBox(
                   width: screenWidth * 0.75,
                   height: 30,
-                  child: Marquee(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    pauseAfterRound: const Duration(seconds: 2),
-                    text: audioPlayer.getCurrentAudioTitle,
-                    blankSpace: 10,
+                  child: TextScroll(
+                    audioPlayer.getCurrentAudioTitle,
+                    velocity: Velocity(pixelsPerSecond: Offset(80, 0)),
+                    mode: TextScrollMode.bouncing,
+                    numberOfReps: 2,
                     style: const TextStyle(
                         fontSize: 15, fontWeight: FontWeight.w600),
                   ),
                 ),
               ),
               Center(
-                child: SizedBox(
-                  width: screenWidth * 0.50,
-                  child: Text(
-                    audioPlayer.getCurrentAudioArtist,
-                    maxLines: 1,
-                    overflow: TextOverflow.clip,
-                    style: const TextStyle(color: kLightBlue, fontSize: 13),
-                  ),
+                child: Text(
+                  audioPlayer.getCurrentAudioArtist == '<unknown>'
+                      ? 'Unknown'
+                      : audioPlayer.getCurrentAudioArtist,
+                  maxLines: 1,
+                  overflow: TextOverflow.clip,
+                  style: const TextStyle(color: kLightBlue, fontSize: 13),
                 ),
               ),
               Padding(

@@ -1,9 +1,7 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player/function/alert_functions.dart';
-import 'package:music_player/screens/screen_favourite.dart';
 import 'package:music_player/widgets/custom_playlist.dart';
-
 import 'package:music_player/widgets/search_widget.dart';
 import 'package:music_player/widgets/song.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -54,10 +52,10 @@ class _ScreenHomeState extends State<ScreenHome> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (ctx) => ScreenFavourites()));
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (ctx) => ScreenFavourites()));
                       },
                       child: const CustomPlayList(
                         playlistImage:

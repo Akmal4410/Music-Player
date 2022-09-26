@@ -23,6 +23,9 @@ class MiniPlayer extends StatefulWidget {
 
 class _MiniPlayerState extends State<MiniPlayer> {
   List<Audio> songAudio = [];
+  bool isPlaying = true;
+
+  void playorPauseButtonPressed() {}
 
   void convertSongMode() {
     for (var song in widget.songList) {
@@ -104,7 +107,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
               ),
               title: TextScroll(
                 widget.audioPlayer.getCurrentAudioTitle,
-                velocity: Velocity(
+                velocity: const Velocity(
                   pixelsPerSecond: Offset(50, 0),
                 ),
                 style:

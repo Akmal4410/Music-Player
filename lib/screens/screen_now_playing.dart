@@ -105,7 +105,7 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
                   height: 30,
                   child: TextScroll(
                     widget.audioPlayer.getCurrentAudioTitle,
-                    velocity: Velocity(pixelsPerSecond: Offset(60, 0)),
+                    velocity: const Velocity(pixelsPerSecond: Offset(60, 0)),
                     mode: TextScrollMode.bouncing,
                     numberOfReps: 2,
                     style: const TextStyle(

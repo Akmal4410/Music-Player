@@ -91,8 +91,8 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(30),
-                child: Image.network(
-                  'https://images.unsplash.com/photo-1619961602105-16fa2a5465c2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NjZ8fG11c2ljfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60',
+                child: Image.asset(
+                  'assets/images/nowPlaying.png',
                   fit: BoxFit.cover,
                   height: screenHeight * 0.4,
                   width: double.infinity,
@@ -105,7 +105,7 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
                   height: 30,
                   child: TextScroll(
                     widget.audioPlayer.getCurrentAudioTitle,
-                    velocity: const Velocity(pixelsPerSecond: Offset(60, 0)),
+                    velocity: const Velocity(pixelsPerSecond: Offset(50, 0)),
                     mode: TextScrollMode.bouncing,
                     numberOfReps: 2,
                     style: const TextStyle(

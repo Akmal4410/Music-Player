@@ -32,7 +32,7 @@ class CreatedPlaylist extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(18),
-            child: Image.network(
+            child: Image.asset(
               playlistImage,
               fit: BoxFit.cover,
               // height: 137,

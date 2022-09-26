@@ -35,16 +35,21 @@ class Song extends StatelessWidget {
         );
       },
       contentPadding: const EdgeInsets.all(0),
-      leading: Container(
-        height: 65,
-        width: 60,
-        decoration: BoxDecoration(
-          color: kLightBlue,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: const Icon(
-          Icons.music_note,
-          color: kDarkBlue,
+      leading: QueryArtworkWidget(
+        artworkBorder: BorderRadius.circular(10),
+        id: songList[index].id,
+        type: ArtworkType.AUDIO,
+        nullArtworkWidget: Container(
+          height: 65,
+          width: 60,
+          decoration: BoxDecoration(
+            color: kLightBlue,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: const Icon(
+            Icons.music_note,
+            color: kDarkBlue,
+          ),
         ),
       ),
       title: Text(

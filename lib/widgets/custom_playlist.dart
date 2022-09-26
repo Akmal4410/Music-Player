@@ -25,7 +25,7 @@ class CustomPlayList extends StatelessWidget {
           width: screenWidth * 0.35,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(18),
-            child: Image.network(
+            child: Image.asset(
               playlistImage,
               fit: BoxFit.cover,
               // height: 137,

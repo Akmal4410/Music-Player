@@ -25,16 +25,16 @@ class _MiniPlayerState extends State<MiniPlayer> {
   List<Audio> songAudio = [];
   bool isPlaying = true;
 
-  void playorPauseButtonPressed() {}
-
   void convertSongMode() {
     for (var song in widget.songList) {
       songAudio.add(
         Audio.file(
           song.uri!,
           metas: Metas(
+            id: song.id.toString(),
             title: song.displayNameWOExt,
             artist: song.artist,
+            image: widget.audioPlayer.getCurrentAudioImage,
           ),
         ),
       );
@@ -97,6 +97,10 @@ class _MiniPlayerState extends State<MiniPlayer> {
                 height: 50,
                 width: 50,
                 decoration: BoxDecoration(
+                  // image: DecorationImage(
+                  //   image: widget.audioPlayer.getCurrentAudioImage
+                  //       as ImageProvider,
+                  // ),
                   color: kLightBlue,
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -120,24 +124,39 @@ class _MiniPlayerState extends State<MiniPlayer> {
                     onTap: () {
                       widget.audioPlayer.previous();
                     },
-                    child: Icon(
+                    child: const Icon(
                       Icons.skip_previous,
                       color: kDarkBlue,
                       size: 33,
                     ),
                   ),
-                  SizedBox(width: 15),
-                  Icon(
-                    Icons.play_arrow,
-                    color: kDarkBlue,
-                    size: 33,
+                  const SizedBox(width: 15),
+                  GestureDetector(
+                    onTap: () async {
+                      if (isPlaying == true) {
+                        await widget.audioPlayer.pause();
+                        setState(() {
+                          isPlaying = !isPlaying;
+                        });
+                      } else if (isPlaying == false) {
+                        await widget.audioPlayer.play();
+                        setState(() {
+                          isPlaying = !isPlaying;
+                        });
+                      }
+                    },
+                    child: Icon(
+                      isPlaying == true ? Icons.pause : Icons.play_arrow,
+                      color: kDarkBlue,
+                      size: 33,
+                    ),
                   ),
-                  SizedBox(width: 15),
+                  const SizedBox(width: 15),
                   GestureDetector(
                     onTap: () {
                       widget.audioPlayer.next();
                     },
-                    child: Icon(
+                    child: const Icon(
                       Icons.skip_next,
                       color: kDarkBlue,
                       size: 33,

@@ -38,7 +38,7 @@ showPlaylistModalSheet(BuildContext context, double screenHeight) {
                 child: ListView(
                   children: [
                     Container(
-                      padding: EdgeInsets.symmetric(vertical: 1),
+                      padding: const EdgeInsets.symmetric(vertical: 1),
                       margin: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
@@ -74,14 +74,14 @@ showAddingPlaylistDialoge(BuildContext context) {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
+                const Text(
                   'Create Playlist',
                   style: TextStyle(
                       color: kDarkBlue,
                       fontSize: 16,
                       fontWeight: FontWeight.w600),
                 ),
-                SearchField(
+                const SearchField(
                   hintText: 'Playlist Name',
                   icon: Icons.playlist_add,
                 ),
@@ -92,14 +92,14 @@ showAddingPlaylistDialoge(BuildContext context) {
                       onPressed: () {
                         Navigator.pop(ctx);
                       },
-                      child: Text(
+                      child: const Text(
                         'Cancel',
                         style: TextStyle(color: kDarkBlue, fontSize: 15),
                       ),
                     ),
                     TextButton(
                       onPressed: () {},
-                      child: Text(
+                      child: const Text(
                         'OK',
                         style: TextStyle(color: kDarkBlue, fontSize: 15),
                       ),

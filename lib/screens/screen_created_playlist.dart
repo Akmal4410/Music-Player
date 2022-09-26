@@ -10,7 +10,6 @@ class ScreenCreatedPlaylist extends StatelessWidget {
   OnAudioQuery audioQuery = OnAudioQuery();
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
@@ -33,14 +32,14 @@ class ScreenCreatedPlaylist extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {},
-            icon: Icon(
+            icon: const Icon(
               Icons.edit,
               color: kLightBlue,
             ),
           ),
           IconButton(
             onPressed: () {},
-            icon: Icon(
+            icon: const Icon(
               Icons.add,
               size: 27,
               color: kLightBlue,
@@ -59,18 +58,18 @@ class ScreenCreatedPlaylist extends StatelessWidget {
           ),
           builder: (context, item) {
             if (item.data == null) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }
             if (item.data!.isEmpty) {
-              return Center(
+              return const Center(
                 child: Text('No Songs Found...'),
               );
             }
             return ListView.builder(
               shrinkWrap: true,
-              physics: ScrollPhysics(),
+              physics: const ScrollPhysics(),
               itemCount: 14,
               itemBuilder: (context, index) {
                 return Song(

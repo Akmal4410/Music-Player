@@ -26,7 +26,6 @@ class _ScreenHomeState extends State<ScreenHome> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -96,18 +95,18 @@ class _ScreenHomeState extends State<ScreenHome> {
                 ),
                 builder: (context, item) {
                   if (item.data == null) {
-                    return Center(
+                    return const Center(
                       child: CircularProgressIndicator(),
                     );
                   }
                   if (item.data!.isEmpty) {
-                    return Center(
+                    return const Center(
                       child: Text('No Songs Found...'),
                     );
                   }
                   return ListView.builder(
                     shrinkWrap: true,
-                    physics: ScrollPhysics(),
+                    physics: const ScrollPhysics(),
                     itemCount: item.data!.length,
                     itemBuilder: (context, index) {
                       return Song(

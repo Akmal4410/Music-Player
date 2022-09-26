@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:music_player/function/alert_functions.dart';
-import 'package:music_player/widgets/song.dart';
+
 import 'package:on_audio_query/on_audio_query.dart';
 
 class ScreenFavourites extends StatelessWidget {

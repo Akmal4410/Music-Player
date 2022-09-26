@@ -136,7 +136,7 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
                   height: 30,
                   child: Marquee(
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    pauseAfterRound: Duration(seconds: 2),
+                    pauseAfterRound: const Duration(seconds: 2),
                     text: audioPlayer.getCurrentAudioTitle,
                     blankSpace: 10,
                     style: const TextStyle(

@@ -20,7 +20,7 @@ class CustomPlayList extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          margin: EdgeInsets.only(right: 14),
+          margin: const EdgeInsets.only(right: 14),
           // width: 120,
           width: screenWidth * 0.35,
           child: ClipRRect(

@@ -1,3 +1,4 @@
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player/function/alert_functions.dart';
 import 'package:music_player/palettes/color_palette.dart';
@@ -11,12 +12,14 @@ class Song extends StatelessWidget {
     required this.onPressed,
     required this.songList,
     required this.index,
+    required this.audioPlayer,
   }) : super(key: key);
 
   final bool isFav;
   final IconData icon;
   final void Function()? onPressed;
   final int index;
+  final AssetsAudioPlayer audioPlayer;
 
   final List<SongModel> songList;
 
@@ -28,6 +31,7 @@ class Song extends StatelessWidget {
           context: context,
           index: index,
           songList: songList,
+          audioPlayer: audioPlayer,
         );
       },
       contentPadding: const EdgeInsets.all(0),

@@ -10,17 +10,18 @@ class MiniPlayer extends StatefulWidget {
     Key? key,
     required this.songList,
     required this.index,
+    required this.audioPlayer,
   }) : super(key: key);
 
   final List<SongModel> songList;
   final int index;
+  final AssetsAudioPlayer audioPlayer;
 
   @override
   State<MiniPlayer> createState() => _MiniPlayerState();
 }
 
 class _MiniPlayerState extends State<MiniPlayer> {
-  AssetsAudioPlayer audioPlayer = AssetsAudioPlayer();
   List<Audio> songAudio = [];
 
   void convertSongMode() {
@@ -40,7 +41,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
   Future<void> openAudioPLayer() async {
     convertSongMode();
 
-    await audioPlayer.open(
+    await widget.audioPlayer.open(
       Playlist(
         audios: songAudio,
         startIndex: widget.index,
@@ -73,7 +74,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
           borderRadius: BorderRadius.circular(20.0),
         ),
         child: Center(
-          child: audioPlayer.builderRealtimePlayingInfos(
+          child: widget.audioPlayer.builderRealtimePlayingInfos(
               builder: (context, realtimePlayingInfos) {
             return ListTile(
               onTap: () {
@@ -83,7 +84,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
                     return ScreenNowPlaying(
                       songList: widget.songList,
                       index: widget.index,
-                      audioPlayer: audioPlayer,
+                      audioPlayer: widget.audioPlayer,
                     );
                   }),
                 );
@@ -102,7 +103,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
                 ),
               ),
               title: TextScroll(
-                audioPlayer.getCurrentAudioTitle,
+                widget.audioPlayer.getCurrentAudioTitle,
                 velocity: Velocity(
                   pixelsPerSecond: Offset(50, 0),
                 ),
@@ -114,7 +115,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      audioPlayer.previous();
+                      widget.audioPlayer.previous();
                     },
                     child: Icon(
                       Icons.skip_previous,
@@ -131,7 +132,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
                   SizedBox(width: 15),
                   GestureDetector(
                     onTap: () {
-                      audioPlayer.next();
+                      widget.audioPlayer.next();
                     },
                     child: Icon(
                       Icons.skip_next,

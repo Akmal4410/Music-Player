@@ -1,3 +1,4 @@
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player/palettes/color_palette.dart';
 import 'package:music_player/widgets/mini_player.dart';
@@ -8,6 +9,7 @@ showMiniPlayer({
   required BuildContext context,
   required int index,
   required List<SongModel> songList,
+  required AssetsAudioPlayer audioPlayer,
 }) {
   return showBottomSheet(
       backgroundColor: Colors.transparent,
@@ -16,6 +18,7 @@ showMiniPlayer({
         return MiniPlayer(
           songList: songList,
           index: index,
+          audioPlayer: audioPlayer,
         );
       });
 }

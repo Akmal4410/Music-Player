@@ -19,12 +19,12 @@ class CreatedPlaylist extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (ctx) => ScreenCreatedPlaylist(
-                      playlistName: playlistName,
-                    )));
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (ctx) => ScreenCreatedPlaylist(
+        //               playlistName: playlistName,
+        //             )));
       },
       onLongPress: () {
         showPlaylistDeleteAlert(context);

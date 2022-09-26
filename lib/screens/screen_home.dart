@@ -112,6 +112,7 @@ class _ScreenHomeState extends State<ScreenHome> {
                     itemCount: item.data!.length,
                     itemBuilder: (context, index) {
                       return Song(
+                        audioPlayer: audioPlayer,
                         index: index,
                         songList: item.data!,
                         onPressed: () {

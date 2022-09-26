@@ -61,7 +61,9 @@ class ScreenSetting extends StatelessWidget {
                 ),
               ),
             ),
-            MiniPlayer(songName: 'Ezhutha Kadha', songArtist: 'Sushin Shyam'),
+            // MiniPlayer(
+            //   songName: 'Ezhutha Kadha',
+            // ),
           ],
         ),
       ],

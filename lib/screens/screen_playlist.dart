@@ -116,10 +116,9 @@ class ScreenPlaylist extends StatelessWidget {
             ],
           ),
         ),
-        const MiniPlayer(
-          songName: 'Ezhutha Kadha',
-          songArtist: 'Sushin Shyam',
-        ),
+        // const MiniPlayer(
+        //   songList: so,
+        // ),
       ],
     );
   }

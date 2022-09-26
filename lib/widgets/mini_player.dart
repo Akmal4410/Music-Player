@@ -1,27 +1,68 @@
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player/palettes/color_palette.dart';
+import 'package:music_player/screens/screen_now_playing.dart';
+import 'package:on_audio_query/on_audio_query.dart';
+import 'package:text_scroll/text_scroll.dart';
 
-class MiniPlayer extends StatelessWidget {
+class MiniPlayer extends StatefulWidget {
   const MiniPlayer({
     Key? key,
-    required this.songName,
-    required this.songArtist,
+    required this.songList,
+    required this.index,
   }) : super(key: key);
 
-  final String? songName;
-  final String? songArtist;
+  final List<SongModel> songList;
+  final int index;
+
+  @override
+  State<MiniPlayer> createState() => _MiniPlayerState();
+}
+
+class _MiniPlayerState extends State<MiniPlayer> {
+  AssetsAudioPlayer audioPlayer = AssetsAudioPlayer();
+  List<Audio> songAudio = [];
+
+  void convertSongMode() {
+    for (var song in widget.songList) {
+      songAudio.add(
+        Audio.file(
+          song.uri!,
+          metas: Metas(
+            title: song.displayNameWOExt,
+            artist: song.artist,
+          ),
+        ),
+      );
+    }
+  }
+
+  Future<void> openAudioPLayer() async {
+    convertSongMode();
+
+    await audioPlayer.open(
+      Playlist(
+        audios: songAudio,
+        startIndex: widget.index,
+      ),
+      autoStart: true,
+      showNotification: true,
+      loopMode: LoopMode.playlist,
+    );
+  }
+
+  @override
+  void initState() {
+    openAudioPLayer();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
+
     return GestureDetector(
-      // onTap: () {
-      //   Navigator.push(
-      //       context,
-      //       MaterialPageRoute(
-      //           builder: (ctx) => ScreenNowPlaying(
-      //               songeName: 'Ezhutha Kadha', songArtist: 'Sushin Shyam')));
-      // },
+      onTap: () {},
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         // height: 75,
@@ -32,52 +73,76 @@ class MiniPlayer extends StatelessWidget {
           borderRadius: BorderRadius.circular(20.0),
         ),
         child: Center(
-          child: ListTile(
-            contentPadding: EdgeInsets.zero,
-            leading: Container(
-              height: 50,
-              width: 50,
-              decoration: BoxDecoration(
-                color: kLightBlue,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: const Icon(
-                Icons.music_note,
-                color: kDarkBlue,
-              ),
-            ),
-            title: Text(
-              songName!,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: const [
-                Icon(
-                  Icons.skip_previous,
-                  color: kDarkBlue,
-                  size: 33,
+          child: audioPlayer.builderRealtimePlayingInfos(
+              builder: (context, realtimePlayingInfos) {
+            return ListTile(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (ctx) {
+                    return ScreenNowPlaying(
+                      songList: widget.songList,
+                      index: widget.index,
+                      audioPlayer: audioPlayer,
+                    );
+                  }),
+                );
+              },
+              contentPadding: EdgeInsets.zero,
+              leading: Container(
+                height: 50,
+                width: 50,
+                decoration: BoxDecoration(
+                  color: kLightBlue,
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                SizedBox(width: 15),
-                Icon(
-                  Icons.play_arrow,
+                child: const Icon(
+                  Icons.music_note,
                   color: kDarkBlue,
-                  size: 33,
                 ),
-                SizedBox(width: 15),
-                Icon(
-                  Icons.skip_next,
-                  color: kDarkBlue,
-                  size: 33,
+              ),
+              title: TextScroll(
+                audioPlayer.getCurrentAudioTitle,
+                velocity: Velocity(
+                  pixelsPerSecond: Offset(50, 0),
                 ),
-              ],
-            ),
-          ),
+                style:
+                    const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+              ),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      audioPlayer.previous();
+                    },
+                    child: Icon(
+                      Icons.skip_previous,
+                      color: kDarkBlue,
+                      size: 33,
+                    ),
+                  ),
+                  SizedBox(width: 15),
+                  Icon(
+                    Icons.play_arrow,
+                    color: kDarkBlue,
+                    size: 33,
+                  ),
+                  SizedBox(width: 15),
+                  GestureDetector(
+                    onTap: () {
+                      audioPlayer.next();
+                    },
+                    child: Icon(
+                      Icons.skip_next,
+                      color: kDarkBlue,
+                      size: 33,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }),
         ),
       ),
     );

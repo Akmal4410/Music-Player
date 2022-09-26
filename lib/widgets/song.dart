@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:music_player/function/alert_functions.dart';
 import 'package:music_player/palettes/color_palette.dart';
-import 'package:music_player/screens/screen_now_playing.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class Song extends StatelessWidget {
@@ -23,15 +23,11 @@ class Song extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () async {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ScreenNowPlaying(
-              index: index,
-              songList: songList,
-            ),
-          ),
+      onTap: () {
+        showMiniPlayer(
+          context: context,
+          index: index,
+          songList: songList,
         );
       },
       contentPadding: const EdgeInsets.all(0),
@@ -57,7 +53,9 @@ class Song extends StatelessWidget {
         ),
       ),
       subtitle: Text(
-        songList[index].artist!,
+        songList[index].artist! == '<unknown>'
+            ? 'Unknown'
+            : songList[index].artist!,
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
         style: const TextStyle(

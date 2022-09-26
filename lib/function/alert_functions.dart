@@ -1,6 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:music_player/palettes/color_palette.dart';
+import 'package:music_player/widgets/mini_player.dart';
 import 'package:music_player/widgets/search_widget.dart';
+import 'package:on_audio_query/on_audio_query.dart';
+
+showMiniPlayer({
+  required BuildContext context,
+  required int index,
+  required List<SongModel> songList,
+}) {
+  return showBottomSheet(
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (ctx) {
+        return MiniPlayer(
+          songList: songList,
+          index: index,
+        );
+      });
+}
 
 showPlaylistModalSheet(BuildContext context, double screenHeight) {
   return showModalBottomSheet(

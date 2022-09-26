@@ -11,45 +11,30 @@ class ScreenNowPlaying extends StatefulWidget {
     super.key,
     required this.songList,
     required this.index,
+    required this.audioPlayer,
   });
 
   final List<SongModel> songList;
   final int index;
+  final AssetsAudioPlayer audioPlayer;
 
   @override
   State<ScreenNowPlaying> createState() => _ScreenNowPlayingState();
 }
 
 class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
-  AssetsAudioPlayer audioPlayer = AssetsAudioPlayer();
-  List<Audio> songAudio = [];
-
   bool isPlaying = true;
   bool isLoop = true;
   bool isShuffle = true;
 
-  void convertSongModel() {
-    for (var song in widget.songList) {
-      songAudio.add(
-        Audio.file(
-          song.uri!,
-          metas: Metas(
-            title: song.displayNameWOExt,
-            artist: song.artist,
-          ),
-        ),
-      );
-    }
-  }
-
   void playOrPauseButtonPressed() async {
     if (isPlaying == true) {
-      await audioPlayer.pause();
+      await widget.audioPlayer.pause();
       setState(() {
         isPlaying = false;
       });
     } else if (isPlaying == false) {
-      await audioPlayer.play();
+      await widget.audioPlayer.play();
       setState(() {
         isPlaying = true;
       });
@@ -58,35 +43,20 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
 
   void shuffleButtonPressed() {
     setState(() {
-      audioPlayer.toggleShuffle();
+      widget.audioPlayer.toggleShuffle();
       isShuffle = !isShuffle;
     });
   }
 
   void repeatButtonPressed() {
     if (isLoop == true) {
-      audioPlayer.setLoopMode(LoopMode.single);
+      widget.audioPlayer.setLoopMode(LoopMode.single);
     } else {
-      audioPlayer.setLoopMode(LoopMode.playlist);
+      widget.audioPlayer.setLoopMode(LoopMode.playlist);
     }
     setState(() {
       isLoop = !isLoop;
     });
-  }
-
-  @override
-  void initState() {
-    convertSongModel();
-    audioPlayer.open(
-        Playlist(
-          audios: songAudio,
-          startIndex: widget.index,
-        ),
-        autoStart: true,
-        showNotification: true,
-        loopMode: LoopMode.playlist);
-
-    super.initState();
   }
 
   @override
@@ -99,7 +69,6 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
           icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
             Navigator.pop(context);
-            audioPlayer.stop();
           },
         ),
         centerTitle: true,
@@ -113,7 +82,7 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
           ),
         ),
       ),
-      body: audioPlayer.builderCurrent(builder: (context, playing) {
+      body: widget.audioPlayer.builderCurrent(builder: (context, playing) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25.0),
           child: Column(
@@ -135,8 +104,8 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
                   width: screenWidth * 0.75,
                   height: 30,
                   child: TextScroll(
-                    audioPlayer.getCurrentAudioTitle,
-                    velocity: Velocity(pixelsPerSecond: Offset(80, 0)),
+                    widget.audioPlayer.getCurrentAudioTitle,
+                    velocity: Velocity(pixelsPerSecond: Offset(60, 0)),
                     mode: TextScrollMode.bouncing,
                     numberOfReps: 2,
                     style: const TextStyle(
@@ -146,9 +115,9 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
               ),
               Center(
                 child: Text(
-                  audioPlayer.getCurrentAudioArtist == '<unknown>'
+                  widget.audioPlayer.getCurrentAudioArtist == '<unknown>'
                       ? 'Unknown'
-                      : audioPlayer.getCurrentAudioArtist,
+                      : widget.audioPlayer.getCurrentAudioArtist,
                   maxLines: 1,
                   overflow: TextOverflow.clip,
                   style: const TextStyle(color: kLightBlue, fontSize: 13),
@@ -184,7 +153,8 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
                   ],
                 ),
               ),
-              audioPlayer.builderRealtimePlayingInfos(builder: (context, info) {
+              widget.audioPlayer.builderRealtimePlayingInfos(
+                  builder: (context, info) {
                 final _duration = info.current!.audio.duration;
                 final _position = info.currentPosition;
                 return ProgressBar(
@@ -197,7 +167,7 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
                   barHeight: 7.0,
                   thumbRadius: 9.0,
                   onSeek: (duration) {
-                    audioPlayer.seek(duration);
+                    widget.audioPlayer.seek(duration);
                   },
                   timeLabelPadding: 10,
                   timeLabelTextStyle: const TextStyle(
@@ -212,13 +182,13 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
                   CustomIconButton(
                     icon: Icons.skip_previous,
                     onPressed: () async {
-                      await audioPlayer.previous();
+                      await widget.audioPlayer.previous();
                     },
                   ),
                   CustomIconButton(
                     icon: Icons.replay_10,
                     onPressed: () {
-                      audioPlayer.seekBy(
+                      widget.audioPlayer.seekBy(
                         const Duration(seconds: -10),
                       );
                     },
@@ -244,7 +214,7 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
                   CustomIconButton(
                     icon: Icons.forward_10,
                     onPressed: () {
-                      audioPlayer.seekBy(
+                      widget.audioPlayer.seekBy(
                         const Duration(seconds: 10),
                       );
                     },
@@ -252,7 +222,7 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
                   CustomIconButton(
                     icon: Icons.skip_next,
                     onPressed: () async {
-                      await audioPlayer.next();
+                      await widget.audioPlayer.next();
                     },
                   )
                 ],

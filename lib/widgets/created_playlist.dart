@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:music_player/function/alert_functions.dart';
+import 'package:music_player/alert_function/alert_functions.dart';
 import 'package:music_player/palettes/color_palette.dart';
 
 class CreatedPlaylist extends StatelessWidget {

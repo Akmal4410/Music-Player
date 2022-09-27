@@ -1,6 +1,8 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
-import 'package:music_player/function/alert_functions.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:music_player/alert_function/alert_functions.dart';
+import 'package:music_player/models/songs.dart';
 import 'package:music_player/widgets/custom_playlist.dart';
 import 'package:music_player/widgets/search_widget.dart';
 import 'package:music_player/widgets/song.dart';
@@ -16,13 +18,10 @@ class ScreenHome extends StatefulWidget {
 }
 
 class _ScreenHomeState extends State<ScreenHome> {
+  Box<Songs> songBox = Hive.box<Songs>('Songs');
   AssetsAudioPlayer audioPlayer = AssetsAudioPlayer();
-  @override
-  void initState() {
-    super.initState();
-  }
-
   OnAudioQuery audioQuery = OnAudioQuery();
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -51,12 +50,7 @@ class _ScreenHomeState extends State<ScreenHome> {
                   scrollDirection: Axis.horizontal,
                   children: [
                     GestureDetector(
-                      onTap: () {
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (ctx) => ScreenFavourites()));
-                      },
+                      onTap: () {},
                       child: const CustomPlayList(
                         playlistImage: 'assets/images/favourites.png',
                         playlistName: 'Favourites',
@@ -83,6 +77,9 @@ class _ScreenHomeState extends State<ScreenHome> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
+
+////////////////////////////////////////////////////////
+
               FutureBuilder<List<SongModel>>(
                 future: audioQuery.querySongs(
                   sortType: null,
@@ -119,6 +116,38 @@ class _ScreenHomeState extends State<ScreenHome> {
                   );
                 },
               ),
+
+              ////////////////
+
+              // ValueListenableBuilder(
+              //   valueListenable: songBox.listenable(),
+              //   builder:
+              //       (BuildContext context, Box<Songs> songs, Widget? child) {
+              //     final songList = songs.values;
+              //     if (songs.values.isEmpty) {
+              //       return Center(
+              //         child: Text('Songs not found'),
+              //       );
+              //     }
+              //     return ListView.builder(
+              //       shrinkWrap: true,
+              //       physics: const ScrollPhysics(),
+              //       itemBuilder: (context, index) {
+              //         return Song(
+              //           onPressed: () {
+              //             showAddingPlaylistDialoge(context);
+              //           },
+              //           songList: songList,
+              //           index: index,
+              //           audioPlayer: audioPlayer,
+              //         );
+              //       },
+              //       itemCount: songs.length,
+              //     );
+              //   },
+              // ),
+
+////////////////////////////
             ],
           ),
         ),

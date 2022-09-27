@@ -94,7 +94,7 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
           padding: const EdgeInsets.symmetric(horizontal: 25.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(30),
@@ -116,13 +116,16 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
                 child: SizedBox(
                   width: screenWidth * 0.75,
                   height: 30,
-                  child: TextScroll(
-                    widget.audioPlayer.getCurrentAudioTitle,
-                    velocity: const Velocity(pixelsPerSecond: Offset(50, 0)),
-                    mode: TextScrollMode.bouncing,
-                    numberOfReps: 2,
-                    style: const TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.w600),
+                  child: Center(
+                    child: TextScroll(
+                      widget.audioPlayer.getCurrentAudioTitle,
+                      textAlign: TextAlign.center,
+                      velocity: const Velocity(pixelsPerSecond: Offset(45, 0)),
+                      pauseBetween: Duration(milliseconds: 600),
+                      mode: TextScrollMode.bouncing,
+                      style: const TextStyle(
+                          fontSize: 15, fontWeight: FontWeight.w600),
+                    ),
                   ),
                 ),
               ),

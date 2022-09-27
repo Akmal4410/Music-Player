@@ -1,6 +1,7 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
-import 'package:music_player/function/alert_functions.dart';
+import 'package:music_player/alert_function/alert_functions.dart';
+import 'package:music_player/models/songs.dart';
 import 'package:music_player/palettes/color_palette.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
@@ -22,6 +23,7 @@ class Song extends StatelessWidget {
   final AssetsAudioPlayer audioPlayer;
 
   final List<SongModel> songList;
+  // final List<Songs> songList;
 
   @override
   Widget build(BuildContext context) {

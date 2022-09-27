@@ -85,93 +85,88 @@ class _MiniPlayerState extends State<MiniPlayer> {
               borderRadius: BorderRadius.circular(20.0),
             ),
             child: Center(
-              child: widget.audioPlayer.builderRealtimePlayingInfos(
-                  builder: (context, info) {
-                return ListTile(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (ctx) {
-                        return ScreenNowPlaying(
-                          songList: songAudio,
-                          index: widget.index,
-                          audioPlayer: widget.audioPlayer,
-                        );
-                      }),
-                    );
-                  },
-                  contentPadding: EdgeInsets.zero,
-                  leading: QueryArtworkWidget(
-                      artworkBorder: BorderRadius.circular(10),
-                      id: int.parse(myAudio.metas.id!),
-                      type: ArtworkType.AUDIO,
-                      nullArtworkWidget: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.asset(
-                          'assets/images/musicHome.png',
-                          fit: BoxFit.cover,
-                          height: 50,
-                          width: 50,
-                        ),
-                      )),
-                  title: TextScroll(
-                    widget.audioPlayer.getCurrentAudioTitle,
-                    numberOfReps: 1,
-                    velocity: const Velocity(
-                      pixelsPerSecond: Offset(50, 0),
+              child: ListTile(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (ctx) {
+                      return ScreenNowPlaying(
+                        songList: songAudio,
+                        index: widget.index,
+                        audioPlayer: widget.audioPlayer,
+                      );
+                    }),
+                  );
+                },
+                contentPadding: EdgeInsets.zero,
+                leading: QueryArtworkWidget(
+                    artworkBorder: BorderRadius.circular(10),
+                    id: int.parse(myAudio.metas.id!),
+                    type: ArtworkType.AUDIO,
+                    nullArtworkWidget: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.asset(
+                        'assets/images/musicHome.png',
+                        fit: BoxFit.cover,
+                        height: 50,
+                        width: 50,
+                      ),
+                    )),
+                title: TextScroll(
+                  widget.audioPlayer.getCurrentAudioTitle,
+                  mode: TextScrollMode.bouncing,
+                  velocity: const Velocity(pixelsPerSecond: Offset(45, 0)),
+                  style: const TextStyle(
+                      fontSize: 15, fontWeight: FontWeight.w600),
+                ),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        widget.audioPlayer.previous();
+                      },
+                      child: const Icon(
+                        Icons.skip_previous,
+                        color: kDarkBlue,
+                        size: 33,
+                      ),
                     ),
-                    style: const TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.w600),
-                  ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          widget.audioPlayer.previous();
-                        },
-                        child: const Icon(
-                          Icons.skip_previous,
-                          color: kDarkBlue,
-                          size: 33,
-                        ),
+                    const SizedBox(width: 15),
+                    GestureDetector(
+                      onTap: () async {
+                        if (isPlaying == true) {
+                          await widget.audioPlayer.pause();
+                          setState(() {
+                            isPlaying = !isPlaying;
+                          });
+                        } else if (isPlaying == false) {
+                          await widget.audioPlayer.play();
+                          setState(() {
+                            isPlaying = !isPlaying;
+                          });
+                        }
+                      },
+                      child: Icon(
+                        isPlaying == true ? Icons.pause : Icons.play_arrow,
+                        color: kDarkBlue,
+                        size: 33,
                       ),
-                      const SizedBox(width: 15),
-                      GestureDetector(
-                        onTap: () async {
-                          if (isPlaying == true) {
-                            await widget.audioPlayer.pause();
-                            setState(() {
-                              isPlaying = !isPlaying;
-                            });
-                          } else if (isPlaying == false) {
-                            await widget.audioPlayer.play();
-                            setState(() {
-                              isPlaying = !isPlaying;
-                            });
-                          }
-                        },
-                        child: Icon(
-                          isPlaying == true ? Icons.pause : Icons.play_arrow,
-                          color: kDarkBlue,
-                          size: 33,
-                        ),
+                    ),
+                    const SizedBox(width: 15),
+                    GestureDetector(
+                      onTap: () {
+                        widget.audioPlayer.next();
+                      },
+                      child: const Icon(
+                        Icons.skip_next,
+                        color: kDarkBlue,
+                        size: 33,
                       ),
-                      const SizedBox(width: 15),
-                      GestureDetector(
-                        onTap: () {
-                          widget.audioPlayer.next();
-                        },
-                        child: const Icon(
-                          Icons.skip_next,
-                          color: kDarkBlue,
-                          size: 33,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              }),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
         );

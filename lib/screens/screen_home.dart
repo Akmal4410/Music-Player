@@ -78,7 +78,7 @@ class _ScreenHomeState extends State<ScreenHome> {
                 ),
               ),
 
-////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////werwrw
 
               FutureBuilder<List<SongModel>>(
                 future: audioQuery.querySongs(
@@ -117,7 +117,7 @@ class _ScreenHomeState extends State<ScreenHome> {
                 },
               ),
 
-              ////////////////
+              ////////////////wrwr
 
               // ValueListenableBuilder(
               //   valueListenable: songBox.listenable(),

@@ -14,7 +14,7 @@ class ScreenNowPlaying extends StatefulWidget {
     required this.audioPlayer,
   });
 
-  final List<SongModel> songList;
+  final List<Audio> songList;
   final int index;
   final AssetsAudioPlayer audioPlayer;
 
@@ -59,6 +59,12 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
     });
   }
 
+  Audio find(List<Audio> source, String fromPath) {
+    return source.firstWhere((element) {
+      return element.path == fromPath;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -83,6 +89,7 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
         ),
       ),
       body: widget.audioPlayer.builderCurrent(builder: (context, playing) {
+        final myAudio = find(widget.songList, playing.audio.assetAudioPath);
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25.0),
           child: Column(
@@ -91,11 +98,17 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(30),
-                child: Image.asset(
-                  'assets/images/nowPlaying.png',
-                  fit: BoxFit.cover,
-                  height: screenHeight * 0.4,
-                  width: double.infinity,
+                child: QueryArtworkWidget(
+                  artworkHeight: screenHeight * 0.4,
+                  artworkWidth: double.infinity,
+                  id: int.parse(myAudio.metas.id!),
+                  type: ArtworkType.AUDIO,
+                  nullArtworkWidget: Image.asset(
+                    'assets/images/nowPlaying.png',
+                    fit: BoxFit.cover,
+                    height: screenHeight * 0.4,
+                    width: double.infinity,
+                  ),
                 ),
               ),
               SizedBox(height: screenHeight * 0.07),
@@ -155,11 +168,12 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
               ),
               widget.audioPlayer.builderRealtimePlayingInfos(
                   builder: (context, info) {
-                final _duration = info.current!.audio.duration;
-                final _position = info.currentPosition;
+                final duration = info.current!.audio.duration;
+                final position = info.currentPosition;
+
                 return ProgressBar(
-                  progress: _position,
-                  total: _duration,
+                  progress: position,
+                  total: duration,
                   progressBarColor: kBlue,
                   baseBarColor: kDarkBlue,
                   thumbColor: kBlue,

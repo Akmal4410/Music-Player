@@ -19,7 +19,7 @@ class ScreenNavigationState extends State<ScreenNavigation> {
 
   final List<Widget> _screens = <Widget>[
     const ScreenHome(),
-    const ScreenPlaylist(),
+    ScreenPlaylist(),
     const ScreenSetting(),
   ];
 

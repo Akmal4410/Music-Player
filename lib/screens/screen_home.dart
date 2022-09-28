@@ -18,6 +18,7 @@ class ScreenHome extends StatefulWidget {
 }
 
 class _ScreenHomeState extends State<ScreenHome> {
+  TextEditingController _searchController = TextEditingController();
   Box<Songs> songBox = Hive.box<Songs>('Songs');
 
   AssetsAudioPlayer audioPlayer = AssetsAudioPlayer();
@@ -39,7 +40,8 @@ class _ScreenHomeState extends State<ScreenHome> {
         Expanded(
           child: ListView(
             children: [
-              const SearchField(
+              SearchField(
+                textController: _searchController,
                 hintText: 'Songs or Playlist',
                 icon: Icons.search,
               ),
@@ -134,9 +136,9 @@ class _ScreenHomeState extends State<ScreenHome> {
                     shrinkWrap: true,
                     physics: const ScrollPhysics(),
                     itemBuilder: (context, index) {
-                      return Song(
+                      return SongListTile(
                         onPressed: () {
-                          showAddingPlaylistDialoge(context);
+                          showPlaylistModalSheet(context, screenHeight);
                         },
                         keys: keys,
                         index: index,

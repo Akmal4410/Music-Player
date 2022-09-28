@@ -1,10 +1,10 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
+import 'package:music_player/models/db_functions/db_function.dart';
 import 'package:music_player/models/songs.dart';
 import 'package:music_player/palettes/color_palette.dart';
 import 'package:music_player/widgets/mini_player.dart';
 import 'package:music_player/widgets/search_widget.dart';
-import 'package:on_audio_query/on_audio_query.dart';
 
 showMiniPlayer({
   required BuildContext context,
@@ -25,6 +25,7 @@ showMiniPlayer({
 }
 
 showPlaylistModalSheet(BuildContext context, double screenHeight) {
+  final playlistBox = getPlaylistBox();
   return showModalBottomSheet(
       backgroundColor: Colors.transparent,
       context: context,
@@ -57,21 +58,24 @@ showPlaylistModalSheet(BuildContext context, double screenHeight) {
                 ),
               ),
               Expanded(
-                child: ListView(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(vertical: 1),
-                      margin: const EdgeInsets.all(10),
+                child: ListView.builder(
+                  itemCount: playlistBox.length,
+                  itemBuilder: (ctx, index) {
+                    final keys = playlistBox.keys.toList();
+                    final String playlistName = keys[index];
+                    return Container(
+                      padding: const EdgeInsets.symmetric(vertical: 2),
+                      margin: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         color: kBlue,
                       ),
-                      child: const ListTile(
-                        leading: CircleAvatar(),
-                        title: Text('My Playlist'),
+                      child: ListTile(
+                        leading: const CircleAvatar(),
+                        title: Text(playlistName),
                       ),
-                    )
-                  ],
+                    );
+                  },
                 ),
               )
             ],
@@ -81,6 +85,17 @@ showPlaylistModalSheet(BuildContext context, double screenHeight) {
 }
 
 showAddingPlaylistDialoge(BuildContext context) {
+  TextEditingController textEditingController = TextEditingController();
+  final playlistBox = getPlaylistBox();
+
+  Future<void> createNewplaylist() async {
+    final playlistName = textEditingController.text;
+    if (playlistName.isEmpty) {
+      return;
+    }
+    await playlistBox.put(playlistName, []);
+  }
+
   return showDialog(
       context: context,
       builder: (BuildContext ctx) {
@@ -103,7 +118,8 @@ showAddingPlaylistDialoge(BuildContext context) {
                       fontSize: 16,
                       fontWeight: FontWeight.w600),
                 ),
-                const SearchField(
+                SearchField(
+                  textController: textEditingController,
                   hintText: 'Playlist Name',
                   icon: Icons.playlist_add,
                 ),
@@ -120,7 +136,10 @@ showAddingPlaylistDialoge(BuildContext context) {
                       ),
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        await createNewplaylist();
+                        Navigator.pop(ctx);
+                      },
                       child: const Text(
                         'OK',
                         style: TextStyle(color: kDarkBlue, fontSize: 15),
@@ -135,7 +154,8 @@ showAddingPlaylistDialoge(BuildContext context) {
       });
 }
 
-showPlaylistDeleteAlert(BuildContext context) {
+showPlaylistDeleteAlert({required BuildContext context, required String key}) {
+  final playlistBox = getPlaylistBox();
   return showDialog(
       context: context,
       builder: (ctx) {
@@ -166,7 +186,10 @@ showPlaylistDeleteAlert(BuildContext context) {
               ),
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () async {
+                await playlistBox.delete(key);
+                Navigator.pop(ctx);
+              },
               child: const Text(
                 'OK',
                 style: TextStyle(

@@ -6,15 +6,18 @@ class SearchField extends StatelessWidget {
     Key? key,
     required this.hintText,
     required this.icon,
+    required this.textController,
   }) : super(key: key);
   final String hintText;
   final IconData icon;
+  final TextEditingController textController;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: TextField(
+        controller: textController,
         keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.done,
         decoration: InputDecoration(

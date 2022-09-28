@@ -115,7 +115,6 @@ class _MiniPlayerState extends State<MiniPlayer> {
                     )),
                 title: TextScroll(
                   widget.audioPlayer.getCurrentAudioTitle,
-                  mode: TextScrollMode.bouncing,
                   velocity: const Velocity(pixelsPerSecond: Offset(40, 0)),
                   style: const TextStyle(
                       fontSize: 15, fontWeight: FontWeight.w600),

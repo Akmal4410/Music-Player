@@ -6,13 +6,12 @@ import 'package:music_player/models/songs.dart';
 import 'package:music_player/palettes/color_palette.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-class Song extends StatelessWidget {
-  Song({
+class SongListTile extends StatelessWidget {
+  SongListTile({
     Key? key,
     this.isFav = false,
     this.icon = Icons.playlist_add,
     required this.onPressed,
-    // required this.songList,
     required this.keys,
     required this.index,
     required this.audioPlayer,
@@ -24,7 +23,6 @@ class Song extends StatelessWidget {
   final int index;
   final AssetsAudioPlayer audioPlayer;
 
-  // final List<SongModel> songList;
   final dynamic keys;
 
   Box<Songs> songBox = Hive.box<Songs>('Songs');
@@ -51,7 +49,6 @@ class Song extends StatelessWidget {
       contentPadding: const EdgeInsets.all(0),
       leading: QueryArtworkWidget(
         artworkBorder: BorderRadius.circular(10),
-        // id: songList[index].id,
         id: int.parse(songList[index].id),
         type: ArtworkType.AUDIO,
         nullArtworkWidget: ClipRRect(

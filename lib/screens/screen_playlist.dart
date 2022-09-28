@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:music_player/alert_function/alert_functions.dart';
+import 'package:music_player/models/db_functions/db_function.dart';
+import 'package:music_player/models/songs.dart';
 import 'package:music_player/palettes/color_palette.dart';
 import 'package:music_player/widgets/created_playlist.dart';
 import 'package:music_player/widgets/custom_playlist.dart';
 
 class ScreenPlaylist extends StatelessWidget {
-  const ScreenPlaylist({super.key});
+  ScreenPlaylist({super.key});
+
+  Box<List<Songs>> playlistBox = getPlaylistBox();
 
   @override
   Widget build(BuildContext context) {
@@ -44,26 +49,18 @@ class ScreenPlaylist extends StatelessWidget {
                 width: double.infinity,
                 child: ListView(
                   scrollDirection: Axis.horizontal,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (ctx) => ScreenFavourites()));
-                      },
-                      child: const CustomPlayList(
-                        playlistImage: 'assets/images/favourites.png',
-                        playlistName: 'Favourites',
-                        playlistSongNum: '2 songs',
-                      ),
+                  children: const [
+                    CustomPlayList(
+                      playlistImage: 'assets/images/favourites.png',
+                      playlistName: 'Favourites',
+                      playlistSongNum: '2 songs',
                     ),
-                    const CustomPlayList(
+                    CustomPlayList(
                       playlistImage: 'assets/images/recent.png',
                       playlistName: 'Recently Played',
                       playlistSongNum: '20 songs',
                     ),
-                    const CustomPlayList(
+                    CustomPlayList(
                       playlistImage: 'assets/images/mostPlayed.png',
                       playlistName: 'Most Played',
                       playlistSongNum: '10 songs',
@@ -79,36 +76,38 @@ class ScreenPlaylist extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 15),
-              GridView.count(
-                shrinkWrap: true,
-                crossAxisCount: 2,
-                mainAxisSpacing: 15,
-                crossAxisSpacing: 15,
-                childAspectRatio: 1.25,
-                children: [
-                  const CreatedPlaylist(
-                    playlistImage: 'assets/images/favourites.png',
-                    playlistName: 'My Playlist',
-                    playlistSongNum: '10 Songs',
-                  ),
-                  const CreatedPlaylist(
-                    playlistImage: 'assets/images/recent.png',
-                    playlistName: 'Hip Pop',
-                    playlistSongNum: '34 Songss',
-                  ),
-                  const CreatedPlaylist(
-                    playlistImage: 'assets/images/mostPlayed.png',
-                    playlistName: 'Drive',
-                    playlistSongNum: '20 Songs',
-                  ),
-                ],
-              )
+              ValueListenableBuilder(
+                valueListenable: playlistBox.listenable(),
+                builder: (context, value, child) {
+                  return GridView.builder(
+                    itemCount: playlistBox.values.length,
+                    shrinkWrap: true,
+                    physics: const ScrollPhysics(),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 15,
+                      crossAxisSpacing: 15,
+                      childAspectRatio: 1.25,
+                    ),
+                    itemBuilder: (context, index) {
+                      final keys = playlistBox.keys.toList();
+                      final String playlistName = keys[index];
+                      return CreatedPlaylist(
+                        playlistImage: index % 3 == 0
+                            ? 'assets/images/favourites.png'
+                            : 'assets/images/mostPlayed.png',
+                        playlistName: playlistName,
+                        playlistSongNum: '10 Songs',
+                        playlistKey: playlistName,
+                      );
+                    },
+                  );
+                },
+              ),
             ],
           ),
         ),
-        // const MiniPlayer(
-        //   songList: so,
-        // ),
       ],
     );
   }

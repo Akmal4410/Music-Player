@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:music_player/models/db_functions/db_function.dart';
 import 'package:music_player/models/songs.dart';
 import 'package:music_player/screens/screen_navigation.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -19,12 +20,15 @@ class _ScreenSplashState extends State<ScreenSplash> {
 
   List<SongModel> deviceSongs = [];
   List<SongModel> fetchedSongs = [];
-  Box<Songs> songBox = Hive.box<Songs>("Songs");
+  List<Songs> favorite = [];
+
+  Box<Songs> songBox = getSongBox();
+  Box<List<Songs>> playlistBox = getPlaylistBox();
 
   @override
   void initState() {
-    fetchSongs();
     requestPermission();
+    fetchSongs();
     super.initState();
     gotoScreenHome(context);
   }
@@ -72,7 +76,7 @@ class _ScreenSplashState extends State<ScreenSplash> {
   }
 
   Future<void> gotoScreenHome(BuildContext context) async {
-    await Future.delayed(const Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 3));
 
     Navigator.pushReplacement(
       context,

@@ -1,5 +1,6 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
+import 'package:music_player/models/songs.dart';
 import 'package:music_player/palettes/color_palette.dart';
 import 'package:music_player/widgets/mini_player.dart';
 import 'package:music_player/widgets/search_widget.dart';
@@ -8,7 +9,7 @@ import 'package:on_audio_query/on_audio_query.dart';
 showMiniPlayer({
   required BuildContext context,
   required int index,
-  required List<SongModel> songList,
+  required List<Songs> songList,
   required AssetsAudioPlayer audioPlayer,
 }) {
   return showBottomSheet(

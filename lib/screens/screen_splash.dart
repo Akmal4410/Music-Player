@@ -31,7 +31,8 @@ class _ScreenSplashState extends State<ScreenSplash> {
 
   Future fetchSongs() async {
     final deviceSongs = await audioQuery.querySongs(
-      sortType: SongSortType.TITLE,
+      // sortType: SongSortType.TITLE,
+      sortType: null,
       orderType: OrderType.ASC_OR_SMALLER,
       uriType: UriType.EXTERNAL,
       ignoreCase: true,

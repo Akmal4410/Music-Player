@@ -2,7 +2,7 @@ import 'package:hive_flutter/adapters.dart';
 part 'songs.g.dart';
 
 @HiveType(typeId: 0)
-class Songs {
+class Songs extends HiveObject {
   @HiveField(0)
   final String id;
 

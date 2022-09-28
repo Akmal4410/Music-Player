@@ -19,6 +19,7 @@ class ScreenHome extends StatefulWidget {
 
 class _ScreenHomeState extends State<ScreenHome> {
   Box<Songs> songBox = Hive.box<Songs>('Songs');
+
   AssetsAudioPlayer audioPlayer = AssetsAudioPlayer();
   OnAudioQuery audioQuery = OnAudioQuery();
 
@@ -80,72 +81,72 @@ class _ScreenHomeState extends State<ScreenHome> {
 
 ////////////////////////////////////////////////////////werwrw
 
-              FutureBuilder<List<SongModel>>(
-                future: audioQuery.querySongs(
-                  sortType: null,
-                  orderType: OrderType.ASC_OR_SMALLER,
-                  uriType: UriType.EXTERNAL,
-                  ignoreCase: true,
-                ),
-                builder: (context, item) {
-                  if (item.data == null) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                  if (item.data!.isEmpty) {
-                    return const Center(
-                      child: Text('No Songs Found...'),
-                    );
-                  }
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    physics: const ScrollPhysics(),
-                    itemCount: item.data!.length,
-                    itemBuilder: (context, index) {
-                      return Song(
-                        audioPlayer: audioPlayer,
-                        index: index,
-                        songList: item.data!,
-                        onPressed: () {
-                          showPlaylistModalSheet(context, screenHeight);
-                        },
-                        isFav: (index % 3 == 0) ? true : false,
-                      );
-                    },
-                  );
-                },
-              ),
-
-              ////////////////wrwr
-
-              // ValueListenableBuilder(
-              //   valueListenable: songBox.listenable(),
-              //   builder:
-              //       (BuildContext context, Box<Songs> songs, Widget? child) {
-              //     final songList = songs.values;
-              //     if (songs.values.isEmpty) {
-              //       return Center(
-              //         child: Text('Songs not found'),
+              // FutureBuilder<List<SongModel>>(
+              //   future: audioQuery.querySongs(
+              //     sortType: null,
+              //     orderType: OrderType.ASC_OR_SMALLER,
+              //     uriType: UriType.EXTERNAL,
+              //     ignoreCase: true,
+              //   ),
+              //   builder: (context, item) {
+              //     if (item.data == null) {
+              //       return const Center(
+              //         child: CircularProgressIndicator(),
+              //       );
+              //     }
+              //     if (item.data!.isEmpty) {
+              //       return const Center(
+              //         child: Text('No Songs Found...'),
               //       );
               //     }
               //     return ListView.builder(
               //       shrinkWrap: true,
               //       physics: const ScrollPhysics(),
+              //       itemCount: item.data!.length,
               //       itemBuilder: (context, index) {
               //         return Song(
-              //           onPressed: () {
-              //             showAddingPlaylistDialoge(context);
-              //           },
-              //           songList: songList,
-              //           index: index,
               //           audioPlayer: audioPlayer,
+              //           index: index,
+              //           songList: item.data!,
+              //           onPressed: () {
+              //             showPlaylistModalSheet(context, screenHeight);
+              //           },
+              //           isFav: (index % 3 == 0) ? true : false,
               //         );
               //       },
-              //       itemCount: songs.length,
               //     );
               //   },
               // ),
+
+              ////////////////wrwr
+
+              ValueListenableBuilder(
+                valueListenable: songBox.listenable(),
+                builder:
+                    (BuildContext context, Box<Songs> songs, Widget? child) {
+                  final keys = songs.keys.toList();
+                  if (songs.values.isEmpty) {
+                    return const Center(
+                      child: Text('Songs not found'),
+                    );
+                  }
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    physics: const ScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return Song(
+                        onPressed: () {
+                          showAddingPlaylistDialoge(context);
+                        },
+                        keys: keys,
+                        index: index,
+                        audioPlayer: audioPlayer,
+                      );
+                    },
+                    itemCount: songs.length,
+                  );
+                },
+              ),
 
 ////////////////////////////
             ],

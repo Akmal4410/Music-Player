@@ -1,5 +1,6 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
+import 'package:music_player/models/songs.dart';
 import 'package:music_player/palettes/color_palette.dart';
 import 'package:music_player/screens/screen_now_playing.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -13,7 +14,7 @@ class MiniPlayer extends StatefulWidget {
     required this.audioPlayer,
   }) : super(key: key);
 
-  final List<SongModel> songList;
+  final List<Songs> songList;
   final int index;
   final AssetsAudioPlayer audioPlayer;
 
@@ -35,10 +36,10 @@ class _MiniPlayerState extends State<MiniPlayer> {
     for (var song in widget.songList) {
       songAudio.add(
         Audio.file(
-          song.uri!,
+          song.uri,
           metas: Metas(
             id: song.id.toString(),
-            title: song.displayNameWOExt,
+            title: song.title,
             artist: song.artist,
           ),
         ),
@@ -115,7 +116,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
                 title: TextScroll(
                   widget.audioPlayer.getCurrentAudioTitle,
                   mode: TextScrollMode.bouncing,
-                  velocity: const Velocity(pixelsPerSecond: Offset(45, 0)),
+                  velocity: const Velocity(pixelsPerSecond: Offset(40, 0)),
                   style: const TextStyle(
                       fontSize: 15, fontWeight: FontWeight.w600),
                 ),

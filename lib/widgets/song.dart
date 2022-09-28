@@ -1,17 +1,19 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:music_player/alert_function/alert_functions.dart';
 import 'package:music_player/models/songs.dart';
 import 'package:music_player/palettes/color_palette.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class Song extends StatelessWidget {
-  const Song({
+  Song({
     Key? key,
     this.isFav = false,
     this.icon = Icons.playlist_add,
     required this.onPressed,
-    required this.songList,
+    // required this.songList,
+    required this.keys,
     required this.index,
     required this.audioPlayer,
   }) : super(key: key);
@@ -22,11 +24,21 @@ class Song extends StatelessWidget {
   final int index;
   final AssetsAudioPlayer audioPlayer;
 
-  final List<SongModel> songList;
-  // final List<Songs> songList;
+  // final List<SongModel> songList;
+  final dynamic keys;
+
+  Box<Songs> songBox = Hive.box<Songs>('Songs');
+  List<Songs> songList = [];
+
+  convertSong() {
+    for (var key in keys) {
+      songList.add(songBox.get(key)!);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    convertSong();
     return ListTile(
       onTap: () {
         showMiniPlayer(
@@ -39,7 +51,8 @@ class Song extends StatelessWidget {
       contentPadding: const EdgeInsets.all(0),
       leading: QueryArtworkWidget(
         artworkBorder: BorderRadius.circular(10),
-        id: songList[index].id,
+        // id: songList[index].id,
+        id: int.parse(songList[index].id),
         type: ArtworkType.AUDIO,
         nullArtworkWidget: ClipRRect(
           borderRadius: BorderRadius.circular(10),
@@ -52,7 +65,7 @@ class Song extends StatelessWidget {
         ),
       ),
       title: Text(
-        songList[index].displayNameWOExt,
+        songList[index].title,
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
         style: const TextStyle(
@@ -61,9 +74,9 @@ class Song extends StatelessWidget {
         ),
       ),
       subtitle: Text(
-        songList[index].artist! == '<unknown>'
+        songList[index].artist == '<unknown>'
             ? 'Unknown'
-            : songList[index].artist!,
+            : songList[index].artist,
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
         style: const TextStyle(

@@ -1,5 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:developer';
+
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:music_player/models/db_functions/db_function.dart';
 import 'package:music_player/models/songs.dart';
 import 'package:music_player/palettes/color_palette.dart';
@@ -24,8 +29,13 @@ showMiniPlayer({
       });
 }
 
-showPlaylistModalSheet(BuildContext context, double screenHeight) {
-  final playlistBox = getPlaylistBox();
+showPlaylistModalSheet({
+  required BuildContext context,
+  required double screenHeight,
+  required int songIndex,
+}) {
+  Box<List> playlistBox = getPlaylistBox();
+  Box<Songs> songBox = getSongBox();
   return showModalBottomSheet(
       backgroundColor: Colors.transparent,
       context: context,
@@ -63,15 +73,31 @@ showPlaylistModalSheet(BuildContext context, double screenHeight) {
                   itemBuilder: (ctx, index) {
                     final keys = playlistBox.keys.toList();
                     final String playlistName = keys[index];
+///////////////////////////////////////////////////////////////////////////////////////////
+
+                    List<Songs> songList =
+                        playlistBox.get(playlistName)!.cast<Songs>();
+                    Songs song = songBox.values.toList()[songIndex];
+                    songList.add(song);
+
+///////////////////////////////////////////////////////////////////////////////////////////
                     return Container(
                       padding: const EdgeInsets.symmetric(vertical: 2),
                       margin: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: kBlue,
+                        borderRadius: BorderRadius.circular(15),
+                        // color: kBlue,
                       ),
                       child: ListTile(
-                        leading: const CircleAvatar(),
+                        onTap: () async {
+                          await playlistBox.put(playlistName, songList);
+                          log('Added succesfully to the playlist');
+                          Navigator.pop(context);
+                        },
+                        leading: const Text(
+                          '🎧',
+                          style: TextStyle(fontSize: 20),
+                        ),
                         title: Text(playlistName),
                       ),
                     );
@@ -89,11 +115,12 @@ showAddingPlaylistDialoge(BuildContext context) {
   final playlistBox = getPlaylistBox();
 
   Future<void> createNewplaylist() async {
-    final playlistName = textEditingController.text;
+    List<Songs> songList = [];
+    final String playlistName = textEditingController.text;
     if (playlistName.isEmpty) {
       return;
     }
-    await playlistBox.put(playlistName, []);
+    await playlistBox.put(playlistName, songList);
   }
 
   return showDialog(
@@ -141,7 +168,7 @@ showAddingPlaylistDialoge(BuildContext context) {
                         Navigator.pop(ctx);
                       },
                       child: const Text(
-                        'OK',
+                        'Create',
                         style: TextStyle(color: kDarkBlue, fontSize: 15),
                       ),
                     ),

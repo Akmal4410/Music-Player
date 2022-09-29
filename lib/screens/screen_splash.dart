@@ -20,10 +20,8 @@ class _ScreenSplashState extends State<ScreenSplash> {
 
   List<SongModel> deviceSongs = [];
   List<SongModel> fetchedSongs = [];
-  List<Songs> favorite = [];
 
   Box<Songs> songBox = getSongBox();
-  Box<List<Songs>> playlistBox = getPlaylistBox();
 
   @override
   void initState() {
@@ -33,9 +31,12 @@ class _ScreenSplashState extends State<ScreenSplash> {
     gotoScreenHome(context);
   }
 
+  Future<void> requestPermission() async {
+    await Permission.storage.request();
+  }
+
   Future fetchSongs() async {
     final deviceSongs = await audioQuery.querySongs(
-      // sortType: SongSortType.TITLE,
       sortType: null,
       orderType: OrderType.ASC_OR_SMALLER,
       uriType: UriType.EXTERNAL,
@@ -57,10 +58,6 @@ class _ScreenSplashState extends State<ScreenSplash> {
       );
       await songBox.put(audio.id, song);
     }
-  }
-
-  Future<void> requestPermission() async {
-    await Permission.storage.request();
   }
 
   @override

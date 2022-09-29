@@ -10,7 +10,7 @@ import 'package:music_player/widgets/custom_playlist.dart';
 class ScreenPlaylist extends StatelessWidget {
   ScreenPlaylist({super.key});
 
-  Box<List<Songs>> playlistBox = getPlaylistBox();
+  Box<List> playlistBox = getPlaylistBox();
 
   @override
   Widget build(BuildContext context) {
@@ -79,30 +79,34 @@ class ScreenPlaylist extends StatelessWidget {
               ValueListenableBuilder(
                 valueListenable: playlistBox.listenable(),
                 builder: (context, value, child) {
-                  return GridView.builder(
-                    itemCount: playlistBox.values.length,
-                    shrinkWrap: true,
-                    physics: const ScrollPhysics(),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 15,
-                      crossAxisSpacing: 15,
-                      childAspectRatio: 1.25,
-                    ),
-                    itemBuilder: (context, index) {
-                      final keys = playlistBox.keys.toList();
-                      final String playlistName = keys[index];
-                      return CreatedPlaylist(
-                        playlistImage: index % 3 == 0
-                            ? 'assets/images/favourites.png'
-                            : 'assets/images/mostPlayed.png',
-                        playlistName: playlistName,
-                        playlistSongNum: '10 Songs',
-                        playlistKey: playlistName,
-                      );
-                    },
-                  );
+                  return (playlistBox.values.length == 0)
+                      ? Center(
+                          child: Text('No Created Playlist..'),
+                        )
+                      : GridView.builder(
+                          itemCount: playlistBox.values.length,
+                          shrinkWrap: true,
+                          physics: const ScrollPhysics(),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 15,
+                            crossAxisSpacing: 15,
+                            childAspectRatio: 1.25,
+                          ),
+                          itemBuilder: (context, index) {
+                            final keys = playlistBox.keys.toList();
+                            final String playlistName = keys[index];
+                            return CreatedPlaylist(
+                              playlistImage: index % 3 == 0
+                                  ? 'assets/images/favourites.png'
+                                  : 'assets/images/mostPlayed.png',
+                              playlistName: playlistName,
+                              playlistSongNum: '10 Songs',
+                              playlistKey: playlistName,
+                            );
+                          },
+                        );
                 },
               ),
             ],

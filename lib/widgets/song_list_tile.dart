@@ -22,7 +22,6 @@ class SongListTile extends StatelessWidget {
   final void Function()? onPressed;
   final int index;
   final AssetsAudioPlayer audioPlayer;
-
   final dynamic keys;
 
   Box<Songs> songBox = Hive.box<Songs>('Songs');

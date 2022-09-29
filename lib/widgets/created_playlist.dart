@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:music_player/alert_function/alert_functions.dart';
 import 'package:music_player/palettes/color_palette.dart';
+import 'package:music_player/screens/screen_created_playlist.dart';
 
 class CreatedPlaylist extends StatelessWidget {
   const CreatedPlaylist({
@@ -20,12 +21,12 @@ class CreatedPlaylist extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     return GestureDetector(
       onTap: () {
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //         builder: (ctx) => ScreenCreatedPlaylist(
-        //               playlistName: playlistName,
-        //             )));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (ctx) => ScreenCreatedPlaylist(
+                      playlistName: playlistName,
+                    )));
       },
       onLongPress: () {
         showPlaylistDeleteAlert(context: context, key: playlistKey);

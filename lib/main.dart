@@ -12,7 +12,7 @@ void main() async {
     Hive.registerAdapter(SongsAdapter());
   }
   await Hive.openBox<Songs>("Songs");
-  await Hive.openBox<List<Songs>>("Playlist");
+  await Hive.openBox<List>("Playlist");
   AssetsAudioPlayer.setupNotificationsOpenAction((notification) {
     return true;
   });

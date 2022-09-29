@@ -5,7 +5,7 @@ import 'package:music_player/alert_function/alert_functions.dart';
 import 'package:music_player/models/songs.dart';
 import 'package:music_player/widgets/custom_playlist.dart';
 import 'package:music_player/widgets/search_widget.dart';
-import 'package:music_player/widgets/song.dart';
+import 'package:music_player/widgets/song_list_tile.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class ScreenHome extends StatefulWidget {
@@ -18,10 +18,10 @@ class ScreenHome extends StatefulWidget {
 }
 
 class _ScreenHomeState extends State<ScreenHome> {
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   Box<Songs> songBox = Hive.box<Songs>('Songs');
 
-  AssetsAudioPlayer audioPlayer = AssetsAudioPlayer();
+  AssetsAudioPlayer audioPlayer = AssetsAudioPlayer.withId('0');
   OnAudioQuery audioQuery = OnAudioQuery();
 
   @override
@@ -138,7 +138,11 @@ class _ScreenHomeState extends State<ScreenHome> {
                     itemBuilder: (context, index) {
                       return SongListTile(
                         onPressed: () {
-                          showPlaylistModalSheet(context, screenHeight);
+                          showPlaylistModalSheet(
+                            context: context,
+                            screenHeight: screenHeight,
+                            songIndex: index,
+                          );
                         },
                         keys: keys,
                         index: index,

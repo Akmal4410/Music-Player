@@ -5,6 +5,6 @@ Box<Songs> getSongBox() {
   return Hive.box<Songs>('Songs');
 }
 
-Box<List<Songs>> getPlaylistBox() {
-  return Hive.box<List<Songs>>('Playlist');
+Box<List> getPlaylistBox() {
+  return Hive.box<List>('Playlist');
 }

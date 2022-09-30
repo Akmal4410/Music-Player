@@ -58,6 +58,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
       autoStart: true,
       showNotification: true,
       loopMode: LoopMode.playlist,
+      playInBackground: PlayInBackground.enabled,
     );
   }
 

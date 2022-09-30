@@ -1,10 +1,21 @@
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:music_player/models/db_functions/db_function.dart';
+import 'package:music_player/models/songs.dart';
+import 'package:music_player/widgets/song_list_tile.dart';
 
 import 'package:on_audio_query/on_audio_query.dart';
 
 class ScreenFavourites extends StatelessWidget {
   ScreenFavourites({super.key});
+
   OnAudioQuery audioQuery = OnAudioQuery();
+  Box<List> playlistBox = getPlaylistBox();
+  Box<Songs> songBox = getSongBox();
+
+  AssetsAudioPlayer audioPlayer = AssetsAudioPlayer.withId('0');
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -28,47 +39,26 @@ class ScreenFavourites extends StatelessWidget {
           ),
         ),
       ),
-      // body: Padding(
-      //   padding: const EdgeInsets.only(left: 20.0, right: 20, top: 10),
-      //   child: FutureBuilder<List<SongModel>>(
-      //     future: audioQuery.querySongs(
-      //       sortType: null,
-      //       orderType: OrderType.ASC_OR_SMALLER,
-      //       uriType: UriType.EXTERNAL,
-      //       ignoreCase: true,
-      //     ),
-      //     builder: (context, item) {
-      //       if (item.data == null) {
-      //         return Center(
-      //           child: CircularProgressIndicator(),
-      //         );
-      //       }
-      //       if (item.data!.isEmpty) {
-      //         return Center(
-      //           child: Text('No Songs Found...'),
-      //         );
-      //       }
-      //       return ListView.builder(
-      //         shrinkWrap: true,
-      //         physics: ScrollPhysics(),
-      //         itemCount: 7,
-      //         itemBuilder: (context, index) {
-      //           return Songs(
-
-      //             songList: item.data!,
-      //             songName: item.data![index].displayNameWOExt,
-      //             songArtist: item.data![index].artist.toString(),
-      //             onPressed: () {
-      //               showPlaylistModalSheet(context, screenHeight);
-      //             },
-      //             isFav: true,
-      //             songPath: item.data![index].uri!,
-      //           );
-      //         },
-      //       );
-      //     },
-      //   ),
-      // ),
+      body: Padding(
+        padding: const EdgeInsets.only(left: 20.0, right: 20, top: 10),
+        child: ValueListenableBuilder(
+          valueListenable: playlistBox.listenable(),
+          builder: (BuildContext context, Box<List> value, Widget? child) {
+            List<Songs> songList = playlistBox.get('Favourites')!.cast<Songs>();
+            return ListView.builder(
+              itemCount: songList.length,
+              itemBuilder: (context, index) {
+                return SongListTile(
+                  onPressed: () {},
+                  songList: songList,
+                  index: index,
+                  audioPlayer: audioPlayer,
+                );
+              },
+            );
+          },
+        ),
+      ),
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:music_player/alert_function/alert_functions.dart';
 import 'package:music_player/models/songs.dart';
+import 'package:music_player/screens/screen_favourite.dart';
 import 'package:music_player/widgets/custom_playlist.dart';
 import 'package:music_player/widgets/search_widget.dart';
 import 'package:music_player/widgets/song_list_tile.dart';
@@ -53,7 +54,12 @@ class _ScreenHomeState extends State<ScreenHome> {
                   scrollDirection: Axis.horizontal,
                   children: [
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (ctx) {
+                          return ScreenFavourites();
+                        }));
+                      },
                       child: const CustomPlayList(
                         playlistImage: 'assets/images/favourites.png',
                         playlistName: 'Favourites',
@@ -81,52 +87,15 @@ class _ScreenHomeState extends State<ScreenHome> {
                 ),
               ),
 
-////////////////////////////////////////////////////////werwrw
-
-              // FutureBuilder<List<SongModel>>(
-              //   future: audioQuery.querySongs(
-              //     sortType: null,
-              //     orderType: OrderType.ASC_OR_SMALLER,
-              //     uriType: UriType.EXTERNAL,
-              //     ignoreCase: true,
-              //   ),
-              //   builder: (context, item) {
-              //     if (item.data == null) {
-              //       return const Center(
-              //         child: CircularProgressIndicator(),
-              //       );
-              //     }
-              //     if (item.data!.isEmpty) {
-              //       return const Center(
-              //         child: Text('No Songs Found...'),
-              //       );
-              //     }
-              //     return ListView.builder(
-              //       shrinkWrap: true,
-              //       physics: const ScrollPhysics(),
-              //       itemCount: item.data!.length,
-              //       itemBuilder: (context, index) {
-              //         return Song(
-              //           audioPlayer: audioPlayer,
-              //           index: index,
-              //           songList: item.data!,
-              //           onPressed: () {
-              //             showPlaylistModalSheet(context, screenHeight);
-              //           },
-              //           isFav: (index % 3 == 0) ? true : false,
-              //         );
-              //       },
-              //     );
-              //   },
-              // ),
-
-              ////////////////wrwr
-
               ValueListenableBuilder(
                 valueListenable: songBox.listenable(),
                 builder:
                     (BuildContext context, Box<Songs> songs, Widget? child) {
-                  final keys = songs.keys.toList();
+                  final List<int> keys = songs.keys.toList().cast<int>();
+                  List<Songs> songList = [];
+                  for (var key in keys) {
+                    songList.add(songBox.get(key)!);
+                  }
                   if (songs.values.isEmpty) {
                     return const Center(
                       child: Text('Songs not found'),
@@ -137,14 +106,15 @@ class _ScreenHomeState extends State<ScreenHome> {
                     physics: const ScrollPhysics(),
                     itemBuilder: (context, index) {
                       return SongListTile(
+                        isFav: false,
                         onPressed: () {
                           showPlaylistModalSheet(
                             context: context,
                             screenHeight: screenHeight,
-                            songIndex: index,
+                            song: songList[index],
                           );
                         },
-                        keys: keys,
+                        songList: songList,
                         index: index,
                         audioPlayer: audioPlayer,
                       );

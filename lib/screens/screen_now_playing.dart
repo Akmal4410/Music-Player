@@ -43,6 +43,9 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
 
   void shuffleButtonPressed() {
     setState(() {
+      // if (isShuffle) {
+      //   widget.audioPlayer.toggleShuffle();
+      // }
       widget.audioPlayer.toggleShuffle();
       isShuffle = !isShuffle;
     });
@@ -121,8 +124,6 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
                       widget.audioPlayer.getCurrentAudioTitle,
                       textAlign: TextAlign.center,
                       velocity: const Velocity(pixelsPerSecond: Offset(45, 0)),
-                      // pauseBetween: Duration(milliseconds: 600),
-                      // mode: TextScrollMode.bouncing,
                       mode: TextScrollMode.endless,
                       style: const TextStyle(
                           fontSize: 15, fontWeight: FontWeight.w600),

@@ -9,12 +9,10 @@ class CreatedPlaylist extends StatelessWidget {
     required this.playlistImage,
     required this.playlistName,
     required this.playlistSongNum,
-    required this.playlistKey,
   }) : super(key: key);
   final String playlistImage;
   final String playlistName;
   final String playlistSongNum;
-  final String playlistKey;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +27,7 @@ class CreatedPlaylist extends StatelessWidget {
                     )));
       },
       onLongPress: () {
-        showPlaylistDeleteAlert(context: context, key: playlistKey);
+        showPlaylistDeleteAlert(context: context, key: playlistName);
       },
       child: Stack(
         children: [

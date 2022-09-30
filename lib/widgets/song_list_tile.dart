@@ -2,6 +2,7 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:music_player/alert_function/alert_functions.dart';
+import 'package:music_player/models/db_functions/db_function.dart';
 import 'package:music_player/models/songs.dart';
 import 'package:music_player/palettes/color_palette.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -12,7 +13,7 @@ class SongListTile extends StatelessWidget {
     this.isFav = false,
     this.icon = Icons.playlist_add,
     required this.onPressed,
-    required this.keys,
+    required this.songList,
     required this.index,
     required this.audioPlayer,
   }) : super(key: key);
@@ -22,20 +23,21 @@ class SongListTile extends StatelessWidget {
   final void Function()? onPressed;
   final int index;
   final AssetsAudioPlayer audioPlayer;
-  final dynamic keys;
+  final List<Songs> songList;
 
-  Box<Songs> songBox = Hive.box<Songs>('Songs');
-  List<Songs> songList = [];
+  Box<Songs> songBox = getSongBox();
+  Box<List> playlistBox = getPlaylistBox();
+  // List<Songs> songList = [];
 
-  convertSong() {
-    for (var key in keys) {
-      songList.add(songBox.get(key)!);
-    }
-  }
+  // convertSong() {
+  //   for (var key in keys) {
+  //     songList.add(songBox.get(key)!);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
-    convertSong();
+    // convertSong();
     return ListTile(
       onTap: () {
         showMiniPlayer(

@@ -59,74 +59,22 @@ class ScreenCreatedPlaylist extends StatelessWidget {
       body: ValueListenableBuilder(
         valueListenable: playlistBox.listenable(),
         builder: (context, boxSongList, _) {
-          final List? songList = playlistBox.get(playlistName);
-          if (playlistBox.values.isEmpty) {
-            return Center(
+          final List<Songs> songList =
+              playlistBox.get(playlistName)!.cast<Songs>();
+
+          if (songList.isEmpty) {
+            return const Center(
               child: Text('No Songs Found'),
             );
           }
           return ListView.builder(
-            itemCount: songList!.length,
+            itemCount: songList.length,
             itemBuilder: (context, index) {
-              final keys = playlistBox.keys.toList();
-              return ListTile(
-                contentPadding: const EdgeInsets.all(0),
-                leading: QueryArtworkWidget(
-                  artworkBorder: BorderRadius.circular(10),
-                  id: int.parse(songList[index].id),
-                  type: ArtworkType.AUDIO,
-                  nullArtworkWidget: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.asset(
-                      'assets/images/musicHome.png',
-                      fit: BoxFit.cover,
-                      height: 50,
-                      width: 50,
-                    ),
-                  ),
-                ),
-                title: Text(
-                  songList[index].title,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                subtitle: Text(
-                  songList[index].artist == '<unknown>'
-                      ? 'Unknown'
-                      : songList[index].artist,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                  style: const TextStyle(
-                    fontSize: 13,
-                  ),
-                ),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      padding: const EdgeInsets.only(left: 0),
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.delete,
-                        color: kLightBlue,
-                        size: 27,
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.favorite_outline,
-                        color: kLightBlue,
-                        size: 25,
-                      ),
-                    )
-                  ],
-                ),
-              );
+              return SongListTile(
+                  onPressed: () {},
+                  songList: songList,
+                  index: index,
+                  audioPlayer: audioPlayer);
             },
           );
         },

@@ -32,10 +32,9 @@ showMiniPlayer({
 showPlaylistModalSheet({
   required BuildContext context,
   required double screenHeight,
-  required int songIndex,
+  required Songs song,
 }) {
   Box<List> playlistBox = getPlaylistBox();
-  Box<Songs> songBox = getSongBox();
   return showModalBottomSheet(
       backgroundColor: Colors.transparent,
       context: context,
@@ -71,13 +70,15 @@ showPlaylistModalSheet({
                 child: ListView.builder(
                   itemCount: playlistBox.length,
                   itemBuilder: (ctx, index) {
-                    final keys = playlistBox.keys.toList();
-                    final String playlistName = keys[index];
+                    final List<dynamic> keys = playlistBox.keys.toList();
+                    final String playlistKey = keys[index];
 ///////////////////////////////////////////////////////////////////////////////////////////
 
+                    // List<Songs> songList =
+                    //     playlistBox.get(playlistKey)!.cast<Songs>();
                     List<Songs> songList =
-                        playlistBox.get(playlistName)!.cast<Songs>();
-                    Songs song = songBox.values.toList()[songIndex];
+                        playlistBox.get(playlistKey)!.toList().cast<Songs>();
+
                     songList.add(song);
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -90,7 +91,7 @@ showPlaylistModalSheet({
                       ),
                       child: ListTile(
                         onTap: () async {
-                          await playlistBox.put(playlistName, songList);
+                          await playlistBox.put(playlistKey, songList);
                           log('Added succesfully to the playlist');
                           Navigator.pop(context);
                         },
@@ -98,7 +99,7 @@ showPlaylistModalSheet({
                           '🎧',
                           style: TextStyle(fontSize: 20),
                         ),
-                        title: Text(playlistName),
+                        title: Text(playlistKey),
                       ),
                     );
                   },
@@ -112,7 +113,7 @@ showPlaylistModalSheet({
 
 showAddingPlaylistDialoge(BuildContext context) {
   TextEditingController textEditingController = TextEditingController();
-  final playlistBox = getPlaylistBox();
+  Box<List> playlistBox = getPlaylistBox();
 
   Future<void> createNewplaylist() async {
     List<Songs> songList = [];

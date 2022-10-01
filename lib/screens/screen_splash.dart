@@ -33,12 +33,6 @@ class _ScreenSplashState extends State<ScreenSplash> {
     gotoScreenHome(context);
   }
 
-  Future getFavSongs() async {
-    if (!playlistBox.keys.contains('Favourites')) {
-      await playlistBox.put('Favourites', favsongs);
-    }
-  }
-
   Future<void> requestPermission() async {
     await Permission.storage.request();
   }
@@ -68,6 +62,12 @@ class _ScreenSplashState extends State<ScreenSplash> {
     }
     //create a Favourite songs if it is not created
     getFavSongs();
+  }
+
+  Future getFavSongs() async {
+    if (!playlistBox.keys.contains('Favourites')) {
+      await playlistBox.put('Favourites', favsongs);
+    }
   }
 
   @override

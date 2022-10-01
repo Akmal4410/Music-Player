@@ -66,45 +66,53 @@ showPlaylistModalSheet({
                   shape: const StadiumBorder(),
                 ),
               ),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: playlistBox.length,
-                  itemBuilder: (ctx, index) {
+              ValueListenableBuilder(
+                  valueListenable: playlistBox.listenable(),
+                  builder: (context, boxSongList, _) {
                     final List<dynamic> keys = playlistBox.keys.toList();
-                    final String playlistKey = keys[index];
-///////////////////////////////////////////////////////////////////////////////////////////
+                    keys.removeWhere((key) => key == 'Favourites');
+                    return Expanded(
+                      child: (keys.isEmpty)
+                          ? Center(
+                              child: Text("No Playlist Found"),
+                            )
+                          : ListView.builder(
+                              itemCount: keys.length,
+                              itemBuilder: (ctx, index) {
+                                final String playlistKey = keys[index];
 
-                    // List<Songs> songList =
-                    //     playlistBox.get(playlistKey)!.cast<Songs>();
-                    List<Songs> songList =
-                        playlistBox.get(playlistKey)!.toList().cast<Songs>();
+                                List<Songs> songList = playlistBox
+                                    .get(playlistKey)!
+                                    .toList()
+                                    .cast<Songs>();
 
-                    songList.add(song);
+                                songList.add(song);
 
-///////////////////////////////////////////////////////////////////////////////////////////
-                    return Container(
-                      padding: const EdgeInsets.symmetric(vertical: 2),
-                      margin: const EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        // color: kBlue,
-                      ),
-                      child: ListTile(
-                        onTap: () async {
-                          await playlistBox.put(playlistKey, songList);
-                          log('Added succesfully to the playlist');
-                          Navigator.pop(context);
-                        },
-                        leading: const Text(
-                          '🎧',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        title: Text(playlistKey),
-                      ),
+                                return Container(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 2),
+                                  margin: const EdgeInsets.all(5),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: ListTile(
+                                    onTap: () async {
+                                      await playlistBox.put(
+                                          playlistKey, songList);
+                                      log('Added succesfully to the playlist');
+                                      Navigator.pop(context);
+                                    },
+                                    leading: const Text(
+                                      '🎧',
+                                      style: TextStyle(fontSize: 20),
+                                    ),
+                                    title: Text(playlistKey),
+                                  ),
+                                );
+                              },
+                            ),
                     );
-                  },
-                ),
-              )
+                  })
             ],
           ),
         );

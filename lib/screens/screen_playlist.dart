@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:music_player/alert_function/alert_functions.dart';
 import 'package:music_player/models/db_functions/db_function.dart';
+import 'package:music_player/models/songs.dart';
 import 'package:music_player/palettes/color_palette.dart';
 import 'package:music_player/widgets/created_playlist.dart';
 import 'package:music_player/widgets/custom_playlist.dart';
@@ -78,12 +79,14 @@ class ScreenPlaylist extends StatelessWidget {
               ValueListenableBuilder(
                 valueListenable: playlistBox.listenable(),
                 builder: (context, value, child) {
-                  return (playlistBox.values.length == 0)
+                  List keys = playlistBox.keys.toList();
+                  keys.removeWhere((key) => key == 'Favourites');
+                  return (keys.isEmpty)
                       ? Center(
                           child: Text('No Created Playlist..'),
                         )
                       : GridView.builder(
-                          itemCount: playlistBox.values.length,
+                          itemCount: keys.length,
                           shrinkWrap: true,
                           physics: const ScrollPhysics(),
                           gridDelegate:
@@ -94,14 +97,21 @@ class ScreenPlaylist extends StatelessWidget {
                             childAspectRatio: 1.25,
                           ),
                           itemBuilder: (context, index) {
-                            final keys = playlistBox.keys.toList();
                             final String playlistName = keys[index];
+
+                            final List<Songs> songList = playlistBox
+                                .get(playlistName)!
+                                .toList()
+                                .cast<Songs>();
+
+                            final int songListlength = songList.length;
+
                             return CreatedPlaylist(
                               playlistImage: index % 3 == 0
                                   ? 'assets/images/favourites.png'
                                   : 'assets/images/mostPlayed.png',
                               playlistName: playlistName,
-                              playlistSongNum: '10 Songs',
+                              playlistSongNum: '${songListlength} Songs',
                             );
                           },
                         );

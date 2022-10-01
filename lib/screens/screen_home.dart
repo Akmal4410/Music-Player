@@ -1,13 +1,14 @@
+import 'dart:developer';
+
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:music_player/alert_function/alert_functions.dart';
+import 'package:music_player/models/db_functions/db_function.dart';
 import 'package:music_player/models/songs.dart';
-import 'package:music_player/screens/screen_favourite.dart';
 import 'package:music_player/widgets/custom_playlist.dart';
 import 'package:music_player/widgets/search_widget.dart';
 import 'package:music_player/widgets/song_list_tile.dart';
-import 'package:on_audio_query/on_audio_query.dart';
 
 class ScreenHome extends StatefulWidget {
   const ScreenHome({
@@ -19,11 +20,15 @@ class ScreenHome extends StatefulWidget {
 }
 
 class _ScreenHomeState extends State<ScreenHome> {
+  //search controller is used to get the values in the search field
   final TextEditingController _searchController = TextEditingController();
-  Box<Songs> songBox = Hive.box<Songs>('Songs');
+
+  //This is reffering to the the songBox that contain all the song the fected in
+  // the splach screen and added in the songbox
+  Box<Songs> songBox = getSongBox();
+  Box<List> playlistBox = getPlaylistBox();
 
   AssetsAudioPlayer audioPlayer = AssetsAudioPlayer.withId('0');
-  OnAudioQuery audioQuery = OnAudioQuery();
 
   @override
   Widget build(BuildContext context) {
@@ -50,33 +55,24 @@ class _ScreenHomeState extends State<ScreenHome> {
                 margin: const EdgeInsets.only(top: 10.0),
                 height: screenHeight * 0.22,
                 width: double.infinity,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (ctx) {
-                          return ScreenFavourites();
-                        }));
+                child: ValueListenableBuilder(
+                  valueListenable: playlistBox.listenable(),
+                  builder:
+                      (BuildContext context, Box<List> value, Widget? child) {
+                    final List keys = playlistBox.keys.toList();
+                    return ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: keys.length,
+                      itemBuilder: (context, index) {
+                        final playlistName = keys[index];
+                        return CustomPlayList(
+                          playlistImage: 'assets/images/mostPlayed.png',
+                          playlistName: playlistName,
+                          playlistSongNum: '10 Songs',
+                        );
                       },
-                      child: const CustomPlayList(
-                        playlistImage: 'assets/images/favourites.png',
-                        playlistName: 'Favourites',
-                        playlistSongNum: '2 songs',
-                      ),
-                    ),
-                    const CustomPlayList(
-                      playlistImage: 'assets/images/recent.png',
-                      playlistName: 'My Playlist',
-                      playlistSongNum: '20 songs',
-                    ),
-                    const CustomPlayList(
-                      playlistImage: 'assets/images/mostPlayed.png',
-                      playlistName: 'Drive',
-                      playlistSongNum: '10 songs',
-                    ),
-                  ],
+                    );
+                  },
                 ),
               ),
               const Text(
@@ -86,8 +82,8 @@ class _ScreenHomeState extends State<ScreenHome> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-
               ValueListenableBuilder(
+                //This is for liseting to the changes in the songBox
                 valueListenable: songBox.listenable(),
                 builder:
                     (BuildContext context, Box<Songs> songs, Widget? child) {
@@ -123,8 +119,6 @@ class _ScreenHomeState extends State<ScreenHome> {
                   );
                 },
               ),
-
-////////////////////////////
             ],
           ),
         ),

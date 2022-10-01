@@ -44,7 +44,8 @@ class ScreenFavourites extends StatelessWidget {
         child: ValueListenableBuilder(
           valueListenable: playlistBox.listenable(),
           builder: (BuildContext context, Box<List> value, Widget? child) {
-            List<Songs> songList = playlistBox.get('Favourites')!.cast<Songs>();
+            List<Songs> songList =
+                playlistBox.get('Favourites')!.toList().cast<Songs>();
             return ListView.builder(
               itemCount: songList.length,
               itemBuilder: (context, index) {

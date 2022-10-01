@@ -125,7 +125,7 @@ showAddingPlaylistDialoge(BuildContext context) {
 
   Future<void> createNewplaylist() async {
     List<Songs> songList = [];
-    final String playlistName = textEditingController.text;
+    final String playlistName = textEditingController.text.trim();
     if (playlistName.isEmpty) {
       return;
     }

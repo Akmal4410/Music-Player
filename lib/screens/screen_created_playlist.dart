@@ -56,28 +56,31 @@ class ScreenCreatedPlaylist extends StatelessWidget {
           )
         ],
       ),
-      body: ValueListenableBuilder(
-        valueListenable: playlistBox.listenable(),
-        builder: (context, boxSongList, _) {
-          final List<Songs> songList =
-              playlistBox.get(playlistName)!.cast<Songs>();
+      body: Padding(
+        padding: const EdgeInsets.only(left: 20.0, right: 20, top: 10),
+        child: ValueListenableBuilder(
+          valueListenable: playlistBox.listenable(),
+          builder: (context, boxSongList, _) {
+            final List<Songs> songList =
+                playlistBox.get(playlistName)!.cast<Songs>();
 
-          if (songList.isEmpty) {
-            return const Center(
-              child: Text('No Songs Found'),
+            if (songList.isEmpty) {
+              return const Center(
+                child: Text('No Songs Found'),
+              );
+            }
+            return ListView.builder(
+              itemCount: songList.length,
+              itemBuilder: (context, index) {
+                return SongListTile(
+                    onPressed: () {},
+                    songList: songList,
+                    index: index,
+                    audioPlayer: audioPlayer);
+              },
             );
-          }
-          return ListView.builder(
-            itemCount: songList.length,
-            itemBuilder: (context, index) {
-              return SongListTile(
-                  onPressed: () {},
-                  songList: songList,
-                  index: index,
-                  audioPlayer: audioPlayer);
-            },
-          );
-        },
+          },
+        ),
       ),
     );
   }

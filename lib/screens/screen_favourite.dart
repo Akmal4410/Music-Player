@@ -6,21 +6,17 @@ import 'package:music_player/models/db_functions/db_function.dart';
 import 'package:music_player/models/songs.dart';
 import 'package:music_player/widgets/song_list_tile.dart';
 
-import 'package:on_audio_query/on_audio_query.dart';
-
 class ScreenFavourites extends StatelessWidget {
   ScreenFavourites({super.key});
 
-  OnAudioQuery audioQuery = OnAudioQuery();
-  Box<List> playlistBox = getPlaylistBox();
-  Box<Songs> songBox = getSongBox();
+  final Box<List> playlistBox = getPlaylistBox();
+  final Box<Songs> songBox = getSongBox();
 
-  AssetsAudioPlayer audioPlayer = AssetsAudioPlayer.withId('0');
+  final AssetsAudioPlayer audioPlayer = AssetsAudioPlayer.withId('0');
 
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(

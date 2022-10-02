@@ -82,7 +82,7 @@ class ScreenPlaylist extends StatelessWidget {
                   List keys = playlistBox.keys.toList();
                   keys.removeWhere((key) => key == 'Favourites');
                   return (keys.isEmpty)
-                      ? Center(
+                      ? const Center(
                           child: Text('No Created Playlist..'),
                         )
                       : GridView.builder(
@@ -111,7 +111,7 @@ class ScreenPlaylist extends StatelessWidget {
                                   ? 'assets/images/favourites.png'
                                   : 'assets/images/mostPlayed.png',
                               playlistName: playlistName,
-                              playlistSongNum: '${songListlength} Songs',
+                              playlistSongNum: '$songListlength Songs',
                             );
                           },
                         );

@@ -90,7 +90,7 @@ showPlaylistModalSheet({
                                     onTap: () async {
                                       UserPlaylist.addSongToPlaylist(
                                           context: context,
-                                          song: song,
+                                          songId: song.id,
                                           playlistName: playlistKey);
 
                                       Navigator.pop(context);

@@ -10,11 +10,14 @@ class UserPlaylist {
 
   static addSongToPlaylist({
     required BuildContext context,
-    required Songs song,
+    required String songId,
     required String playlistName,
   }) async {
     List<Songs> playlistSongs =
         playlistBox.get(playlistName)!.toList().cast<Songs>();
+
+    List<Songs> allSongs = songBox.values.toList().cast<Songs>();
+    Songs song = allSongs.firstWhere((element) => element.id.contains(songId));
 
     if (playlistSongs.contains(song)) {
       showPlaylistSnackbar(
@@ -34,12 +37,15 @@ class UserPlaylist {
   static deleteFromPlaylist({
     required BuildContext context,
     required String playlistName,
-    required Songs song,
+    required String songId,
   }) async {
     List<Songs> playlistSongs =
         playlistBox.get(playlistName)!.toList().cast<Songs>();
+    List<Songs> allSongs = songBox.values.toList().cast<Songs>();
 
-    playlistSongs.removeWhere((element) => element.id == song.id);
+    Songs song = allSongs.firstWhere((element) => element.id.contains(songId));
+
+    playlistSongs.removeWhere((element) => element.id == songId);
     await playlistBox.put(playlistName, playlistSongs);
     showPlaylistSnackbar(
         context: context,

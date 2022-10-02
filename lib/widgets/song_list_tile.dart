@@ -9,7 +9,7 @@ import 'package:music_player/palettes/color_palette.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class SongListTile extends StatefulWidget {
-  SongListTile({
+  const SongListTile({
     Key? key,
     this.icon = Icons.playlist_add,
     required this.onPressed,
@@ -31,14 +31,14 @@ class SongListTile extends StatefulWidget {
 class _SongListTileState extends State<SongListTile> {
   Box<Songs> songBox = getSongBox();
   Box<List> playlistBox = getPlaylistBox();
-  IconData? favIcon;
-  @override
-  void initState() {
-    favIcon = Favourites.isThisFavourite(
-      id: widget.songList[widget.index].id,
-    );
-    super.initState();
-  }
+  // IconData? favIcon;
+  // @override
+  // void initState() {
+  //   favIcon = Favourites.isThisFavourite(
+  //     id: widget.songList[widget.index].id,
+  //   );
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -104,13 +104,15 @@ class _SongListTileState extends State<SongListTile> {
                 id: widget.songList[widget.index].id,
               );
               setState(() {
-                favIcon = Favourites.isThisFavourite(
+                Favourites.isThisFavourite(
                   id: widget.songList[widget.index].id,
                 );
               });
             },
             icon: Icon(
-              favIcon,
+              Favourites.isThisFavourite(
+                id: widget.songList[widget.index].id,
+              ),
               color: kLightBlue,
               size: 25,
             ),

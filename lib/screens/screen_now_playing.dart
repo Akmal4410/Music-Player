@@ -165,14 +165,17 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
                       icon: Icons.playlist_add,
                       onPressed: () {
                         final song = Songs(
-                            id: myAudio.metas.id!,
-                            title: myAudio.metas.title!,
-                            artist: myAudio.metas.artist!,
-                            uri: myAudio.path);
+                          id: myAudio.metas.id!,
+                          title: myAudio.metas.title!,
+                          artist: myAudio.metas.artist!,
+                          uri: myAudio.path,
+                        );
+
                         showPlaylistModalSheet(
-                            context: context,
-                            screenHeight: screenHeight,
-                            song: song);
+                          context: context,
+                          screenHeight: screenHeight,
+                          song: song,
+                        );
                       },
                     ),
                     CustomIconButton(

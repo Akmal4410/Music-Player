@@ -77,13 +77,13 @@ class _ScreenCreatedPlaylistState extends State<ScreenCreatedPlaylist> {
             }
             return ListView.builder(
               itemCount: songList.length,
-              itemBuilder: (context, index) {
+              itemBuilder: (ctx, index) {
                 return SongListTile(
                     icon: Icons.delete_outline_rounded,
                     onPressed: () {
                       UserPlaylist.deleteFromPlaylist(
                           context: context,
-                          song: songList[index],
+                          songId: songList[index].id,
                           playlistName: widget.playlistName);
                     },
                     songList: songList,

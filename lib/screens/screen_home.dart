@@ -9,7 +9,7 @@ import 'package:music_player/widgets/search_widget.dart';
 import 'package:music_player/widgets/song_list_tile.dart';
 
 class ScreenHome extends StatefulWidget {
-  ScreenHome({
+  const ScreenHome({
     super.key,
   });
 

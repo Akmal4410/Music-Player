@@ -95,6 +95,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
                       return ScreenNowPlaying(
                         songList: songAudio,
                         index: widget.index,
+                        id: myAudio.metas.id!,
                         audioPlayer: widget.audioPlayer,
                       );
                     }),

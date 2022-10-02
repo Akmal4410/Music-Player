@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -31,14 +29,15 @@ class SongListTile extends StatefulWidget {
 }
 
 class _SongListTileState extends State<SongListTile> {
-  Box<List> playListBox = getPlaylistBox();
-  List<Songs>? favSongList;
+  Box<Songs> songBox = getSongBox();
+  Box<List> playlistBox = getPlaylistBox();
+  IconData? favIcon;
   @override
   void initState() {
-    // TODO: implement initState
+    favIcon = Favourites.isThisFavourite(
+      id: widget.songList[widget.index].id,
+    );
     super.initState();
-
-    favSongList = playListBox.get('Favourites')!.toList().cast<Songs>();
   }
 
   @override
@@ -101,11 +100,17 @@ class _SongListTileState extends State<SongListTile> {
           IconButton(
             onPressed: () {
               Favourites.addSongToFavourites(
+                context: context,
                 id: widget.songList[widget.index].id,
               );
+              setState(() {
+                favIcon = Favourites.isThisFavourite(
+                  id: widget.songList[widget.index].id,
+                );
+              });
             },
-            icon: const Icon(
-              Icons.favorite,
+            icon: Icon(
+              favIcon,
               color: kLightBlue,
               size: 25,
             ),

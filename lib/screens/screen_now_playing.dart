@@ -1,6 +1,7 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:music_player/functions/favourites.dart';
 import 'package:music_player/palettes/color_palette.dart';
 import 'package:music_player/widgets/custom_icon_button.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -12,10 +13,12 @@ class ScreenNowPlaying extends StatefulWidget {
     required this.songList,
     required this.index,
     required this.audioPlayer,
+    required this.id,
   });
 
   final List<Audio> songList;
   final int index;
+  final String id;
   final AssetsAudioPlayer audioPlayer;
 
   @override
@@ -23,6 +26,16 @@ class ScreenNowPlaying extends StatefulWidget {
 }
 
 class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
+  IconData? favIcon;
+
+  @override
+  void initState() {
+    favIcon = Favourites.isThisFavourite(
+      id: widget.id,
+    );
+    super.initState();
+  }
+
   bool isPlaying = true;
   bool isLoop = true;
   bool isShuffle = true;
@@ -165,8 +178,18 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
                       },
                     ),
                     CustomIconButton(
-                      icon: Icons.favorite_outline,
-                      onPressed: () {},
+                      icon: Favourites.isThisFavourite(id: myAudio.metas.id!),
+                      onPressed: () {
+                        Favourites.addSongToFavourites(
+                          context: context,
+                          id: myAudio.metas.id!,
+                        );
+                        setState(() {
+                          favIcon = Favourites.isThisFavourite(
+                            id: myAudio.metas.id!,
+                          );
+                        });
+                      },
                     )
                   ],
                 ),

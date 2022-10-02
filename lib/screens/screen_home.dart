@@ -8,17 +8,22 @@ import 'package:music_player/widgets/custom_playlist.dart';
 import 'package:music_player/widgets/search_widget.dart';
 import 'package:music_player/widgets/song_list_tile.dart';
 
-class ScreenHome extends StatelessWidget {
+class ScreenHome extends StatefulWidget {
   ScreenHome({
     super.key,
   });
 
+  @override
+  State<ScreenHome> createState() => _ScreenHomeState();
+}
+
+class _ScreenHomeState extends State<ScreenHome> {
   //search controller is used to get the values in the search field
   final TextEditingController _searchController = TextEditingController();
 
   //This is reffering to the the songBox that contain all the song the fected in
-  // the splach screen and added in the songbox
   Box<Songs> songBox = getSongBox();
+
   Box<List> playlistBox = getPlaylistBox();
 
   AssetsAudioPlayer audioPlayer = AssetsAudioPlayer.withId('0');

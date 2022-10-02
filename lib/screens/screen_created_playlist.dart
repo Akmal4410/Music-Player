@@ -1,19 +1,25 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:music_player/functions/playlist.dart';
 import 'package:music_player/models/db_functions/db_function.dart';
 import 'package:music_player/models/songs.dart';
 import 'package:music_player/palettes/color_palette.dart';
 import 'package:music_player/widgets/song_list_tile.dart';
-import 'package:on_audio_query/on_audio_query.dart';
 
-class ScreenCreatedPlaylist extends StatelessWidget {
-  ScreenCreatedPlaylist({super.key, required this.playlistName});
+class ScreenCreatedPlaylist extends StatefulWidget {
+  const ScreenCreatedPlaylist({super.key, required this.playlistName});
   final String playlistName;
 
+  @override
+  State<ScreenCreatedPlaylist> createState() => _ScreenCreatedPlaylistState();
+}
+
+class _ScreenCreatedPlaylistState extends State<ScreenCreatedPlaylist> {
   AssetsAudioPlayer audioPlayer = AssetsAudioPlayer.withId('0');
 
   Box<Songs> songBox = getSongBox();
+
   Box<List> playlistBox = getPlaylistBox();
 
   @override
@@ -32,7 +38,7 @@ class ScreenCreatedPlaylist extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Text(
-          playlistName,
+          widget.playlistName,
           style: const TextStyle(
             fontSize: 21,
             fontWeight: FontWeight.w600,
@@ -62,7 +68,7 @@ class ScreenCreatedPlaylist extends StatelessWidget {
           valueListenable: playlistBox.listenable(),
           builder: (context, boxSongList, _) {
             final List<Songs> songList =
-                playlistBox.get(playlistName)!.cast<Songs>();
+                playlistBox.get(widget.playlistName)!.cast<Songs>();
 
             if (songList.isEmpty) {
               return const Center(
@@ -73,7 +79,13 @@ class ScreenCreatedPlaylist extends StatelessWidget {
               itemCount: songList.length,
               itemBuilder: (context, index) {
                 return SongListTile(
-                    onPressed: () {},
+                    icon: Icons.delete_outline_rounded,
+                    onPressed: () {
+                      UserPlaylist.deleteFromPlaylist(
+                          context: context,
+                          song: songList[index],
+                          playlistName: widget.playlistName);
+                    },
                     songList: songList,
                     index: index,
                     audioPlayer: audioPlayer);

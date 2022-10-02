@@ -28,9 +28,9 @@ class Favourites {
     required BuildContext context,
     required List<Songs> favSongList,
     required Songs favSong,
-  }) {
+  }) async {
     favSongList.add(favSong);
-    playlistBox.put('Favourites', favSongList);
+    await playlistBox.put('Favourites', favSongList);
     showFavouritesSnackBar(
         context: context,
         songName: favSong.title,
@@ -41,9 +41,9 @@ class Favourites {
     required BuildContext context,
     required List<Songs> favSongList,
     required Songs favSong,
-  }) {
+  }) async {
     favSongList.removeWhere((songs) => songs.id == favSong.id);
-    playlistBox.put('Favourites', favSongList);
+    await playlistBox.put('Favourites', favSongList);
     showFavouritesSnackBar(
         context: context,
         songName: favSong.title,
@@ -71,9 +71,27 @@ class Favourites {
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20), topRight: Radius.circular(20)),
         ),
-        duration: const Duration(seconds: 2),
+        duration: const Duration(seconds: 1),
         backgroundColor: kDarkBlue,
-        content: Text('$songName\n$message'),
+        content: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              message,
+              style: const TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            Text(
+              songName,
+              style: const TextStyle(
+                fontSize: 13,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

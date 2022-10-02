@@ -1,7 +1,9 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:music_player/functions/alert_functions.dart';
 import 'package:music_player/functions/favourites.dart';
+import 'package:music_player/models/songs.dart';
 import 'package:music_player/palettes/color_palette.dart';
 import 'package:music_player/widgets/custom_icon_button.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -161,7 +163,17 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
                   children: [
                     CustomIconButton(
                       icon: Icons.playlist_add,
-                      onPressed: () {},
+                      onPressed: () {
+                        final song = Songs(
+                            id: myAudio.metas.id!,
+                            title: myAudio.metas.title!,
+                            artist: myAudio.metas.artist!,
+                            uri: myAudio.path);
+                        showPlaylistModalSheet(
+                            context: context,
+                            screenHeight: screenHeight,
+                            song: song);
+                      },
                     ),
                     CustomIconButton(
                       icon: (isShuffle == true)

@@ -1,6 +1,7 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:music_player/functions/alert_functions.dart';
 import 'package:music_player/models/db_functions/db_function.dart';
 import 'package:music_player/models/songs.dart';
 import 'package:music_player/widgets/song_list_tile.dart';
@@ -46,17 +47,27 @@ class ScreenFavourites extends StatelessWidget {
           builder: (BuildContext context, Box<List> value, Widget? child) {
             List<Songs> songList =
                 playlistBox.get('Favourites')!.toList().cast<Songs>();
-            return ListView.builder(
-              itemCount: songList.length,
-              itemBuilder: (context, index) {
-                return SongListTile(
-                  onPressed: () {},
-                  songList: songList,
-                  index: index,
-                  audioPlayer: audioPlayer,
-                );
-              },
-            );
+            return (songList.isEmpty)
+                ? const Center(
+                    child: Text('No Songs Found'),
+                  )
+                : ListView.builder(
+                    itemCount: songList.length,
+                    itemBuilder: (context, index) {
+                      return SongListTile(
+                        onPressed: () {
+                          showPlaylistModalSheet(
+                            context: context,
+                            screenHeight: screenHeight,
+                            song: songList[index],
+                          );
+                        },
+                        songList: songList,
+                        index: index,
+                        audioPlayer: audioPlayer,
+                      );
+                    },
+                  );
           },
         ),
       ),

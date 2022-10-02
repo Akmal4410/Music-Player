@@ -1,10 +1,8 @@
-// ignore_for_file: use_build_context_synchronously
-
-import 'dart:developer';
-
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:music_player/functions/playlist.dart';
+
 import 'package:music_player/models/db_functions/db_function.dart';
 import 'package:music_player/models/songs.dart';
 import 'package:music_player/palettes/color_palette.dart';
@@ -73,20 +71,13 @@ showPlaylistModalSheet({
                     keys.removeWhere((key) => key == 'Favourites');
                     return Expanded(
                       child: (keys.isEmpty)
-                          ? Center(
+                          ? const Center(
                               child: Text("No Playlist Found"),
                             )
                           : ListView.builder(
                               itemCount: keys.length,
                               itemBuilder: (ctx, index) {
                                 final String playlistKey = keys[index];
-
-                                List<Songs> songList = playlistBox
-                                    .get(playlistKey)!
-                                    .toList()
-                                    .cast<Songs>();
-
-                                songList.add(song);
 
                                 return Container(
                                   padding:
@@ -97,9 +88,11 @@ showPlaylistModalSheet({
                                   ),
                                   child: ListTile(
                                     onTap: () async {
-                                      await playlistBox.put(
-                                          playlistKey, songList);
-                                      log('Added succesfully to the playlist');
+                                      UserPlaylist.addSongToPlaylist(
+                                          context: context,
+                                          song: song,
+                                          playlistName: playlistKey);
+
                                       Navigator.pop(context);
                                     },
                                     leading: const Text(

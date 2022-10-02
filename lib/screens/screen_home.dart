@@ -18,10 +18,8 @@ class ScreenHome extends StatefulWidget {
 }
 
 class _ScreenHomeState extends State<ScreenHome> {
-  //search controller is used to get the values in the search field
   final TextEditingController _searchController = TextEditingController();
 
-  //This is reffering to the the songBox that contain all the song the fected in
   Box<Songs> songBox = getSongBox();
 
   Box<List> playlistBox = getPlaylistBox();

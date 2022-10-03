@@ -3,11 +3,11 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:music_player/functions/alert_functions.dart';
 import 'package:music_player/functions/playlist.dart';
 import 'package:music_player/models/db_functions/db_function.dart';
 import 'package:music_player/models/songs.dart';
 import 'package:music_player/palettes/color_palette.dart';
-import 'package:music_player/screens/screen_navigation.dart';
 import 'package:music_player/widgets/search_widget.dart';
 import 'package:music_player/widgets/song_list_tile.dart';
 
@@ -21,15 +21,19 @@ class ScreenCreatedPlaylist extends StatefulWidget {
 
 class _ScreenCreatedPlaylistState extends State<ScreenCreatedPlaylist> {
   String? newPlaylistName;
+  @override
+  void initState() {
+    newPlaylistName = widget.playlistName;
+    super.initState();
+  }
 
   AssetsAudioPlayer audioPlayer = AssetsAudioPlayer.withId('0');
-
   Box<Songs> songBox = getSongBox();
-
   Box<List> playlistBox = getPlaylistBox();
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -42,8 +46,7 @@ class _ScreenCreatedPlaylistState extends State<ScreenCreatedPlaylist> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Text(
-          //  getTitle(),
-          newPlaylistName == null ? widget.playlistName : newPlaylistName!,
+          newPlaylistName!,
           style: const TextStyle(
             fontSize: 21,
             fontWeight: FontWeight.w600,
@@ -52,14 +55,11 @@ class _ScreenCreatedPlaylistState extends State<ScreenCreatedPlaylist> {
         actions: [
           IconButton(
             onPressed: () {
-              final List<Songs> playlistSongs = (newPlaylistName == null)
-                  ? playlistBox.get(widget.playlistName)!.toList().cast<Songs>()
-                  : playlistBox.get(newPlaylistName)!.toList().cast<Songs>();
+              final List<Songs> playlistSongs =
+                  playlistBox.get(newPlaylistName)!.toList().cast<Songs>();
               showEditingPlaylistDialoge(
                 context: context,
-                playlistName: (newPlaylistName == null)
-                    ? widget.playlistName
-                    : newPlaylistName!,
+                playlistName: newPlaylistName!,
                 playlistSongs: playlistSongs,
               );
             },
@@ -69,7 +69,13 @@ class _ScreenCreatedPlaylistState extends State<ScreenCreatedPlaylist> {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              showSongModalSheet(
+                context: context,
+                screenHeight: screenHeight,
+                playlistKey: newPlaylistName!,
+              );
+            },
             icon: const Icon(
               Icons.add,
               size: 27,
@@ -83,9 +89,8 @@ class _ScreenCreatedPlaylistState extends State<ScreenCreatedPlaylist> {
         child: ValueListenableBuilder<Box<List<dynamic>>>(
           valueListenable: playlistBox.listenable(),
           builder: (context, boxSongList, _) {
-            final List<Songs> songList = (newPlaylistName == null)
-                ? boxSongList.get(widget.playlistName)!.cast<Songs>()
-                : boxSongList.get(newPlaylistName)!.cast<Songs>();
+            final List<Songs> songList =
+                boxSongList.get(newPlaylistName)!.cast<Songs>();
 
             if (songList.isEmpty) {
               return const Center(
@@ -99,9 +104,10 @@ class _ScreenCreatedPlaylistState extends State<ScreenCreatedPlaylist> {
                     icon: Icons.delete_outline_rounded,
                     onPressed: () {
                       UserPlaylist.deleteFromPlaylist(
-                          context: context,
-                          songId: songList[index].id,
-                          playlistName: widget.playlistName);
+                        context: context,
+                        songId: songList[index].id,
+                        playlistName: newPlaylistName!,
+                      );
                     },
                     songList: songList,
                     index: index,
@@ -175,11 +181,6 @@ class _ScreenCreatedPlaylistState extends State<ScreenCreatedPlaylist> {
                       await playlistBox.put(newPlaylistName, playlistSongs);
                       playlistBox.delete(playlistName);
                       Navigator.pop(context);
-                      //  Navigator.popUntil(context, (route) => false);
-                      // Navigator.pushAndRemoveUntil(context,
-                      //     MaterialPageRoute(builder: (context) {
-                      //   return ScreenNavigation();
-                      // }), (route) => false);
                     }
                   },
                   child: const Text(

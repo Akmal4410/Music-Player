@@ -43,6 +43,9 @@ class _ScreenHomeState extends State<ScreenHome> {
           child: ListView(
             children: [
               SearchField(
+                validator: (value) {
+                  return null;
+                },
                 textController: _searchController,
                 hintText: 'Songs or Playlist',
                 icon: Icons.search,

@@ -20,11 +20,13 @@ class CreatedPlaylist extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (ctx) => ScreenCreatedPlaylist(
-                      playlistName: playlistName,
-                    )));
+          context,
+          MaterialPageRoute(
+            builder: (ctx) => ScreenCreatedPlaylist(
+              playlistName: playlistName,
+            ),
+          ),
+        );
       },
       onLongPress: () {
         showPlaylistDeleteAlert(context: context, key: playlistName);

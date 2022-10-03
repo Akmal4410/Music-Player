@@ -30,7 +30,7 @@ class ScreenPlaylist extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                showAddingPlaylistDialoge(context);
+                showCreatingPlaylistDialoge(context: context);
               },
               child: const Icon(
                 Icons.add,

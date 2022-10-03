@@ -48,7 +48,7 @@ showPlaylistModalSheet({
               const SizedBox(height: 10),
               ElevatedButton.icon(
                 onPressed: () {
-                  showAddingPlaylistDialoge(ctx);
+                  showCreatingPlaylistDialoge(context: ctx);
                 },
                 icon: const Icon(
                   Icons.playlist_add,
@@ -112,7 +112,7 @@ showPlaylistModalSheet({
       });
 }
 
-showAddingPlaylistDialoge(BuildContext context) {
+showCreatingPlaylistDialoge({required BuildContext context}) {
   TextEditingController textEditingController = TextEditingController();
   Box<List> playlistBox = getPlaylistBox();
 
@@ -128,56 +128,57 @@ showAddingPlaylistDialoge(BuildContext context) {
   return showDialog(
       context: context,
       builder: (BuildContext ctx) {
-        return Dialog(
-          backgroundColor: Colors.transparent,
-          child: Container(
-            padding: const EdgeInsets.all(12.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20.0),
-              color: kLightBlue,
+        final formKey = GlobalKey<FormState>();
+        return Form(
+          key: formKey,
+          child: AlertDialog(
+            backgroundColor: kLightBlue,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
             ),
-            height: 200,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'Create Playlist',
-                  style: TextStyle(
-                      color: kDarkBlue,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600),
-                ),
-                SearchField(
-                  textController: textEditingController,
-                  hintText: 'Playlist Name',
-                  icon: Icons.playlist_add,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(ctx);
-                      },
-                      child: const Text(
-                        'Cancel',
-                        style: TextStyle(color: kDarkBlue, fontSize: 15),
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () async {
-                        await createNewplaylist();
-                        Navigator.pop(ctx);
-                      },
-                      child: const Text(
-                        'Create',
-                        style: TextStyle(color: kDarkBlue, fontSize: 15),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+            title: const Text(
+              'Create playlist',
+              style: TextStyle(
+                  color: kDarkBlue, fontSize: 16, fontWeight: FontWeight.w600),
             ),
+            content: SearchField(
+              textController: textEditingController,
+              hintText: 'Playlist Name',
+              icon: Icons.playlist_add,
+              validator: (value) {
+                final keys = getPlaylistBox().keys.toList();
+                if (value == null || value.isEmpty) {
+                  return 'Field is empty';
+                }
+                if (keys.contains(value)) {
+                  return '$value Already exist in playlist';
+                }
+                return null;
+              },
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(ctx);
+                },
+                child: const Text(
+                  'Cancel',
+                  style: TextStyle(color: kDarkBlue, fontSize: 15),
+                ),
+              ),
+              TextButton(
+                onPressed: () async {
+                  if (formKey.currentState!.validate()) {
+                    await createNewplaylist();
+                    Navigator.pop(ctx);
+                  }
+                },
+                child: const Text(
+                  'Confirm',
+                  style: TextStyle(color: kDarkBlue, fontSize: 15),
+                ),
+              ),
+            ],
           ),
         );
       });

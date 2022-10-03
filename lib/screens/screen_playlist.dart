@@ -81,6 +81,7 @@ class ScreenPlaylist extends StatelessWidget {
                 builder: (context, value, child) {
                   List keys = playlistBox.keys.toList();
                   keys.removeWhere((key) => key == 'Favourites');
+                  keys.removeWhere((key) => key == 'Recent');
                   return (keys.isEmpty)
                       ? const Center(
                           child: Text('No Created Playlist..'),

@@ -19,11 +19,8 @@ class ScreenHome extends StatefulWidget {
 
 class _ScreenHomeState extends State<ScreenHome> {
   final TextEditingController _searchController = TextEditingController();
-
   Box<Songs> songBox = getSongBox();
-
   Box<List> playlistBox = getPlaylistBox();
-
   AssetsAudioPlayer audioPlayer = AssetsAudioPlayer.withId('0');
 
   @override
@@ -59,6 +56,7 @@ class _ScreenHomeState extends State<ScreenHome> {
                   builder:
                       (BuildContext context, Box<List> value, Widget? child) {
                     final List keys = playlistBox.keys.toList();
+                    keys.removeWhere((key) => key == 'Recent');
                     return ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: keys.length,

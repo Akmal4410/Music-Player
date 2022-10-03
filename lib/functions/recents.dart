@@ -1,0 +1,36 @@
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:music_player/models/db_functions/db_function.dart';
+import 'package:music_player/models/songs.dart';
+
+class Recents {
+  static final Box<Songs> songBox = getSongBox();
+  static final Box<List> playlistBox = getPlaylistBox();
+
+  static addSongsToRecents({required String id}) {
+    final List<Songs> dbSongs = songBox.values.toList().cast<Songs>();
+    final List<Songs> recentSongList =
+        playlistBox.get('Recent')!.toList().cast<Songs>();
+
+    final Songs recentSong = dbSongs.firstWhere((song) => song.id.contains(id));
+    if (recentSongList.length >= 10) {
+      recentSongList.removeLast();
+    }
+
+    recentSongList.where((song) => song.id == recentSong.id).isEmpty
+        ? addToRecents(recentSong: recentSong, recentSongList: recentSongList)
+        : removeFromRecents(
+            recentSong: recentSong, recentSongList: recentSongList);
+  }
+
+  static addToRecents(
+      {required Songs recentSong, required List<Songs> recentSongList}) async {
+    recentSongList.insert(0, recentSong);
+    await playlistBox.put('Recent', recentSongList);
+  }
+
+  static removeFromRecents(
+      {required Songs recentSong, required List<Songs> recentSongList}) async {
+    recentSongList.removeWhere((song) => song.id == recentSong.id);
+    await playlistBox.put('Recent', recentSongList);
+  }
+}

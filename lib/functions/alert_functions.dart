@@ -70,6 +70,7 @@ showPlaylistModalSheet({
                   builder: (context, boxSongList, _) {
                     final List<dynamic> keys = playlistBox.keys.toList();
                     keys.removeWhere((key) => key == 'Favourites');
+                    keys.removeWhere((key) => key == 'Recent');
                     return Expanded(
                       child: (keys.isEmpty)
                           ? const Center(

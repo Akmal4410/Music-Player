@@ -21,7 +21,8 @@ class _ScreenSplashState extends State<ScreenSplash> {
   List<SongModel> deviceSongs = [];
   List<SongModel> fetchedSongs = [];
   Box<List> playlistBox = getPlaylistBox();
-  List<Songs> favsongs = [];
+  List<Songs> favSongs = [];
+  List<Songs> recentSong = [];
 
   Box<Songs> songBox = getSongBox();
 
@@ -62,11 +63,18 @@ class _ScreenSplashState extends State<ScreenSplash> {
     }
     //create a Favourite songs if it is not created
     getFavSongs();
+    getRecentSongs();
   }
 
   Future getFavSongs() async {
     if (!playlistBox.keys.contains('Favourites')) {
-      await playlistBox.put('Favourites', favsongs);
+      await playlistBox.put('Favourites', favSongs);
+    }
+  }
+
+  Future getRecentSongs() async {
+    if (!playlistBox.keys.contains('Recent')) {
+      await playlistBox.put('Recent', recentSong);
     }
   }
 

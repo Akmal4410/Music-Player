@@ -20,9 +20,22 @@ class ScreenHome extends StatefulWidget {
 }
 
 class _ScreenHomeState extends State<ScreenHome> {
-  // final TextEditingController _searchController = TextEditingController();
   Box<Songs> songBox = getSongBox();
   Box<List> playlistBox = getPlaylistBox();
+
+  List<Songs> songList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    /////////////////////////////////////////////////////////
+    final List<int> keys = songBox.keys.toList().cast<int>();
+    for (var key in keys) {
+      songList.add(songBox.get(key)!);
+    }
+    /////////////////////////////////////////////////////////
+  }
+
   AssetsAudioPlayer audioPlayer = AssetsAudioPlayer.withId('0');
 
   @override
@@ -78,32 +91,30 @@ class _ScreenHomeState extends State<ScreenHome> {
                 height: screenHeight * 0.22,
                 width: double.infinity,
                 child: ValueListenableBuilder(
-                  valueListenable: playlistBox.listenable(),
-                  builder:
-                      (BuildContext context, Box<List> value, Widget? child) {
-                    final List keys = playlistBox.keys.toList();
-                    keys.removeWhere((key) => key == 'Recent');
-                    keys.removeWhere((key) => key == 'Favourites');
-                    return ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: keys.length,
-                      itemBuilder: (context, index) {
-                        final playlistName = keys[index];
-                        final List<Songs> sonngList = playlistBox
-                            .get(playlistName)!
-                            .toList()
-                            .cast<Songs>();
+                    valueListenable: playlistBox.listenable(),
+                    builder: (context, playlistBox, _) {
+                      final List playlistKeys = playlistBox.keys.toList();
+                      playlistKeys.removeWhere((key) => key == 'Recent');
+                      playlistKeys.removeWhere((key) => key == 'Most Played');
+                      return ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: playlistKeys.length,
+                        itemBuilder: (context, index) {
+                          final playlistName = playlistKeys[index];
+                          final List<Songs> songList = playlistBox
+                              .get(playlistName)!
+                              .toList()
+                              .cast<Songs>();
 
-                        return CustomPlayList(
-                          playlistImage: 'assets/images/mostPlayed.png',
-                          playlistName: playlistName,
-                          playlistSongNum: '${sonngList.length} Songs',
-                        );
-                      },
-                    );
-                  },
-                ),
+                          return CustomPlayList(
+                            playlistImage: 'assets/images/mostPlayed.png',
+                            playlistName: playlistName,
+                          );
+                        },
+                      );
+                    }),
               ),
+
               const Text(
                 'All Songs',
                 style: TextStyle(
@@ -111,40 +122,24 @@ class _ScreenHomeState extends State<ScreenHome> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              ValueListenableBuilder(
-                valueListenable: songBox.listenable(),
-                builder:
-                    (BuildContext context, Box<Songs> boxSongs, Widget? child) {
-                  final List<int> keys = boxSongs.keys.toList().cast<int>();
-                  List<Songs> songList = [];
-                  for (var key in keys) {
-                    songList.add(songBox.get(key)!);
-                  }
-                  if (boxSongs.values.isEmpty) {
-                    return const Center(
-                      child: Text('Songs not found'),
-                    );
-                  }
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    physics: const ScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return SongListTile(
-                        onPressed: () {
-                          showPlaylistModalSheet(
-                            context: context,
-                            screenHeight: screenHeight,
-                            song: songList[index],
-                          );
-                        },
-                        songList: songList,
-                        index: index,
-                        audioPlayer: audioPlayer,
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const ScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return SongListTile(
+                    onPressed: () {
+                      showPlaylistModalSheet(
+                        context: context,
+                        screenHeight: screenHeight,
+                        song: songList[index],
                       );
                     },
-                    itemCount: boxSongs.length,
+                    songList: songList,
+                    index: index,
+                    audioPlayer: audioPlayer,
                   );
                 },
+                itemCount: songBox.length,
               ),
             ],
           ),

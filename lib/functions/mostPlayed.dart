@@ -6,7 +6,7 @@ class MostPlayed {
   static final Box<Songs> songBox = getSongBox();
   static final Box<List> playlistBox = getPlaylistBox();
 
-  static addSongToPlaylist(String songId) {
+  static addSongToPlaylist(String songId) async {
     final mostPlayedlist =
         playlistBox.get('Most Played')!.toList().cast<Songs>();
 
@@ -22,11 +22,11 @@ class MostPlayed {
           .where((song) => song.id == mostPlayedSong.id)
           .isEmpty) {
         mostPlayedlist.insert(0, mostPlayedSong);
-        playlistBox.put('Most Played', mostPlayedlist);
+        await playlistBox.put('Most Played', mostPlayedlist);
       } else {
         mostPlayedlist.removeWhere((song) => song.id == mostPlayedSong.id);
         mostPlayedlist.insert(0, mostPlayedSong);
-        playlistBox.put('Most Played', mostPlayedlist);
+        await playlistBox.put('Most Played', mostPlayedlist);
       }
     }
   }

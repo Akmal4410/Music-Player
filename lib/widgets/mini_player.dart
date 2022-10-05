@@ -76,7 +76,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
     return widget.audioPlayer.builderCurrent(
       builder: (context, playing) {
         final myAudio = find(songAudio, playing.audio.assetAudioPath);
-        Recents.addSongsToRecents(id: myAudio.metas.id!);
+        Recents.addSongsToRecents(songId: myAudio.metas.id!);
         return Container(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           // height: 75,
@@ -129,7 +129,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
                   GestureDetector(
                     onTap: () async {
                       await widget.audioPlayer.previous();
-                      Recents.addSongsToRecents(id: myAudio.metas.id!);
+                      Recents.addSongsToRecents(songId: myAudio.metas.id!);
                     },
                     child: const Icon(
                       Icons.skip_previous,
@@ -162,7 +162,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
                   GestureDetector(
                     onTap: () async {
                       await widget.audioPlayer.next();
-                      Recents.addSongsToRecents(id: myAudio.metas.id!);
+                      Recents.addSongsToRecents(songId: myAudio.metas.id!);
                     },
                     child: const Icon(
                       Icons.skip_next,

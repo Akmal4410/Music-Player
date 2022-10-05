@@ -53,17 +53,14 @@ class ScreenPlaylist extends StatelessWidget {
                     CustomPlayList(
                       playlistImage: 'assets/images/favourites.png',
                       playlistName: 'Favourites',
-                      playlistSongNum: '2 songs',
                     ),
                     CustomPlayList(
                       playlistImage: 'assets/images/recent.png',
                       playlistName: 'Recent',
-                      playlistSongNum: '20 songs',
                     ),
                     CustomPlayList(
                       playlistImage: 'assets/images/mostPlayed.png',
                       playlistName: 'Most Played',
-                      playlistSongNum: '10 songs',
                     ),
                   ],
                 ),

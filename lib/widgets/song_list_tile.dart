@@ -37,7 +37,7 @@ class _SongListTileState extends State<SongListTile> {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
-        Recents.addSongsToRecents(id: widget.songList[widget.index].id);
+        Recents.addSongsToRecents(songId: widget.songList[widget.index].id);
         showMiniPlayer(
           context: context,
           index: widget.index,

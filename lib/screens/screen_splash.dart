@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:music_player/functions/mostPlayed.dart';
 import 'package:music_player/models/db_functions/db_function.dart';
 import 'package:music_player/models/songs.dart';
 import 'package:music_player/screens/screen_navigation.dart';
@@ -23,6 +24,7 @@ class _ScreenSplashState extends State<ScreenSplash> {
   Box<List> playlistBox = getPlaylistBox();
   List<Songs> favSongs = [];
   List<Songs> recentSong = [];
+  List<Songs> mostPlayedSongs = [];
 
   Box<Songs> songBox = getSongBox();
 
@@ -64,11 +66,18 @@ class _ScreenSplashState extends State<ScreenSplash> {
     //create a Favourite songs if it is not created
     getFavSongs();
     getRecentSongs();
+    getMostPlayedSongs();
   }
 
   Future getFavSongs() async {
     if (!playlistBox.keys.contains('Favourites')) {
       await playlistBox.put('Favourites', favSongs);
+    }
+  }
+
+  Future getMostPlayedSongs() async {
+    if (!playlistBox.keys.contains('Most Played')) {
+      await playlistBox.put('Most Played', mostPlayedSongs);
     }
   }
 

@@ -19,7 +19,6 @@ class Recents {
     if (recentSongList.length >= 10) {
       recentSongList.removeLast();
     }
-
     if (recentSongList.where((song) => song.id == recentSong.id).isEmpty) {
       recentSongList.insert(0, recentSong);
       await playlistBox.put('Recent', recentSongList);

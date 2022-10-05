@@ -83,6 +83,7 @@ class _ScreenHomeState extends State<ScreenHome> {
                       (BuildContext context, Box<List> value, Widget? child) {
                     final List keys = playlistBox.keys.toList();
                     keys.removeWhere((key) => key == 'Recent');
+                    keys.removeWhere((key) => key == 'Favourites');
                     return ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: keys.length,

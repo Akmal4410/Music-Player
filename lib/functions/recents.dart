@@ -6,7 +6,7 @@ class Recents {
   static final Box<Songs> songBox = getSongBox();
   static final Box<List> playlistBox = getPlaylistBox();
 
-  static addSongsToRecents({required String id}) {
+  static addSongsToRecents({required String id}) async {
     final List<Songs> dbSongs = songBox.values.toList().cast<Songs>();
     final List<Songs> recentSongList =
         playlistBox.get('Recent')!.toList().cast<Songs>();
@@ -16,21 +16,13 @@ class Recents {
       recentSongList.removeLast();
     }
 
-    recentSongList.where((song) => song.id == recentSong.id).isEmpty
-        ? addToRecents(recentSong: recentSong, recentSongList: recentSongList)
-        : removeFromRecents(
-            recentSong: recentSong, recentSongList: recentSongList);
-  }
-
-  static addToRecents(
-      {required Songs recentSong, required List<Songs> recentSongList}) async {
-    recentSongList.insert(0, recentSong);
-    await playlistBox.put('Recent', recentSongList);
-  }
-
-  static removeFromRecents(
-      {required Songs recentSong, required List<Songs> recentSongList}) async {
-    recentSongList.removeWhere((song) => song.id == recentSong.id);
-    await playlistBox.put('Recent', recentSongList);
+    if (recentSongList.where((song) => song.id == recentSong.id).isEmpty) {
+      recentSongList.insert(0, recentSong);
+      await playlistBox.put('Recent', recentSongList);
+    } else {
+      recentSongList.removeWhere((song) => song.id == recentSong.id);
+      recentSongList.insert(0, recentSong);
+      await playlistBox.put('Recent', recentSongList);
+    }
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:music_player/functions/alert_functions.dart';
 import 'package:music_player/functions/favourites.dart';
+import 'package:music_player/functions/recents.dart';
 import 'package:music_player/models/db_functions/db_function.dart';
 import 'package:music_player/models/songs.dart';
 import 'package:music_player/palettes/color_palette.dart';
@@ -31,19 +32,12 @@ class SongListTile extends StatefulWidget {
 class _SongListTileState extends State<SongListTile> {
   Box<Songs> songBox = getSongBox();
   Box<List> playlistBox = getPlaylistBox();
-  // IconData? favIcon;
-  // @override
-  // void initState() {
-  //   favIcon = Favourites.isThisFavourite(
-  //     id: widget.songList[widget.index].id,
-  //   );
-  //   super.initState();
-  // }
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
+        Recents.addSongsToRecents(id: widget.songList[widget.index].id);
         showMiniPlayer(
           context: context,
           index: widget.index,

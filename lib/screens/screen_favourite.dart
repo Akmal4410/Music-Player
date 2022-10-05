@@ -7,7 +7,8 @@ import 'package:music_player/models/songs.dart';
 import 'package:music_player/widgets/song_list_tile.dart';
 
 class ScreenFavourites extends StatelessWidget {
-  ScreenFavourites({super.key});
+  ScreenFavourites({super.key, required this.playlistName});
+  final String playlistName;
 
   final Box<List> playlistBox = getPlaylistBox();
   final Box<Songs> songBox = getSongBox();
@@ -28,9 +29,9 @@ class ScreenFavourites extends StatelessWidget {
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: const Text(
-          'Favourites',
-          style: TextStyle(
+        title: Text(
+          playlistName,
+          style: const TextStyle(
             fontSize: 21,
             fontWeight: FontWeight.w600,
           ),
@@ -42,7 +43,7 @@ class ScreenFavourites extends StatelessWidget {
           valueListenable: playlistBox.listenable(),
           builder: (BuildContext context, Box<List> value, Widget? child) {
             List<Songs> songList =
-                playlistBox.get('Favourites')!.toList().cast<Songs>();
+                playlistBox.get(playlistName)!.toList().cast<Songs>();
             return (songList.isEmpty)
                 ? const Center(
                     child: Text('No Songs Found'),

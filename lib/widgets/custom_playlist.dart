@@ -26,7 +26,14 @@ class CustomPlayList extends StatelessWidget {
           MaterialPageRoute(
             builder: (ctx) {
               if (playlistName == 'Favourites') {
-                return ScreenFavourites();
+                return ScreenFavourites(
+                  playlistName: "Favourites",
+                );
+              }
+              if (playlistName == 'Recent') {
+                return ScreenFavourites(
+                  playlistName: "Recent",
+                );
               }
               return ScreenCreatedPlaylist(
                 playlistName: playlistName,

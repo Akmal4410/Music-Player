@@ -3,6 +3,7 @@ import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player/functions/alert_functions.dart';
 import 'package:music_player/functions/favourites.dart';
+import 'package:music_player/functions/recents.dart';
 import 'package:music_player/models/songs.dart';
 import 'package:music_player/palettes/color_palette.dart';
 import 'package:music_player/widgets/custom_icon_button.dart';
@@ -58,9 +59,6 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
 
   void shuffleButtonPressed() {
     setState(() {
-      // if (isShuffle) {
-      //   widget.audioPlayer.toggleShuffle();
-      // }
       widget.audioPlayer.toggleShuffle();
       isShuffle = !isShuffle;
     });
@@ -108,6 +106,7 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
       ),
       body: widget.audioPlayer.builderCurrent(builder: (context, playing) {
         final myAudio = find(widget.songList, playing.audio.assetAudioPath);
+
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25.0),
           child: Column(
@@ -213,7 +212,7 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
                   builder: (context, info) {
                 final duration = info.current!.audio.duration;
                 final position = info.currentPosition;
-
+                Recents.addSongsToRecents(id: myAudio.metas.id!);
                 return ProgressBar(
                   progress: position,
                   total: duration,
@@ -240,6 +239,7 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
                     icon: Icons.skip_previous,
                     onPressed: () async {
                       await widget.audioPlayer.previous();
+                      Recents.addSongsToRecents(id: myAudio.metas.id!);
                     },
                   ),
                   CustomIconButton(
@@ -280,6 +280,7 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
                     icon: Icons.skip_next,
                     onPressed: () async {
                       await widget.audioPlayer.next();
+                      Recents.addSongsToRecents(id: myAudio.metas.id!);
                     },
                   )
                 ],

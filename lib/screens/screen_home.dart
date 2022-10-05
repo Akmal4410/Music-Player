@@ -4,6 +4,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:music_player/functions/alert_functions.dart';
 import 'package:music_player/models/db_functions/db_function.dart';
 import 'package:music_player/models/songs.dart';
+import 'package:music_player/palettes/color_palette.dart';
+import 'package:music_player/screens/screen_search.dart';
 import 'package:music_player/widgets/custom_playlist.dart';
 import 'package:music_player/widgets/search_widget.dart';
 import 'package:music_player/widgets/song_list_tile.dart';
@@ -18,7 +20,7 @@ class ScreenHome extends StatefulWidget {
 }
 
 class _ScreenHomeState extends State<ScreenHome> {
-  final TextEditingController _searchController = TextEditingController();
+  // final TextEditingController _searchController = TextEditingController();
   Box<Songs> songBox = getSongBox();
   Box<List> playlistBox = getPlaylistBox();
   AssetsAudioPlayer audioPlayer = AssetsAudioPlayer.withId('0');
@@ -29,24 +31,48 @@ class _ScreenHomeState extends State<ScreenHome> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Library',
-          style: TextStyle(
-            fontSize: 28,
-            fontWeight: FontWeight.w600,
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
+              'Library',
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return ScreenSearch(
+                        audioPlayer: audioPlayer,
+                      );
+                    },
+                  ),
+                );
+              },
+              child: const Icon(
+                Icons.search,
+                color: kLightBlue,
+                size: 27,
+              ),
+            )
+          ],
         ),
         Expanded(
           child: ListView(
             children: [
-              SearchField(
-                validator: (value) {
-                  return null;
-                },
-                textController: _searchController,
-                hintText: 'Songs or Playlist',
-                icon: Icons.search,
-              ),
+              // SearchField(
+              //   validator: (value) {
+              //     return null;
+              //   },
+              //   textController: _searchController,
+              //   hintText: 'Songs or Playlist',
+              //   icon: Icons.search,
+              // ),
               Container(
                 margin: const EdgeInsets.only(top: 10.0),
                 height: screenHeight * 0.22,

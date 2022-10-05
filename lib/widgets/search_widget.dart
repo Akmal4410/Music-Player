@@ -3,22 +3,25 @@ import 'package:music_player/palettes/color_palette.dart';
 
 class SearchField extends StatelessWidget {
   const SearchField({
-    Key? key,
+    super.key,
     required this.hintText,
     required this.icon,
     required this.textController,
     required this.validator,
-  }) : super(key: key);
+    this.onChanged,
+  });
   final String hintText;
   final IconData icon;
   final TextEditingController textController;
   final String? Function(String?)? validator;
+  final void Function(String)? onChanged;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: TextFormField(
+        onChanged: onChanged,
         validator: validator,
         controller: textController,
         keyboardType: TextInputType.emailAddress,

@@ -14,10 +14,14 @@ class Songs extends HiveObject {
 
   @HiveField(3)
   final String uri;
+
+  @HiveField(4)
+  int count;
   Songs({
     required this.id,
     required this.title,
     required this.artist,
     required this.uri,
+    this.count = 0,
   });
 }

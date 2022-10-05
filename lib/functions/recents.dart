@@ -12,6 +12,10 @@ class Recents {
         playlistBox.get('Recent')!.toList().cast<Songs>();
 
     final Songs recentSong = dbSongs.firstWhere((song) => song.id.contains(id));
+    /////////////////---------For Most Played----------///////////////////////////
+    int count = recentSong.count;
+    recentSong.count = count++;
+    //////////////////////////////////////////////////////////////////////////////
     if (recentSongList.length >= 10) {
       recentSongList.removeLast();
     }

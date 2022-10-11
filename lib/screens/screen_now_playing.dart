@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:music_player/functions/alert_functions.dart';
 import 'package:music_player/functions/favourites.dart';
 import 'package:music_player/functions/recents.dart';
+import 'package:music_player/lyrics/lyrics_api.dart';
 import 'package:music_player/models/songs.dart';
 import 'package:music_player/palettes/color_palette.dart';
 import 'package:music_player/widgets/custom_icon_button.dart';
@@ -106,6 +107,14 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
               fontWeight: FontWeight.w600,
             ),
           ),
+          actions: [
+            IconButton(
+              onPressed: () {
+                //getSongLyrics(title: );
+              },
+              icon: Icon(Icons.music_note),
+            ),
+          ],
         ),
         body: widget.audioPlayer.builderCurrent(builder: (context, playing) {
           final myAudio = find(widget.songList, playing.audio.assetAudioPath);

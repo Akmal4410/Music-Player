@@ -18,14 +18,11 @@ class ScreenSplash extends StatefulWidget {
 class _ScreenSplashState extends State<ScreenSplash> {
   OnAudioQuery audioQuery = OnAudioQuery();
 
+  Box<List> playlistBox = getPlaylistBox();
+  Box<Songs> songBox = getSongBox();
+
   List<SongModel> deviceSongs = [];
   List<SongModel> fetchedSongs = [];
-  Box<List> playlistBox = getPlaylistBox();
-  List<Songs> favSongs = [];
-  List<Songs> recentSong = [];
-  List<Songs> mostPlayedSongs = [];
-
-  Box<Songs> songBox = getSongBox();
 
   @override
   void initState() {
@@ -40,7 +37,7 @@ class _ScreenSplashState extends State<ScreenSplash> {
   }
 
   Future fetchSongs() async {
-    final deviceSongs = await audioQuery.querySongs(
+    deviceSongs = await audioQuery.querySongs(
       sortType: SongSortType.TITLE,
       orderType: OrderType.ASC_OR_SMALLER,
       uriType: UriType.EXTERNAL,
@@ -70,19 +67,19 @@ class _ScreenSplashState extends State<ScreenSplash> {
 
   Future getFavSongs() async {
     if (!playlistBox.keys.contains('Favourites')) {
-      await playlistBox.put('Favourites', favSongs);
+      await playlistBox.put('Favourites', []);
     }
   }
 
   Future getMostPlayedSongs() async {
     if (!playlistBox.keys.contains('Most Played')) {
-      await playlistBox.put('Most Played', mostPlayedSongs);
+      await playlistBox.put('Most Played', []);
     }
   }
 
   Future getRecentSongs() async {
     if (!playlistBox.keys.contains('Recent')) {
-      await playlistBox.put('Recent', recentSong);
+      await playlistBox.put('Recent', []);
     }
   }
 

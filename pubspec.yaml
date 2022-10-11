@@ -42,6 +42,7 @@ dependencies:
   permission_handler: ^10.0.1
   text_scroll: ^0.1.0
   hive_flutter: ^1.1.0
+  http: ^0.13.5
 
 dev_dependencies:
   flutter_test:

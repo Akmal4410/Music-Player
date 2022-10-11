@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:music_player/functions/mostPlayed.dart';
 import 'package:music_player/models/db_functions/db_function.dart';
@@ -19,7 +17,7 @@ class Recents {
     /////////////////---------For Most Played----------///////////////////////////
     int count = recentSong.count;
     recentSong.count = count + 1;
-    log(recentSong.count.toString());
+
     //////////////////////////////////////////////////////////////////////////////
     /////////////////---------Calling MostPlayed---------/////////////////////////
     MostPlayed.addSongToPlaylist(songId);

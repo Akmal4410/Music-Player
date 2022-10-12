@@ -34,6 +34,7 @@ class ScreenNowPlaying extends StatefulWidget {
 
 class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
   IconData? favIcon;
+  String newLyrics = 'Tap the button to get the Lyrics';
 
   @override
   void initState() {
@@ -107,14 +108,6 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
               fontWeight: FontWeight.w600,
             ),
           ),
-          actions: [
-            IconButton(
-              onPressed: () {
-                //getSongLyrics(title: );
-              },
-              icon: Icon(Icons.music_note),
-            ),
-          ],
         ),
         body: widget.audioPlayer.builderCurrent(builder: (context, playing) {
           final myAudio = find(widget.songList, playing.audio.assetAudioPath);
@@ -148,19 +141,67 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(30),
-                      child: QueryArtworkWidget(
-                        artworkHeight: screenHeight * 0.4,
-                        artworkWidth: double.infinity,
-                        id: int.parse(myAudio.metas.id!),
-                        type: ArtworkType.AUDIO,
-                        nullArtworkWidget: Image.asset(
-                          'assets/images/nowPlaying.png',
-                          fit: BoxFit.cover,
-                          height: screenHeight * 0.4,
-                          width: double.infinity,
-                        ),
+                    Container(
+                      height: screenHeight * 0.4,
+                      child: PageView(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(30),
+                            child: QueryArtworkWidget(
+                              artworkHeight: screenHeight * 0.4,
+                              artworkWidth: double.infinity,
+                              id: int.parse(myAudio.metas.id!),
+                              type: ArtworkType.AUDIO,
+                              nullArtworkWidget: Image.asset(
+                                'assets/images/nowPlaying.png',
+                                fit: BoxFit.cover,
+                                height: screenHeight * 0.4,
+                                width: double.infinity,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: screenHeight * 0.4,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            child: Column(
+                              children: [
+                                TextButton(
+                                  onPressed: () async {
+                                    if (myAudio.metas.artist != '<unknown>') {
+                                      final lyricsData = await getSongLyrics(
+                                          title: myAudio.metas.title!,
+                                          artist: myAudio.metas.artist!);
+                                      print(lyricsData.lyrics);
+
+                                      setState(() {
+                                        newLyrics = lyricsData.lyrics;
+                                      });
+                                    }
+                                  },
+                                  child: const Text(
+                                    'Get lyrics',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: SingleChildScrollView(
+                                    child: Text(
+                                      newLyrics,
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
                       ),
                     ),
                     SizedBox(height: screenHeight * 0.07),
@@ -337,8 +378,6 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
         }));
   }
 }
-
-
 
 // body: widget.audioPlayer.builderCurrent(builder: (context, playing) {
 //         final myAudio = find(widget.songList, playing.audio.assetAudioPath);

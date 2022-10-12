@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 import 'package:music_player/lyrics/song_lyrics/songLyrics.dart';
@@ -21,5 +22,6 @@ Future<SongLyrics> getSongLyrics(
 
   final decodedBody = jsonDecode(response.body) as Map<String, dynamic>;
   final data = SongLyrics.fromJson(decodedBody);
+  // log(data.lyrics);
   return data;
 }

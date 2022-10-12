@@ -7,7 +7,6 @@ import 'package:music_player/models/songs.dart';
 import 'package:music_player/palettes/color_palette.dart';
 import 'package:music_player/screens/screen_search.dart';
 import 'package:music_player/widgets/custom_playlist.dart';
-import 'package:music_player/widgets/search_widget.dart';
 import 'package:music_player/widgets/song_list_tile.dart';
 
 class ScreenHome extends StatefulWidget {
@@ -78,14 +77,6 @@ class _ScreenHomeState extends State<ScreenHome> {
         Expanded(
           child: ListView(
             children: [
-              // SearchField(
-              //   validator: (value) {
-              //     return null;
-              //   },
-              //   textController: _searchController,
-              //   hintText: 'Songs or Playlist',
-              //   icon: Icons.search,
-              // ),
               Container(
                 margin: const EdgeInsets.only(top: 10.0),
                 height: screenHeight * 0.22,
@@ -114,7 +105,6 @@ class _ScreenHomeState extends State<ScreenHome> {
                       );
                     }),
               ),
-
               const Text(
                 'All Songs',
                 style: TextStyle(

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -94,10 +96,6 @@ class _ScreenHomeState extends State<ScreenHome> {
                         itemCount: playlistKeys.length,
                         itemBuilder: (context, index) {
                           final playlistName = playlistKeys[index];
-                          final List<Songs> songList = playlistBox
-                              .get(playlistName)!
-                              .toList()
-                              .cast<Songs>();
 
                           return CustomPlayList(
                             playlistImage: 'assets/images/mostPlayed.png',
@@ -115,31 +113,32 @@ class _ScreenHomeState extends State<ScreenHome> {
                 ),
               ),
               ValueListenableBuilder(
-                  valueListenable: songBox.listenable(),
-                  builder: (BuildContext context, Box<Songs> boxSongs,
-                      Widget? child) {
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      physics: const ScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        List<Songs> songList =
-                            boxSongs.values.toList().cast<Songs>();
-                        return SongListTile(
-                          onPressed: () {
-                            showPlaylistModalSheet(
-                              context: context,
-                              screenHeight: screenHeight,
-                              song: songList[index],
-                            );
-                          },
-                          songList: songList,
-                          index: index,
-                          audioPlayer: audioPlayer,
-                        );
-                      },
-                      itemCount: songBox.length,
-                    );
-                  }),
+                valueListenable: songBox.listenable(),
+                builder: (BuildContext context, boxSongs, _) {
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    physics: const ScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      List<Songs> songList =
+                          songBox.values.toList().cast<Songs>();
+                      return SongListTile(
+                        onPressed: () {
+                          log(songList.length.toString());
+                          showPlaylistModalSheet(
+                            context: context,
+                            screenHeight: screenHeight,
+                            song: songList[index],
+                          );
+                        },
+                        songList: songList,
+                        index: index,
+                        audioPlayer: audioPlayer,
+                      );
+                    },
+                    itemCount: songBox.length,
+                  );
+                },
+              ),
             ],
           ),
         ),

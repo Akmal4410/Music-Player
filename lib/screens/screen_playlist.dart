@@ -24,7 +24,7 @@ class ScreenPlaylist extends StatelessWidget {
             const Text(
               'Your Library',
               style: TextStyle(
-                fontSize: 28,
+                fontSize: 20,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -68,7 +68,7 @@ class ScreenPlaylist extends StatelessWidget {
               const Text(
                 'Created Playlists',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 19,
                   fontWeight: FontWeight.w600,
                 ),
               ),

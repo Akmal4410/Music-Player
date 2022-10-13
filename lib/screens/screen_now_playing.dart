@@ -91,6 +91,7 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
+        extendBodyBehindAppBar: true,
         appBar: AppBar(
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios),

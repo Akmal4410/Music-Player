@@ -18,7 +18,7 @@ class ScreenSetting extends StatelessWidget {
               const Text(
                 'Settings',
                 style: TextStyle(
-                  fontSize: 28,
+                  fontSize: 20,
                   fontWeight: FontWeight.w600,
                 ),
               ),

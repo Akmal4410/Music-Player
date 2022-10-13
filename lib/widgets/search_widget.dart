@@ -21,6 +21,7 @@ class SearchField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: TextFormField(
+        textCapitalization: TextCapitalization.sentences,
         onChanged: onChanged,
         validator: validator,
         controller: textController,

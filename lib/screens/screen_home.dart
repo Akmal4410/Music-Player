@@ -19,21 +19,23 @@ class ScreenHome extends StatefulWidget {
 }
 
 class _ScreenHomeState extends State<ScreenHome> {
+  String greeting() {
+    var hour = DateTime.now().hour;
+    if (hour < 12) {
+      return 'Good Morning !';
+    }
+    if (hour < 16) {
+      return 'Good Afternoon !';
+    }
+    if (hour < 19) {
+      return 'Good Evening !';
+    }
+
+    return 'Good Night !';
+  }
+
   Box<Songs> songBox = getSongBox();
   Box<List> playlistBox = getPlaylistBox();
-
-  List<Songs> songList = [];
-
-  @override
-  void initState() {
-    super.initState();
-    /////////////////////////////////////////////////////////
-    final List<int> keys = songBox.keys.toList().cast<int>();
-    for (var key in keys) {
-      songList.add(songBox.get(key)!);
-    }
-    /////////////////////////////////////////////////////////
-  }
 
   AssetsAudioPlayer audioPlayer = AssetsAudioPlayer.withId('0');
 
@@ -46,10 +48,10 @@ class _ScreenHomeState extends State<ScreenHome> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
-              'Library',
-              style: TextStyle(
-                fontSize: 28,
+            Text(
+              greeting(),
+              style: const TextStyle(
+                fontSize: 20,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -108,29 +110,36 @@ class _ScreenHomeState extends State<ScreenHome> {
               const Text(
                 'All Songs',
                 style: TextStyle(
-                  fontSize: 23,
+                  fontSize: 19,
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const ScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return SongListTile(
-                    onPressed: () {
-                      showPlaylistModalSheet(
-                        context: context,
-                        screenHeight: screenHeight,
-                        song: songList[index],
-                      );
-                    },
-                    songList: songList,
-                    index: index,
-                    audioPlayer: audioPlayer,
-                  );
-                },
-                itemCount: songBox.length,
-              ),
+              ValueListenableBuilder(
+                  valueListenable: songBox.listenable(),
+                  builder: (BuildContext context, Box<Songs> boxSongs,
+                      Widget? child) {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: const ScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        List<Songs> songList =
+                            boxSongs.values.toList().cast<Songs>();
+                        return SongListTile(
+                          onPressed: () {
+                            showPlaylistModalSheet(
+                              context: context,
+                              screenHeight: screenHeight,
+                              song: songList[index],
+                            );
+                          },
+                          songList: songList,
+                          index: index,
+                          audioPlayer: audioPlayer,
+                        );
+                      },
+                      itemCount: songBox.length,
+                    );
+                  }),
             ],
           ),
         ),

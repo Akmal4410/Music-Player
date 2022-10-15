@@ -7,15 +7,18 @@ class SettingListTile extends StatelessWidget {
     required this.labeltext,
     required this.icon,
     this.trailingWidget,
+    this.onTap,
   }) : super(key: key);
 
   final String labeltext;
   final IconData icon;
   final Widget? trailingWidget;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: onTap,
       leading: Icon(
         icon,
         color: kLightBlue,

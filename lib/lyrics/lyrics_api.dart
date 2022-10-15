@@ -21,6 +21,6 @@ Future<SongLyrics> getSongLyrics(
 
   final decodedBody = jsonDecode(response.body) as Map<String, dynamic>;
   final data = SongLyrics.fromJson(decodedBody);
-  // log(data.lyrics);
+
   return data;
 }

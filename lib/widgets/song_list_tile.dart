@@ -34,6 +34,14 @@ class _SongListTileState extends State<SongListTile> {
   Box<List> playlistBox = getPlaylistBox();
 
   @override
+  void initState() {
+    super.initState();
+    setState(() {
+      Favourites.isThisFavourite(id: widget.songList[widget.index].id);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {

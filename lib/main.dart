@@ -13,9 +13,9 @@ void main() async {
   }
   await Hive.openBox<Songs>("Songs");
   await Hive.openBox<List>("Playlist");
-  AssetsAudioPlayer.setupNotificationsOpenAction((notification) {
-    return true;
-  });
+  // AssetsAudioPlayer.setupNotificationsOpenAction((notification) {
+  //   return true;
+  // });
   runApp(const MyApp());
 }
 

@@ -106,9 +106,7 @@ class ScreenPlaylist extends StatelessWidget {
                             final int songListlength = songList.length;
 
                             return CreatedPlaylist(
-                              playlistImage: index % 3 == 0
-                                  ? 'assets/images/favourites.png'
-                                  : 'assets/images/mostPlayed.png',
+                              playlistImage: 'assets/images/earth.png',
                               playlistName: playlistName,
                               playlistSongNum: '$songListlength Songs',
                             );

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:music_player/screens/screen_home.dart';
 import 'package:music_player/screens/screen_playlist.dart';
 import 'package:music_player/screens/screen_setting.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+bool? SWITCHVALUE;
 
 class ScreenNavigation extends StatefulWidget {
   const ScreenNavigation({super.key});
@@ -11,6 +14,18 @@ class ScreenNavigation extends StatefulWidget {
 }
 
 class ScreenNavigationState extends State<ScreenNavigation> {
+  @override
+  void initState() {
+    checkNotification();
+    super.initState();
+  }
+
+  Future<void> checkNotification() async {
+    final SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
+    SWITCHVALUE = sharedPrefs.getBool(NOTIFICATION);
+    SWITCHVALUE = SWITCHVALUE ??= true;
+  }
+
   final _bottomNavBar = const <BottomNavigationBarItem>[
     BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
     BottomNavigationBarItem(icon: Icon(Icons.queue_music), label: 'Playlist'),

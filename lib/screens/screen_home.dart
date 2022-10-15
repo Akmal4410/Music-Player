@@ -98,7 +98,11 @@ class _ScreenHomeState extends State<ScreenHome> {
                           final playlistName = playlistKeys[index];
 
                           return CustomPlayList(
-                            playlistImage: 'assets/images/mostPlayed.png',
+                            playlistImage: (index == 0)
+                                ? 'assets/images/earth.png'
+                                : (index == 1)
+                                    ? 'assets/images/recent.png'
+                                    : 'assets/images/new.png',
                             playlistName: playlistName,
                           );
                         },

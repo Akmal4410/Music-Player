@@ -1,12 +1,40 @@
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player/palettes/color_palette.dart';
+import 'package:music_player/screens/screen_navigation.dart';
 import 'package:music_player/screens/screen_setting_tile.dart';
 
 import 'package:music_player/widgets/setting_list_tile.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class ScreenSetting extends StatelessWidget {
+const String NOTIFICATION = 'NOTIFICATION';
+
+class ScreenSetting extends StatefulWidget {
   const ScreenSetting({super.key});
+
+  @override
+  State<ScreenSetting> createState() => _ScreenSettingState();
+}
+
+class _ScreenSettingState extends State<ScreenSetting> {
+  AssetsAudioPlayer audioPlayer = AssetsAudioPlayer.withId('0');
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Future<void> setNotification(bool newValue) async {
+    setState(() {
+      SWITCHVALUE = newValue;
+      SWITCHVALUE == true
+          ? audioPlayer.showNotification = true
+          : audioPlayer.showNotification = false;
+    });
+    SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
+    await sharedPrefs.setBool(NOTIFICATION, SWITCHVALUE!);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,10 +77,11 @@ class ScreenSetting extends StatelessWidget {
                 labeltext: 'Notifications',
                 icon: Icons.notifications,
                 trailingWidget: Switch(
-                    value: true,
-                    onChanged: (value) {
-                      true;
-                    }),
+                  value: SWITCHVALUE!,
+                  onChanged: (newValue) async {
+                    setNotification(newValue);
+                  },
+                ),
               ),
               SettingListTile(
                 labeltext: 'Privacy Policy',

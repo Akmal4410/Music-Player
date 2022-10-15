@@ -11,9 +11,9 @@ class SongLyrics {
 
   factory SongLyrics.fromJson(Map<String, dynamic> json) {
     return SongLyrics(
-      title: json['requestedtitle'] as String,
-      artist: json['requestedartist'] as String,
-      lyrics: json['lyrics'] as String,
+      title: json['requestedtitle'] ?? '' as String,
+      artist: json['requestedartist'] ?? '' as String,
+      lyrics: json['lyrics'] ?? 'Unable to find the mucis' as String,
     );
   }
 }

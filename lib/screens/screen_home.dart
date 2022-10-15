@@ -88,9 +88,9 @@ class _ScreenHomeState extends State<ScreenHome> {
                 child: ValueListenableBuilder(
                     valueListenable: playlistBox.listenable(),
                     builder: (context, playlistBox, _) {
-                      final List playlistKeys = playlistBox.keys.toList();
-                      playlistKeys.removeWhere((key) => key == 'Recent');
-                      playlistKeys.removeWhere((key) => key == 'Most Played');
+                      List playlistKeys = playlistBox.keys.toList();
+
+                      playlistKeys = ['Favourites', 'Recent', 'Most Played'];
                       return ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: playlistKeys.length,

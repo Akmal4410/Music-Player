@@ -25,7 +25,6 @@ class MiniPlayer extends StatefulWidget {
 
 class _MiniPlayerState extends State<MiniPlayer> {
   List<Audio> songAudio = [];
-  bool isPlaying = true;
 
   Audio find(List<Audio> source, String fromPath) {
     return source.firstWhere((element) {
@@ -140,23 +139,17 @@ class _MiniPlayerState extends State<MiniPlayer> {
                   const SizedBox(width: 15),
                   GestureDetector(
                     onTap: () async {
-                      if (isPlaying == true) {
-                        await widget.audioPlayer.pause();
-                        setState(() {
-                          isPlaying = !isPlaying;
-                        });
-                      } else if (isPlaying == false) {
-                        await widget.audioPlayer.play();
-                        setState(() {
-                          isPlaying = !isPlaying;
-                        });
-                      }
+                      await widget.audioPlayer.playOrPause();
                     },
-                    child: Icon(
-                      isPlaying == true ? Icons.pause : Icons.play_arrow,
-                      color: kDarkBlue,
-                      size: 33,
-                    ),
+                    child: PlayerBuilder.isPlaying(
+                        player: widget.audioPlayer,
+                        builder: (context, isPlaying) {
+                          return Icon(
+                            isPlaying == true ? Icons.pause : Icons.play_arrow,
+                            color: kDarkBlue,
+                            size: 33,
+                          );
+                        }),
                   ),
                   const SizedBox(width: 15),
                   GestureDetector(

@@ -18,7 +18,8 @@ class CustomIconButton extends StatelessWidget {
       onPressed: onPressed,
       icon: Icon(
         icon,
-        color: kLightBlue,
+        // color: kLightBlue,
+        color: kWhite,
         size: 30,
       ),
     );

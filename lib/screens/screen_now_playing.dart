@@ -44,23 +44,8 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
     super.initState();
   }
 
-  bool isPlaying = true;
   bool isLoop = true;
   bool isShuffle = true;
-
-  void playOrPauseButtonPressed() async {
-    if (isPlaying == true) {
-      await widget.audioPlayer.pause();
-      setState(() {
-        isPlaying = false;
-      });
-    } else if (isPlaying == false) {
-      await widget.audioPlayer.play();
-      setState(() {
-        isPlaying = true;
-      });
-    }
-  }
 
   void shuffleButtonPressed() {
     setState(() {
@@ -237,7 +222,7 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
                             : widget.audioPlayer.getCurrentAudioArtist,
                         maxLines: 1,
                         overflow: TextOverflow.clip,
-                        style: const TextStyle(color: kLightBlue, fontSize: 13),
+                        style: const TextStyle(color: kGrey, fontSize: 13),
                       ),
                     ),
                     Padding(
@@ -304,9 +289,9 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
                       return ProgressBar(
                         progress: position,
                         total: duration,
-                        progressBarColor: kBlue,
-                        baseBarColor: kDarkBlue,
-                        thumbColor: kBlue,
+                        progressBarColor: kWhite,
+                        baseBarColor: Colors.grey,
+                        thumbColor: kWhite,
                         bufferedBarColor: Colors.white.withOpacity(0.24),
                         barHeight: 7.0,
                         thumbRadius: 9.0,
@@ -315,7 +300,7 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
                         },
                         timeLabelPadding: 10,
                         timeLabelTextStyle: const TextStyle(
-                          color: kLightBlue,
+                          color: kGrey,
                           fontSize: 15,
                         ),
                       );
@@ -341,22 +326,26 @@ class _ScreenNowPlayingState extends State<ScreenNowPlaying> {
                         ),
                         Container(
                           decoration: const BoxDecoration(
-                            color: kLightBlue,
+                            color: kWhite,
                             shape: BoxShape.circle,
                           ),
                           child: Center(
-                            child: IconButton(
-                              icon: Icon(
-                                (isPlaying == true)
-                                    ? Icons.pause
-                                    : Icons.play_arrow,
-                                color: kDarkBlue,
-                                size: 32,
-                              ),
-                              onPressed: () {
-                                playOrPauseButtonPressed();
-                              },
-                            ),
+                            child: PlayerBuilder.isPlaying(
+                                player: widget.audioPlayer,
+                                builder: (context, isPlaying) {
+                                  return IconButton(
+                                    icon: Icon(
+                                      (isPlaying == true)
+                                          ? Icons.pause
+                                          : Icons.play_arrow,
+                                      color: kDarkBlue,
+                                      size: 32,
+                                    ),
+                                    onPressed: () {
+                                      widget.audioPlayer.playOrPause();
+                                    },
+                                  );
+                                }),
                           ),
                         ),
                         CustomIconButton(

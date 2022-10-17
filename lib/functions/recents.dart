@@ -21,7 +21,7 @@ class Recents {
     int count = recentSong.count;
     recentSong.count = count + 1;
     MostPlayed.addSongToPlaylist(songId);
-    log(recentSong.count.toString());
+    log("${recentSong.count} Recent song Count");
 
     ////////////////////////////////////////////////////////////////////////////
     if (recentSongList.length >= 10) {

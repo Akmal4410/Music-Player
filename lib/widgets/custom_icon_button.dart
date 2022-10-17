@@ -12,13 +12,11 @@ class CustomIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      padding: EdgeInsets.zero,
-      constraints: const BoxConstraints(),
-      onPressed: onPressed,
-      icon: Icon(
+    return GestureDetector(
+      onDoubleTap: () {},
+      onTap: onPressed,
+      child: Icon(
         icon,
-        // color: kLightBlue,
         color: kWhite,
         size: 30,
       ),

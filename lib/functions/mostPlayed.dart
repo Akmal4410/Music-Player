@@ -17,7 +17,7 @@ class MostPlayed {
     if (mostPlayedlist.length >= 10) {
       mostPlayedlist.removeLast();
     }
-    if (mostPlayedSong.count >= 3) {
+    if (mostPlayedSong.count >= 5) {
       if (mostPlayedlist
           .where((song) => song.id == mostPlayedSong.id)
           .isEmpty) {

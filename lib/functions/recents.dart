@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:music_player/functions/mostPlayed.dart';
 import 'package:music_player/models/db_functions/db_function.dart';
@@ -14,14 +16,14 @@ class Recents {
 
     final Songs recentSong =
         dbSongs.firstWhere((song) => song.id.contains(songId));
-    /////////////////---------For Most Played----------///////////////////////////
+    ///////////////---------For Most Played----------///////////////////////////
+
     int count = recentSong.count;
     recentSong.count = count + 1;
-
-    //////////////////////////////////////////////////////////////////////////////
-    /////////////////---------Calling MostPlayed---------/////////////////////////
     MostPlayed.addSongToPlaylist(songId);
-    //////////////////////////////////////////////////////////////////////////////
+    log(recentSong.count.toString());
+
+    ////////////////////////////////////////////////////////////////////////////
     if (recentSongList.length >= 10) {
       recentSongList.removeLast();
     }

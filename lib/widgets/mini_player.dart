@@ -76,6 +76,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
       builder: (context, playing) {
         final myAudio = find(songAudio, playing.audio.assetAudioPath);
         Recents.addSongsToRecents(songId: myAudio.metas.id!);
+
         return Container(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           // height: 75,

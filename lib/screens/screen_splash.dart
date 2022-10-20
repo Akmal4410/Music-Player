@@ -26,17 +26,17 @@ class _ScreenSplashState extends State<ScreenSplash> {
 
   @override
   void initState() {
-    requestPermission();
+    //requestPermission();
     fetchSongs();
     super.initState();
-    gotoScreenHome(context);
   }
 
-  Future<void> requestPermission() async {
-    await Permission.storage.request();
-  }
+  // Future<void> requestPermission() async {
+  //   await Permission.storage.request();
+  // }
 
   Future fetchSongs() async {
+    await Permission.storage.request();
     deviceSongs = await audioQuery.querySongs(
       sortType: SongSortType.TITLE,
       orderType: OrderType.ASC_OR_SMALLER,
@@ -57,12 +57,13 @@ class _ScreenSplashState extends State<ScreenSplash> {
         artist: audio.artist!,
         uri: audio.uri!,
       );
-      await songBox.put(audio.id, song);
+      await songBox.put(song.id, song);
     }
     //create a Favourite songs if it is not created
     getFavSongs();
     getRecentSongs();
     getMostPlayedSongs();
+    gotoScreenHome(context);
   }
 
   Future getFavSongs() async {

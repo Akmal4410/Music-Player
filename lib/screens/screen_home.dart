@@ -91,22 +91,24 @@ class _ScreenHomeState extends State<ScreenHome> {
                       List playlistKeys = playlistBox.keys.toList();
 
                       playlistKeys = ['Favourites', 'Recent', 'Most Played'];
-                      return ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: playlistKeys.length,
-                        itemBuilder: (context, index) {
-                          final playlistName = playlistKeys[index];
+                      return (playlistKeys.isEmpty)
+                          ? Text('Nothing Found')
+                          : ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: playlistKeys.length,
+                              itemBuilder: (context, index) {
+                                final playlistName = playlistKeys[index];
 
-                          return CustomPlayList(
-                            playlistImage: (index == 0)
-                                ? 'assets/images/earth.png'
-                                : (index == 1)
-                                    ? 'assets/images/recent.png'
-                                    : 'assets/images/new.png',
-                            playlistName: playlistName,
-                          );
-                        },
-                      );
+                                return CustomPlayList(
+                                  playlistImage: (index == 0)
+                                      ? 'assets/images/earth.png'
+                                      : (index == 1)
+                                          ? 'assets/images/recent.png'
+                                          : 'assets/images/new.png',
+                                  playlistName: playlistName,
+                                );
+                              },
+                            );
                     }),
               ),
               const Text(
@@ -119,29 +121,29 @@ class _ScreenHomeState extends State<ScreenHome> {
               ValueListenableBuilder(
                 valueListenable: songBox.listenable(),
                 builder: (BuildContext context, boxSongs, _) {
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    physics: const ScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      List<Songs> songList =
-                          songBox.values.toList().cast<Songs>();
-
-                      return SongListTile(
-                        onPressed: () {
-                          log(songList.length.toString());
-                          showPlaylistModalSheet(
-                            context: context,
-                            screenHeight: screenHeight,
-                            song: songList[index],
-                          );
-                        },
-                        songList: songList,
-                        index: index,
-                        audioPlayer: audioPlayer,
-                      );
-                    },
-                    itemCount: songBox.length,
-                  );
+                  List<Songs> songList = songBox.values.toList().cast<Songs>();
+                  return (songList.isEmpty)
+                      ? const Text("No Songs Found")
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          physics: const ScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return SongListTile(
+                              onPressed: () {
+                                log(songList.length.toString());
+                                showPlaylistModalSheet(
+                                  context: context,
+                                  screenHeight: screenHeight,
+                                  song: songList[index],
+                                );
+                              },
+                              songList: songList,
+                              index: index,
+                              audioPlayer: audioPlayer,
+                            );
+                          },
+                          itemCount: songBox.length,
+                        );
                 },
               ),
             ],

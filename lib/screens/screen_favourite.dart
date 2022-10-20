@@ -118,7 +118,9 @@ class ScreenFavourites extends StatelessWidget {
               TextButton(
                 onPressed: () async {
                   List<Songs> dbSongs = songBox.values.toList().cast<Songs>();
-                  List<Songs> dbNewSongs = [];
+
+                  await songBox.clear();
+
                   for (var item in dbSongs) {
                     Songs song = Songs(
                       id: item.id,
@@ -127,12 +129,10 @@ class ScreenFavourites extends StatelessWidget {
                       uri: item.uri,
                       count: 0,
                     );
-                    dbNewSongs.add(song);
+                    await songBox.put(song.id, song);
                   }
-                  Navigator.pop(ctx);
-                  await songBox.clear();
-                  await songBox.addAll(dbSongs);
                   await playlistBox.put(playlistName, []);
+                  Navigator.pop(ctx);
                 },
                 child: const Text(
                   'OK',

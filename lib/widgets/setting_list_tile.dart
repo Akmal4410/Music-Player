@@ -28,7 +28,6 @@ class SettingListTile extends StatelessWidget {
         labeltext,
         style: const TextStyle(
           fontSize: 17,
-          //fontWeight: FontWeight.w600,
         ),
       ),
       trailing: (trailingWidget == null) ? const SizedBox() : trailingWidget,

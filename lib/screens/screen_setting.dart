@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:music_player/palettes/color_palette.dart';
 import 'package:music_player/screens/screen_navigation.dart';
 import 'package:music_player/screens/screen_setting_tile.dart';
-
 import 'package:music_player/widgets/setting_list_tile.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,7 +27,7 @@ class _ScreenSettingState extends State<ScreenSetting> {
   Future<void> setNotification(bool newValue) async {
     setState(() {
       SWITCHVALUE = newValue;
-      SWITCHVALUE == true
+      SWITCHVALUE!
           ? audioPlayer.showNotification = true
           : audioPlayer.showNotification = false;
     });

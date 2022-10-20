@@ -135,7 +135,5 @@ const String privacyPolicy = """<h1>Privacy Policy</h1>
 <li>
 <p>By email: akmalmahmoodkinan@gmail.com</p>
 </li>
-<li>
-<p>By visiting this page on our website: <a href="https://akmal4410.github.io/Portfolio/" rel="external nofollow noopener" target="_blank">https://akmal4410.github.io/Portfolio/</a></p>
-</li>
+
 </ul>""";
